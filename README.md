@@ -1,1 +1,475 @@
-# YAMENsq.github.io
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Tahoma,sans-serif;direction:rtl;background:var(--color-background-tertiary);color:var(--color-text-primary);font-size:14px;line-height:1.7}
+
+.nav-wrapper{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);position:sticky;top:0;z-index:200}
+.nav{display:flex;flex-wrap:wrap;gap:4px;padding:12px 14px}
+.tab{padding:7px 12px;font-size:12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);cursor:pointer;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap;user-select:none}
+.tab.on{background:#1D9E75;color:#fff;border-color:#1D9E75;font-weight:500}
+
+.page{display:none;padding:20px 18px;max-width:820px;margin:0 auto}
+.page.on{display:block}
+h1{font-size:20px;font-weight:500;margin-bottom:6px}
+h2{font-size:16px;font-weight:500;margin:18px 0 8px}
+h3{font-size:14px;font-weight:500;margin:10px 0 5px}
+p{color:var(--color-text-secondary);margin-bottom:8px;font-size:13px}
+.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:500;background:#E1F5EE;color:#085041;margin-bottom:10px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px 18px;margin-bottom:12px}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:10px 0}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:10px 0}
+.g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:10px 0}
+.meta{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px;border:0.5px solid var(--color-border-tertiary)}
+.meta-label{font-size:11px;color:var(--color-text-tertiary);margin-bottom:3px}
+.meta-val{font-size:13px;font-weight:500}
+.step{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;font-size:13px;color:var(--color-text-secondary)}
+.snum{background:#1D9E75;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;margin-top:2px}
+.tip-block{border-right:3px solid #1D9E75;padding:12px 14px;background:var(--color-background-primary);margin-bottom:10px;border-top:0.5px solid var(--color-border-tertiary);border-bottom:0.5px solid var(--color-border-tertiary);border-left:0.5px solid var(--color-border-tertiary)}
+.ad{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;margin-bottom:10px}
+.albl{font-size:11px;font-weight:500;padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:8px}
+.lazy-lbl{background:#FAEEDA;color:#854F0B}
+.hard-lbl{background:#E1F5EE;color:#085041}
+.code{background:#1e1e2e;color:#cdd6f4;padding:14px;border-radius:var(--border-radius-md);font-family:monospace;font-size:11px;line-height:1.6;overflow-x:auto;margin:8px 0;direction:ltr;text-align:left;white-space:pre}
+.ct{color:#89dceb}.ca{color:#cba6f7}.cv{color:#a6e3a1}
+.tech{display:flex;gap:10px;align-items:flex-start;padding:12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);margin-bottom:8px;border:0.5px solid var(--color-border-tertiary)}
+.tnum{width:24px;height:24px;border-radius:50%;background:#E1F5EE;color:#085041;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:16px 0}
+.lp-hero{background:#E1F5EE;border-radius:var(--border-radius-lg);padding:28px 22px;text-align:center;margin-bottom:16px;border:0.5px solid #9FE1CB}
+.lp-h{font-size:22px;font-weight:500;color:#085041;margin-bottom:6px;line-height:1.3}
+.lp-s{font-size:13px;color:#0F6E56;margin-bottom:14px}
+.cta-lp{background:#1D9E75;color:#fff;padding:10px 24px;border-radius:var(--border-radius-lg);font-size:13px;font-weight:500;cursor:pointer;border:none}
+.fcrd{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px;text-align:center}
+.ethics{background:#E6F1FB;border-radius:var(--border-radius-lg);padding:16px 18px;border-right:3px solid #378ADD;margin-bottom:12px}
+.score-row{display:flex;align-items:center;gap:8px;margin:6px 0}
+.score-label{font-size:12px;color:var(--color-text-secondary);min-width:90px}
+.score-bar{flex:1;height:6px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden}
+.score-fill{height:100%;border-radius:3px;background:#1D9E75}
+.score-num{font-size:11px;font-weight:500;color:#085041;min-width:28px;text-align:left}
+
+.ai-section{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px 18px;margin-bottom:14px}
+.ai-label{font-size:12px;color:var(--color-text-secondary);margin-bottom:4px}
+.ai-sel{width:100%;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:8px 10px;font-size:13px;background:var(--color-background-secondary);color:var(--color-text-primary);font-family:inherit;direction:rtl;cursor:pointer}
+.ai-sel:focus{outline:none;border-color:#1D9E75}
+.ai-ta{width:100%;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:8px 10px;font-size:13px;background:var(--color-background-secondary);color:var(--color-text-primary);font-family:inherit;resize:none;direction:rtl}
+.ai-ta:focus{outline:none;border-color:#1D9E75}
+.send-btn{background:#1D9E75;color:#fff;border:none;border-radius:var(--border-radius-md);padding:9px 18px;font-size:13px;cursor:pointer;font-family:inherit;margin-top:8px;transition:background .15s}
+.send-btn:hover{background:#0F6E56}
+.preview{background:#E1F5EE;border-radius:var(--border-radius-md);padding:12px 14px;border:0.5px solid #9FE1CB;margin-top:10px;font-size:12px;color:#085041;line-height:1.7;display:none}
+.preview-label{font-size:11px;color:#0F6E56;margin-bottom:6px;font-weight:500}
+.tag-row{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.tag{padding:4px 10px;border-radius:20px;font-size:11px;cursor:pointer;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:var(--color-text-secondary);transition:all .15s}
+.tag.sel{background:#E1F5EE;color:#085041;border-color:#9FE1CB}
+
+.profile-bar{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.profile-avatar{width:40px;height:40px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.profile-info{flex:1;min-width:120px}
+.profile-name{font-weight:500;font-size:14px}
+.profile-sub{font-size:12px;color:var(--color-text-secondary)}
+.edit-btn{padding:6px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:var(--color-text-secondary);font-size:12px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.edit-btn:hover{border-color:#1D9E75;color:#085041}
+
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:500;align-items:center;justify-content:center;min-height:500px}
+.modal-bg.open{display:flex}
+.modal{background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);padding:20px;width:90%;max-width:380px}
+.modal h3{margin-bottom:14px;font-size:15px}
+.modal-row{margin-bottom:12px}
+.modal-row label{display:block;font-size:12px;color:var(--color-text-secondary);margin-bottom:4px}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.btn-cancel{padding:8px 16px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:transparent;color:var(--color-text-secondary);font-size:13px;cursor:pointer}
+.btn-save{padding:8px 16px;border-radius:var(--border-radius-md);border:none;background:#1D9E75;color:#fff;font-size:13px;cursor:pointer;font-weight:500}
+
+.info-note{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 14px;font-size:12px;color:var(--color-text-secondary);margin-bottom:14px;display:flex;align-items:flex-start;gap:8px}
+.info-icon{color:#378ADD;font-size:14px;flex-shrink:0;margin-top:1px}
+</style>
+
+<div class="nav-wrapper">
+  <div class="nav">
+    <div class="tab on"  onclick="go(0)">التحليل</div>
+    <div class="tab"    onclick="go(1)">مفهوم الموقع</div>
+    <div class="tab"    onclick="go(2)">الصفحة الرئيسية</div>
+    <div class="tab"    onclick="go(3)">المساعد الذكي</div>
+    <div class="tab"    onclick="go(4)">المحتوى</div>
+    <div class="tab"    onclick="go(5)">التقني</div>
+    <div class="tab"    onclick="go(6)">الأخلاقيات</div>
+  </div>
+</div>
+
+<div id="p0" class="page on">
+  <div class="badge">القسم 1</div>
+  <h1>تحليل السوق وسلوك المستخدم</h1>
+  <div class="card">
+    <h2>المشكلة التي يواجهها الطلاب</h2>
+    <div class="g2">
+      <div class="meta"><div class="meta-label">المشكلة 1</div><div class="meta-val">لا يعرف الطالب من أين يبدأ المذاكرة</div></div>
+      <div class="meta"><div class="meta-label">المشكلة 2</div><div class="meta-val">التشتت وضعف التركيز بسبب الهاتف</div></div>
+      <div class="meta"><div class="meta-label">المشكلة 3</div><div class="meta-val">الشعور بالإرهاق من كميات المادة</div></div>
+      <div class="meta"><div class="meta-label">المشكلة 4</div><div class="meta-val">غياب التوجيه الشخصي المخصص</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>شخصية المستخدم النموذجي</h2>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <div style="width:46px;height:46px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">👨‍🎓</div>
+      <div><div style="font-weight:500;font-size:15px">سامي الأحمد</div><div style="font-size:12px;color:var(--color-text-secondary)">طالب — تقنية المعلومات، السنة الثانية</div></div>
+    </div>
+    <div class="g4">
+      <div class="meta"><div class="meta-label">العمر</div><div class="meta-val">20 سنة</div></div>
+      <div class="meta"><div class="meta-label">الهدف</div><div class="meta-val">اجتياز الفصل بنجاح</div></div>
+      <div class="meta"><div class="meta-label">المشكلة</div><div class="meta-val">يُرجئ المذاكرة دائماً</div></div>
+      <div class="meta"><div class="meta-label">السلوك</div><div class="meta-val">يذاكر فقط قبل الامتحان</div></div>
+    </div>
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px;margin-top:10px;font-size:13px;color:var(--color-text-secondary)">
+      <span style="font-weight:500;color:var(--color-text-primary)">الاحتياج: </span>أداة فورية تُنظّم مذاكرته وتُقدّم نصائح مخصصة بدون تعقيد
+    </div>
+  </div>
+  <div class="card">
+    <h2>نقاط القوة في الفرصة السوقية</h2>
+    <div class="score-row"><div class="score-label">حجم الجمهور</div><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><div class="score-num">90%</div></div>
+    <div class="score-row"><div class="score-label">الحاجة الفعلية</div><div class="score-bar"><div class="score-fill" style="width:85%"></div></div><div class="score-num">85%</div></div>
+    <div class="score-row"><div class="score-label">سهولة الوصول</div><div class="score-bar"><div class="score-fill" style="width:95%"></div></div><div class="score-num">95%</div></div>
+    <div class="score-row"><div class="score-label">المنافسة المحلية</div><div class="score-bar"><div class="score-fill" style="width:20%;background:#E24B4A"></div></div><div class="score-num" style="color:#A32D2D">20%</div></div>
+  </div>
+</div>
+
+<div id="p1" class="page">
+  <div class="badge">القسم 2</div>
+  <h1>مفهوم الموقع وتطويره</h1>
+  <div class="card">
+    <h2>ما هو Student Helper AI؟</h2>
+    <p>موقع إلكتروني يستهدف الطلاب الجامعيين، يوفر نصائح مذاكرة مخصصة وجداول دراسية ذكية باستخدام الذكاء الاصطناعي. ليس بديلاً عن الأستاذ — بل مساعد ذكي متاح 24/7.</p>
+  </div>
+  <div class="card">
+    <h2>المميزات الرئيسية</h2>
+    <div class="g3">
+      <div class="fcrd"><div style="font-size:20px;margin-bottom:6px">🎯</div><h3>نصائح مخصصة</h3><p>بناءً على تخصصك ومشكلتك الفعلية</p></div>
+      <div class="fcrd"><div style="font-size:20px;margin-bottom:6px">📅</div><h3>جدول ذكي</h3><p>أسبوعي مُنشأ حسب وقتك الحر</p></div>
+      <div class="fcrd"><div style="font-size:20px;margin-bottom:6px">💡</div><h3>نصيحة اليوم</h3><p>فكرة جديدة يومياً لتحسين الإنتاجية</p></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>كيف يستخدم الطالب الموقع؟</h2>
+    <div class="step"><div class="snum">1</div><div>يفتح الموقع ويرى واجهة بسيطة وواضحة</div></div>
+    <div class="step"><div class="snum">2</div><div>يُدخل تخصصه والمشكلة التي يواجهها والوقت المتاح</div></div>
+    <div class="step"><div class="snum">3</div><div>يُولّد الذكاء الاصطناعي نصائح وجدولاً فورياً مخصصاً</div></div>
+    <div class="step"><div class="snum">4</div><div>يطبّق الخطة ويعود يومياً لقراءة نصيحة جديدة</div></div>
+  </div>
+</div>
+
+<div id="p2" class="page">
+  <div class="badge">القسم 3</div>
+  <h1>تصميم الصفحة الرئيسية</h1>
+  <div class="lp-hero">
+    <div style="font-size:30px;margin-bottom:8px">🧠</div>
+    <div class="lp-h">ذاكر بذكاء، لا بجهد أعمى</div>
+    <div class="lp-s">نصائح مذاكرة مخصصة لك — مدعومة بالذكاء الاصطناعي، مجاناً وفي ثوانٍ</div>
+    <button class="cta-lp">ابدأ الآن — احصل على نصيحتك</button>
+  </div>
+  <h2>المميزات الثلاث الرئيسية</h2>
+  <div class="g3">
+    <div class="fcrd"><div style="font-size:22px;margin-bottom:6px">🎯</div><h3>نصائح مخصصة لك</h3><p>أدخل تخصصك ومشكلتك واحصل على نصائح تناسبك تماماً</p></div>
+    <div class="fcrd"><div style="font-size:22px;margin-bottom:6px">📅</div><h3>جدول مذاكرة ذكي</h3><p>جدول أسبوعي منظّم خلال ثوانٍ بناءً على وقتك الحر</p></div>
+    <div class="fcrd"><div style="font-size:22px;margin-bottom:6px">🔥</div><h3>نصيحة يومية جديدة</h3><p>فكرة جديدة كل يوم لتحسين تركيزك وإنتاجيتك</p></div>
+  </div>
+  <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:16px;border:0.5px solid var(--color-border-tertiary);margin-top:14px;text-align:center">
+    <h2 style="margin-bottom:4px">تواصل معنا</h2>
+    <p style="margin-bottom:10px">هل لديك اقتراح؟ نحن نسمعك</p>
+    <div class="g2" style="max-width:400px;margin:0 auto">
+      <div class="meta" style="text-align:center">📧 helper@studentai.com</div>
+      <div class="meta" style="text-align:center">📱 @StudentHelperAI</div>
+    </div>
+  </div>
+</div>
+
+<div id="p3" class="page">
+  <div class="badge">القسم 4 — مساعد حقيقي</div>
+  <h1>المساعد الذكي للطلاب</h1>
+
+  <div class="info-note">
+    <span class="info-icon">ℹ</span>
+    <span>الأزرار أدناه تُرسل سؤالك مباشرة إلى Claude في هذه المحادثة — الذكاء الاصطناعي يُجيب هنا في الشات فوراً</span>
+  </div>
+
+  <div class="profile-bar">
+    <div class="profile-avatar">👨‍🎓</div>
+    <div class="profile-info">
+      <div class="profile-name" id="pname">سامي الأحمد</div>
+      <div class="profile-sub" id="psub">تقنية المعلومات — يعاني من: صعوبة التركيز</div>
+    </div>
+    <button class="edit-btn" onclick="openModal()">✏️ تعديل الملف الشخصي</button>
+  </div>
+
+  <div class="ai-section">
+    <h2 style="margin-top:0">🎯 نصيحة مذاكرة مخصصة</h2>
+    <div class="ai-label">نوع المساعدة</div>
+    <div class="tag-row" id="tipTags">
+      <span class="tag sel" onclick="selTag(this,'tipTags')">نصيحة مذاكرة</span>
+      <span class="tag" onclick="selTag(this,'tipTags')">تقنية تركيز</span>
+      <span class="tag" onclick="selTag(this,'tipTags')">خطة يومية</span>
+      <span class="tag" onclick="selTag(this,'tipTags')">تحفيز</span>
+      <span class="tag" onclick="selTag(this,'tipTags')">إدارة الوقت</span>
+    </div>
+    <div class="preview" id="prev1">
+      <div class="preview-label">السؤال الذي سيُرسل إلى Claude:</div>
+      <span id="prev1text"></span>
+    </div>
+    <button class="send-btn" onclick="sendTip()">أرسل إلى Claude ↗</button>
+  </div>
+
+  <div class="ai-section">
+    <h2 style="margin-top:0">📅 مولّد الجدول الأسبوعي</h2>
+    <div class="g2" style="margin-bottom:8px">
+      <div>
+        <div class="ai-label">عدد المواد</div>
+        <select class="ai-sel" id="subjects" onchange="updatePrev2()">
+          <option>3 مواد</option><option selected>5 مواد</option><option>7 مواد</option><option>8 مواد</option>
+        </select>
+      </div>
+      <div>
+        <div class="ai-label">ساعات متاحة يومياً</div>
+        <select class="ai-sel" id="hours" onchange="updatePrev2()">
+          <option>ساعة واحدة</option><option>ساعتان</option><option selected>3 ساعات</option><option>4 ساعات</option><option>5 ساعات أو أكثر</option>
+        </select>
+      </div>
+    </div>
+    <div class="preview" id="prev2">
+      <div class="preview-label">السؤال الذي سيُرسل إلى Claude:</div>
+      <span id="prev2text"></span>
+    </div>
+    <button class="send-btn" onclick="sendSchedule()">أنشئ جدولي ↗</button>
+  </div>
+
+  <div class="ai-section">
+    <h2 style="margin-top:0">💬 اسأل بحرية</h2>
+    <textarea class="ai-ta" id="freeq" rows="3" placeholder="مثال: كيف أذاكر الرياضيات في يومين؟ أو: ما أفضل طريقة للمذاكرة قبل الاختبار مباشرة؟" oninput="updatePrev3()"></textarea>
+    <div class="preview" id="prev3">
+      <div class="preview-label">السؤال الذي سيُرسل إلى Claude:</div>
+      <span id="prev3text"></span>
+    </div>
+    <button class="send-btn" onclick="sendFree()">أرسل إلى Claude ↗</button>
+  </div>
+</div>
+
+<div id="p4" class="page">
+  <div class="badge">القسم 5</div>
+  <h1>أمثلة على المحتوى المُنشأ بالذكاء الاصطناعي</h1>
+  <h2>نصيحتا مذاكرة</h2>
+  <div class="tip-block">
+    <div style="font-size:11px;color:var(--color-text-tertiary);margin-bottom:4px">نصيحة 1 — أسلوب بومودورو</div>
+    <div style="font-weight:500;margin-bottom:6px">قسِّم مذاكرتك إلى وحدات 25 دقيقة</div>
+    <p style="margin:0">حدد موقّتاً لـ25 دقيقة واذاكر بتركيز تام، ثم استرح 5 دقائق. بعد 4 دورات خذ استراحة 20 دقيقة. هذا يُبقي عقلك نشطاً ويمنع الإرهاق الذهني.</p>
+  </div>
+  <div class="tip-block">
+    <div style="font-size:11px;color:var(--color-text-tertiary);margin-bottom:4px">نصيحة 2 — أسلوب التعليم العكسي</div>
+    <div style="font-weight:500;margin-bottom:6px">اشرح المادة لنفسك كأنك تُعلّم غيرك</div>
+    <p style="margin:0">بعد القراءة، أغلق الكتاب واشرح ما فهمته بصوت عالٍ. ستكتشف النقاط الغامضة تلقائياً. هذا يُثبّت المعلومات أضعاف ما يفعله التكرار العشوائي.</p>
+  </div>
+  <div class="divider"></div>
+  <h2>إعلانان مُنشآن بالذكاء الاصطناعي</h2>
+  <div class="ad">
+    <span class="albl lazy-lbl">إعلان الطالب الكسول</span>
+    <div style="font-weight:500;font-size:15px;margin-bottom:6px">مو لازم ساعات طويلة — ذاكر بذكاء 🎯</div>
+    <p style="margin-bottom:8px">Student Helper AI يُخبرك بالضبط ماذا تذاكر وكيف، حتى لو بدأت قبل الاختبار بيوم. لا وقت للتفكير — فقط اتبع الخطة.</p>
+    <div style="font-size:11px;font-weight:500;color:#854F0B">← جرّبه الآن مجاناً</div>
+  </div>
+  <div class="ad">
+    <span class="albl hard-lbl">إعلان الطالب المجتهد</span>
+    <div style="font-weight:500;font-size:15px;margin-bottom:6px">أنت مجتهد — حوّل جهدك إلى نتائج حقيقية 📈</div>
+    <p style="margin-bottom:8px">Student Helper AI يُحلّل أسلوبك ويُقدّم نصائح علمية تُضاعف كفاءتك. العمل الجاد مع الأسلوب الصحيح لا يُقارَن بالعمل الجاد وحده.</p>
+    <div style="font-size:11px;font-weight:500;color:#085041">← ارتقِ بمستواك الآن</div>
+  </div>
+</div>
+
+<div id="p5" class="page">
+  <div class="badge">القسم 6</div>
+  <h1>الجانب التقني</h1>
+  <div class="card">
+    <h2>خيارات بناء الموقع</h2>
+    <div class="tech"><div class="tnum">1</div><div><div style="font-weight:500;font-size:13px;margin-bottom:3px">Carrd.co — بدون كود</div><p style="margin:0">سحب وإفلات بسيط، مجاني، ينتهي في أقل من ساعة. مثالي للعروض والنماذج الأولية.</p></div></div>
+    <div class="tech"><div class="tnum">2</div><div><div style="font-weight:500;font-size:13px;margin-bottom:3px">Notion Public Page — بدون كود</div><p style="margin:0">أنشئ صفحة Notion واجعلها عامة. مجاني وسهل ومناسب لعرض المشروع.</p></div></div>
+    <div class="tech"><div class="tnum">3</div><div><div style="font-weight:500;font-size:13px;margin-bottom:3px">HTML على GitHub Pages — كود بسيط مجاني</div><p style="margin:0">ملف HTML واحد مرفوع على GitHub. الموقع يصبح متاحاً للجميع عبر رابط مجاني.</p></div></div>
+  </div>
+  <div class="card">
+    <h2>نموذج HTML للصفحة</h2>
+<div class="code"><span class="ct">&lt;!DOCTYPE html&gt;</span>
+<span class="ct">&lt;html</span> <span class="ca">lang</span>=<span class="cv">"ar"</span> <span class="ca">dir</span>=<span class="cv">"rtl"</span><span class="ct">&gt;</span>
+<span class="ct">&lt;head&gt;</span>
+  <span class="ct">&lt;meta</span> <span class="ca">charset</span>=<span class="cv">"UTF-8"</span><span class="ct">&gt;</span>
+  <span class="ct">&lt;title&gt;</span>Student Helper AI<span class="ct">&lt;/title&gt;</span>
+  <span class="ct">&lt;style&gt;</span>
+    body { font-family: Tahoma; direction: rtl;
+           background: #f0faf5; text-align: center; }
+    .hero { background: #1D9E75; color: white; padding: 60px 20px; }
+    h1   { font-size: 2rem; margin-bottom: 12px; }
+    .cta { background: white; color: #1D9E75;
+           padding: 12px 28px; border-radius: 8px;
+           font-size: 1rem; border: none; cursor: pointer; }
+    .features { display: flex; justify-content: center;
+                gap: 20px; padding: 40px; flex-wrap: wrap; }
+    .card { background: white; border-radius: 12px;
+            padding: 20px; width: 200px; }
+  <span class="ct">&lt;/style&gt;</span>
+<span class="ct">&lt;/head&gt;</span>
+<span class="ct">&lt;body&gt;</span>
+  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"hero"</span><span class="ct">&gt;</span>
+    <span class="ct">&lt;h1&gt;</span>🧠 ذاكر بذكاء مع Student Helper AI<span class="ct">&lt;/h1&gt;</span>
+    <span class="ct">&lt;p&gt;</span>نصائح مخصصة — مدعومة بالذكاء الاصطناعي<span class="ct">&lt;/p&gt;</span>
+    <span class="ct">&lt;button</span> <span class="ca">class</span>=<span class="cv">"cta"</span><span class="ct">&gt;</span>ابدأ الآن مجاناً<span class="ct">&lt;/button&gt;</span>
+  <span class="ct">&lt;/div&gt;</span>
+  <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"features"</span><span class="ct">&gt;</span>
+    <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"card"</span><span class="ct">&gt;&lt;h3&gt;</span>🎯 نصائح مخصصة<span class="ct">&lt;/h3&gt;&lt;/div&gt;</span>
+    <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"card"</span><span class="ct">&gt;&lt;h3&gt;</span>📅 جدول ذكي<span class="ct">&lt;/h3&gt;&lt;/div&gt;</span>
+    <span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cv">"card"</span><span class="ct">&gt;&lt;h3&gt;</span>🔥 نصيحة يومية<span class="ct">&lt;/h3&gt;&lt;/div&gt;</span>
+  <span class="ct">&lt;/div&gt;</span>
+<span class="ct">&lt;/body&gt;</span>
+<span class="ct">&lt;/html&gt;</span></div>
+  </div>
+</div>
+
+<div id="p6" class="page">
+  <div class="badge">القسم 7 — مهم</div>
+  <h1>الأخلاقيات واستخدام الذكاء الاصطناعي بمسؤولية</h1>
+  <div class="ethics">
+    <h2 style="margin-bottom:10px;color:#0C447C">بيان الاستخدام الأخلاقي</h2>
+    <p style="font-size:13px;color:#185FA5;margin-bottom:8px">يستخدم مشروع Student Helper AI تقنيات الذكاء الاصطناعي بطريقة شفافة ومسؤولة. نُصرّح بوضوح لكل مستخدم أن المحتوى مُولَّد بمساعدة الذكاء الاصطناعي.</p>
+    <p style="font-size:13px;color:#185FA5;margin-bottom:8px">كل نصيحة تمر بمراجعة قبل عرضها للطلاب. هدفنا مساعدة الطالب، لا استبدال تفكيره.</p>
+    <p style="font-size:13px;color:#185FA5;margin:0">الموقع لا يجمع بيانات شخصية ولا يُعطي نصائح طبية. نُشجّع الطلاب دائماً على الرجوع لأساتذتهم.</p>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <h3>ما يفعله المشروع</h3>
+      <div class="step"><div style="color:#1D9E75;font-size:14px;flex-shrink:0">✓</div><div>نصائح مدروسة ومراجعة بشرياً</div></div>
+      <div class="step"><div style="color:#1D9E75;font-size:14px;flex-shrink:0">✓</div><div>شفافية كاملة مع المستخدم</div></div>
+      <div class="step"><div style="color:#1D9E75;font-size:14px;flex-shrink:0">✓</div><div>احترام خصوصية الطالب</div></div>
+    </div>
+    <div class="card">
+      <h3>ما لا يفعله المشروع</h3>
+      <div class="step"><div style="color:#E24B4A;font-size:14px;flex-shrink:0">✗</div><div>لا يستبدل الأستاذ أو المرشد</div></div>
+      <div class="step"><div style="color:#E24B4A;font-size:14px;flex-shrink:0">✗</div><div>لا يُقدّم إجابات الاختبارات</div></div>
+      <div class="step"><div style="color:#E24B4A;font-size:14px;flex-shrink:0">✗</div><div>لا يضمن نتائج دراسية</div></div>
+    </div>
+  </div>
+  <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:14px;text-align:center;border:0.5px solid var(--color-border-tertiary)">
+    <div style="font-size:22px;margin-bottom:6px">🎓</div>
+    <div style="font-weight:500;margin-bottom:4px">الخلاصة</div>
+    <p style="font-size:13px;max-width:480px;margin:0 auto">الذكاء الاصطناعي أداة قوية عند استخدامه بوعي. مشروعنا يضع الطالب في المركز — الذكاء الاصطناعي يُساعد، لكن القرار والمسؤولية تبقى دائماً في يد الإنسان.</p>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <h3>تعديل الملف الشخصي</h3>
+    <div class="modal-row">
+      <label>الاسم</label>
+      <select class="ai-sel" id="m-name">
+        <option>سامي الأحمد</option><option>نورة العمري</option><option>خالد الزهراني</option><option>ريم المطيري</option><option>أحمد السالم</option>
+      </select>
+    </div>
+    <div class="modal-row">
+      <label>التخصص</label>
+      <select class="ai-sel" id="m-major">
+        <option>تقنية المعلومات</option><option>طب</option><option>هندسة</option><option>إدارة أعمال</option><option>رياضيات</option><option>أدب عربي</option><option>محاسبة</option><option>علم نفس</option><option>قانون</option>
+      </select>
+    </div>
+    <div class="modal-row">
+      <label>أكبر تحدٍّ تواجهه</label>
+      <select class="ai-sel" id="m-problem">
+        <option>صعوبة التركيز</option><option>تأجيل المذاكرة</option><option>نسيان المعلومات</option><option>كثرة المواد</option><option>الإرهاق النفسي</option><option>صعوبة فهم المادة</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
+      <button class="btn-save" onclick="saveProfile()">حفظ التغييرات</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const allPages = document.querySelectorAll('.page');
+const allTabs  = document.querySelectorAll('.tab');
+
+function go(i){
+  allPages.forEach(p => p.classList.remove('on'));
+  allTabs.forEach(t  => t.classList.remove('on'));
+  allPages[i].classList.add('on');
+  allTabs[i].classList.add('on');
+  window.scrollTo(0,0);
+}
+
+function selTag(el, gid){
+  document.querySelectorAll('#'+gid+' .tag').forEach(t => t.classList.remove('sel'));
+  el.classList.add('sel');
+  if(gid==='tipTags') updatePrev1();
+}
+
+let profile = {name:'سامي الأحمد', major:'تقنية المعلومات', problem:'صعوبة التركيز'};
+
+function getSelTag(gid){
+  const s = document.querySelector('#'+gid+' .tag.sel');
+  return s ? s.textContent.trim() : 'نصيحة مذاكرة';
+}
+
+function buildTipPrompt(){
+  const type = getSelTag('tipTags');
+  return `[Student Helper AI — مساعد طالب]\n\nالطالب: ${profile.name} | التخصص: ${profile.major} | المشكلة: ${profile.problem}\n\nالطلب: ${type}\n\nأجب بالعربية بشكل عملي ومباشر مع نقاط واضحة قابلة للتطبيق فوراً.`;
+}
+
+function buildSchedulePrompt(){
+  const subs = document.getElementById('subjects').value;
+  const hrs  = document.getElementById('hours').value;
+  return `[Student Helper AI — مولّد الجدول]\n\nالطالب: ${profile.name} | التخصص: ${profile.major}\nعدد المواد: ${subs} | الوقت المتاح يومياً: ${hrs}\n\nأنشئ جدول مذاكرة أسبوعي من السبت إلى الخميس. وزّع المواد بشكل ذكي مع ذكر اليوم والمادة والمدة بوضوح.`;
+}
+
+function showPreview(id, text){
+  const box = document.getElementById('prev'+id);
+  const span = document.getElementById('prev'+id+'text');
+  span.textContent = text;
+  box.style.display = 'block';
+}
+
+function updatePrev1(){ showPreview(1, buildTipPrompt()); }
+function updatePrev2(){ showPreview(2, buildSchedulePrompt()); }
+function updatePrev3(){
+  const q = document.getElementById('freeq').value.trim();
+  if(q){
+    const p = `[Student Helper AI]\n\nالطالب: ${profile.name} | التخصص: ${profile.major}\n\nالسؤال: ${q}`;
+    showPreview(3, p);
+  } else {
+    document.getElementById('prev3').style.display='none';
+  }
+}
+
+function sendTip(){
+  sendPrompt(buildTipPrompt());
+}
+function sendSchedule(){
+  sendPrompt(buildSchedulePrompt());
+}
+function sendFree(){
+  const q = document.getElementById('freeq').value.trim();
+  if(!q){ document.getElementById('freeq').focus(); return; }
+  const p = `[Student Helper AI]\n\nالطالب: ${profile.name} | التخصص: ${profile.major}\n\nالسؤال: ${q}`;
+  sendPrompt(p);
+}
+
+function openModal(){
+  document.getElementById('m-name').value    = profile.name;
+  document.getElementById('m-major').value   = profile.major;
+  document.getElementById('m-problem').value = profile.problem;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){ document.getElementById('modal').classList.remove('open'); }
+function saveProfile(){
+  profile.name    = document.getElementById('m-name').value;
+  profile.major   = document.getElementById('m-major').value;
+  profile.problem = document.getElementById('m-problem').value;
+  document.getElementById('pname').textContent = profile.name;
+  document.getElementById('psub').textContent  = profile.major + ' — يعاني من: ' + profile.problem;
+  document.getElementById('prev1').style.display='none';
+  document.getElementById('prev2').style.display='none';
+  document.getElementById('prev3').style.display='none';
+  closeModal();
+}
+document.getElementById('modal').addEventListener('click', function(e){
+  if(e.target===this) closeModal();
+});
+</script>
