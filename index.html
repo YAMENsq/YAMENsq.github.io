@@ -475,15 +475,18 @@ p  { color: var(--text-sub); font-size: 14px; margin-bottom: 8px; }
   <div class="sec-badge">🤖 القسم الرابع</div>
   <h1>المساعد الذكي للطلاب</h1>
 
-  <div class="info-banner">
-    <span style="font-size:18px;flex-shrink:0">⚠️</span>
-    <div>لتشغيل الذكاء الاصطناعي، أدخل مفتاح ChatGPT API في الحقل أدناه. المفتاح يبقى في متصفحك فقط ولا يُرسل لأي خادم آخر. احصل عليه من <strong>platform.openai.com/api-keys</strong></div>
+  <div class="info-banner" style="background:#E8F5E9;border-color:#81C784;color:#2E7D32">
+    <span style="font-size:18px;flex-shrink:0">✅</span>
+    <div>
+      يستخدم هذا المشروع <strong>Google Gemini API — مجاني 100%</strong> بدون بطاقة بنكية.<br>
+      احصل على مفتاحك المجاني من: <strong>aistudio.google.com</strong> ← اضغط "Get API Key"
+    </div>
   </div>
 
-  <div class="card" style="border-color:#FFD54F;background:#FFFDE7">
-    <div class="inp-label">🔑 مفتاح ChatGPT API</div>
-    <input class="ai-inp" id="apiKey" type="password" placeholder="sk-proj-..." style="letter-spacing:2px">
-    <div style="font-size:12px;color:var(--text-sub);margin-top:6px">مفتاحك آمن — يُستخدم فقط محلياً في متصفحك</div>
+  <div class="card" style="border-color:#81C784;background:#F1F8E9">
+    <div class="inp-label">🔑 مفتاح Google Gemini API (مجاني)</div>
+    <input class="ai-inp" id="apiKey" type="password" placeholder="AIza..." style="letter-spacing:2px">
+    <div style="font-size:12px;color:var(--text-sub);margin-top:6px">مفتاحك آمن — يُستخدم فقط محلياً في متصفحك ولا يُحفظ في أي مكان</div>
   </div>
 
   <div class="profile-card">
@@ -800,24 +803,24 @@ async function callAI(prompt, btnId, loadId, respId, textId){
   load.style.display = 'block';
 
   try {
-    const res = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + key
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        max_tokens: 800,
-        messages: [
-          { role: 'system', content: 'أنت مساعد دراسي ذكي للطلاب الجامعيين. أجب دائماً بالعربية الفصيحة البسيطة. كن مباشراً وعملياً. قدّم نصائح قابلة للتطبيق فوراً مع نقاط واضحة ومنظمة.' },
-          { role: 'user', content: prompt }
-        ]
-      })
-    });
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: 'أنت مساعد دراسي ذكي للطلاب الجامعيين. أجب دائماً بالعربية الفصيحة البسيطة. كن مباشراً وعملياً. قدّم نصائح قابلة للتطبيق فوراً مع نقاط واضحة ومنظمة.\n\n' + prompt
+            }]
+          }],
+          generationConfig: { maxOutputTokens: 800 }
+        })
+      }
+    );
     const data = await res.json();
     if(data.error){ throw new Error(data.error.message); }
-    const answer = data.choices?.[0]?.message?.content || '';
+    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
     text.textContent = answer;
     resp.style.display = 'block';
   } catch(e) {
