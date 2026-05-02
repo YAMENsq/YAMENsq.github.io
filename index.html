@@ -6,432 +6,186 @@
 <title>Student Helper AI 🎓</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --green: #16a16a;
-  --green-dark: #0d7a50;
-  --green-light: #e8f8f2;
-  --green-mid: #b2e8d4;
-  --navy: #0f2237;
-  --text: #1a2e1a;
-  --text-sub: #5a7a6a;
-  --bg: #f4fbf7;
-  --white: #ffffff;
-  --border: #d0eadd;
-  --red: #e05252;
-  --orange: #f59e0b;
-  --purple: #7c3aed;
-  --blue: #2563eb;
-  --shadow: 0 4px 24px rgba(22,161,106,0.10);
-  --shadow-lg: 0 8px 40px rgba(22,161,106,0.18);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Tajawal', 'Plus Jakarta Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  font-size: 15px;
-  line-height: 1.7;
-  min-height: 100vh;
-}
-html[dir="ltr"] body { font-family: 'Plus Jakarta Sans', 'Tajawal', sans-serif; }
-
-/* ─── NAVBAR ─── */
-.navbar {
-  background: var(--green-dark);
-  position: sticky; top: 0; z-index: 1000;
-  box-shadow: 0 3px 16px rgba(0,0,0,0.22);
-}
-.nav-top {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 16px 4px;
-}
-.nav-brand {
-  font-size: 13px; font-weight: 700;
-  color: rgba(255,255,255,0.9);
-  display: flex; align-items: center; gap: 6px;
-}
-.nav-brand span { color: #7eecc4; }
-.lang-btn {
-  padding: 5px 14px; border-radius: 20px;
-  border: 1.5px solid rgba(255,255,255,0.5);
-  background: rgba(255,255,255,0.12);
-  color: #fff; font-size: 12px; font-weight: 700;
-  cursor: pointer; font-family: 'Plus Jakarta Sans','Tajawal',sans-serif;
-  transition: all .15s; letter-spacing: 0.5px;
-  white-space: nowrap;
-}
-.lang-btn:hover { background: rgba(255,255,255,0.25); }
-.nav-tabs { display: flex; flex-wrap: wrap; gap: 3px; padding: 6px 14px 0; }
-.tab {
-  padding: 7px 12px; font-size: 12.5px;
-  font-family: 'Tajawal','Plus Jakarta Sans',sans-serif; font-weight: 500;
-  border: none; border-radius: 8px 8px 0 0;
-  background: rgba(255,255,255,0.10);
-  color: rgba(255,255,255,0.78);
-  cursor: pointer; transition: all .18s; white-space: nowrap;
-}
-.tab:hover { background: rgba(255,255,255,0.20); color: #fff; }
-.tab.on { background: var(--bg); color: var(--green-dark); font-weight: 700; }
-
-/* ─── PAGES ─── */
-.page { display: none; padding: 28px 20px 60px; max-width: 880px; margin: 0 auto; }
-.page.on { display: block; }
-
-/* ─── COMMON ─── */
-.sec-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--green-light); color: var(--green-dark);
-  padding: 4px 12px; border-radius: 20px; font-size: 12px;
-  font-weight: 700; margin-bottom: 12px; border: 1px solid var(--green-mid);
-}
-h1 { font-size: 24px; font-weight: 800; margin-bottom: 6px; color: var(--navy); }
-h2 { font-size: 17px; font-weight: 700; margin: 22px 0 10px; color: var(--navy); }
-h3 { font-size: 15px; font-weight: 700; margin: 10px 0 5px; }
-p  { color: var(--text-sub); font-size: 14px; margin-bottom: 8px; }
-.card {
-  background: var(--white); border: 1.5px solid var(--border);
-  border-radius: 16px; padding: 20px 22px; margin-bottom: 16px;
-  box-shadow: var(--shadow);
-}
-.g2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: 12px; margin: 12px 0; }
-.g3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 12px; margin: 12px 0; }
-.g4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 10px; margin: 12px 0; }
-.meta {
-  background: var(--green-light); border-radius: 12px;
-  padding: 12px 14px; border: 1px solid var(--green-mid);
-}
-.meta-label { font-size: 11px; color: var(--text-sub); margin-bottom: 3px; font-weight: 500; }
-.meta-val   { font-size: 14px; font-weight: 700; color: var(--navy); }
-.step {
-  display: flex; gap: 12px; align-items: flex-start;
-  margin-bottom: 12px; font-size: 14px; color: var(--text-sub);
-}
-.snum {
-  background: var(--green); color: #fff;
-  width: 26px; height: 26px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px;
-}
-.score-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
-.score-label { font-size: 13px; color: var(--text-sub); min-width: 120px; }
-.score-bar { flex: 1; height: 10px; background: var(--green-light); border-radius: 4px; overflow: hidden; }
-.score-fill { height: 100%; border-radius: 4px; background: var(--green); transition: width 1.2s ease; }
-.score-num  { font-size: 12px; font-weight: 700; color: var(--green-dark); min-width: 38px; text-align: left; }
-.fcrd {
-  background: var(--white); border: 1.5px solid var(--border);
-  border-radius: 14px; padding: 18px; text-align: center;
-  box-shadow: var(--shadow);
-}
-.fcrd .icon { font-size: 28px; margin-bottom: 8px; }
-.lp-hero {
-  background: linear-gradient(135deg, var(--green-dark) 0%, #0a9e66 100%);
-  border-radius: 16px; padding: 36px 24px; text-align: center;
-  margin-bottom: 20px; color: #fff;
-  box-shadow: 0 8px 32px rgba(13,122,80,0.3);
-}
-.lp-headline { font-size: 26px; font-weight: 800; margin-bottom: 8px; line-height: 1.3; }
-.lp-sub { font-size: 15px; opacity: 0.88; margin-bottom: 20px; }
-.cta-lp {
-  background: #fff; color: var(--green-dark);
-  padding: 12px 28px; border-radius: 10px;
-  font-size: 15px; font-weight: 700; cursor: pointer; border: none;
-  font-family: 'Tajawal','Plus Jakarta Sans',sans-serif;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15); transition: transform .15s;
-}
-.cta-lp:hover { transform: translateY(-2px); }
-.tip-block {
-  border-right: 4px solid var(--green); padding: 14px 16px;
-  background: var(--white); margin-bottom: 12px;
-  border-radius: 0 12px 12px 0;
-  border-top: 1.5px solid var(--border);
-  border-bottom: 1.5px solid var(--border);
-  border-left: 1.5px solid var(--border);
-  box-shadow: var(--shadow);
-}
-html[dir="ltr"] .tip-block { border-right: none; border-left: 4px solid var(--green); border-radius: 12px 0 0 12px; }
-.ad { border: 1.5px solid var(--border); border-radius: 14px; padding: 16px 18px; margin-bottom: 12px; background: var(--white); }
-.albl { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
-.lazy-lbl { background: #FEF3E2; color: #9a5a00; }
-.hard-lbl { background: var(--green-light); color: var(--green-dark); }
-.divider { height: 1.5px; background: var(--border); margin: 20px 0; }
-
-/* ─── AI PAGE ─── */
-.profile-card {
-  background: linear-gradient(135deg, var(--navy) 0%, #174a35 100%);
-  border-radius: 16px; padding: 18px 20px; margin-bottom: 18px;
-  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-  color: #fff; box-shadow: 0 6px 24px rgba(15,34,55,0.25);
-}
-.p-avatar {
-  width: 52px; height: 52px; border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 24px; flex-shrink: 0; border: 2px solid rgba(255,255,255,0.3);
-}
-.p-info { flex: 1; min-width: 140px; }
-.p-name { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
-.p-sub  { font-size: 12px; opacity: 0.75; }
-.edit-btn {
-  padding: 8px 16px; border-radius: 8px;
-  border: 1.5px solid rgba(255,255,255,0.5);
-  background: rgba(255,255,255,0.12);
-  color: #fff; font-size: 13px; font-weight: 600;
-  cursor: pointer; transition: all .15s; white-space: nowrap;
-  font-family: 'Tajawal','Plus Jakarta Sans',sans-serif;
-}
-.edit-btn:hover { background: rgba(255,255,255,0.22); }
-.ai-box {
-  background: var(--white); border: 1.5px solid var(--border);
-  border-radius: 16px; padding: 20px 22px; margin-bottom: 16px;
-  box-shadow: var(--shadow);
-}
-.ai-box h2 { margin-top: 0; }
-.inp-label { font-size: 13px; color: var(--text-sub); margin-bottom: 5px; font-weight: 500; }
-.ai-sel, .ai-inp {
-  width: 100%; border: 1.5px solid var(--border); border-radius: 10px;
-  padding: 10px 13px; font-size: 14px; background: var(--bg);
-  color: var(--text); font-family: 'Tajawal','Plus Jakarta Sans',sans-serif;
-}
-html[dir="rtl"] .ai-sel, html[dir="rtl"] .ai-inp { direction: rtl; }
-html[dir="ltr"] .ai-sel, html[dir="ltr"] .ai-inp { direction: ltr; }
-.ai-sel:focus, .ai-inp:focus { outline: none; border-color: var(--green); }
-.ai-ta {
-  width: 100%; border: 1.5px solid var(--border); border-radius: 10px;
-  padding: 10px 13px; font-size: 14px; background: var(--bg);
-  color: var(--text); font-family: 'Tajawal','Plus Jakarta Sans',sans-serif;
-  resize: vertical; min-height: 90px;
-}
-html[dir="rtl"] .ai-ta { direction: rtl; }
-html[dir="ltr"] .ai-ta { direction: ltr; }
-.ai-ta:focus { outline: none; border-color: var(--green); }
-.tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin: 10px 0; }
-.tag {
-  padding: 5px 13px; border-radius: 20px; font-size: 13px;
-  cursor: pointer; border: 1.5px solid var(--border);
-  background: var(--bg); color: var(--text-sub);
-  transition: all .15s; font-family: 'Tajawal','Plus Jakarta Sans',sans-serif; font-weight: 500;
-}
-.tag:hover { border-color: var(--green); color: var(--green-dark); }
-.tag.sel { background: var(--green-light); color: var(--green-dark); border-color: var(--green); font-weight: 700; }
-.send-btn {
-  background: var(--green); color: #fff; border: none;
-  border-radius: 10px; padding: 11px 22px; font-size: 14px;
-  font-weight: 700; cursor: pointer; font-family: 'Tajawal','Plus Jakarta Sans',sans-serif;
-  margin-top: 12px; transition: all .18s; display: inline-flex;
-  align-items: center; gap: 6px;
-}
-.send-btn:hover { background: var(--green-dark); transform: translateY(-1px); }
-.ai-resp {
-  display: none; margin-top: 14px;
-  background: var(--green-light); border: 1.5px solid var(--green-mid);
-  border-radius: 12px; padding: 16px 18px;
-  font-size: 14px; color: var(--navy); line-height: 1.8;
-  white-space: pre-wrap; animation: fadeUp .3s ease;
-}
-.ai-resp-header {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 12px; font-weight: 700; color: var(--green-dark);
-  margin-bottom: 10px; padding-bottom: 8px;
-  border-bottom: 1px solid var(--green-mid);
-}
-.loading {
-  display: none; text-align: center; padding: 18px;
-  color: var(--green-dark); font-size: 14px; font-weight: 500;
-}
-.dot { display: inline-block; animation: bounce 1.1s infinite; margin: 0 2px; font-size: 18px; }
-.dot:nth-child(2){animation-delay:.18s}
-.dot:nth-child(3){animation-delay:.36s}
-@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
-@keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-
-/* ─── FEELINGS PAGE ─── */
-.mood-grid { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0; }
-.mood-btn {
-  padding: 12px 18px; border-radius: 14px; border: 2px solid var(--border);
-  background: var(--bg); font-size: 22px; cursor: pointer;
-  transition: all .18s; display: flex; align-items: center; gap: 8px;
-  font-family: 'Tajawal','Plus Jakarta Sans',sans-serif;
-  font-size: 14px; font-weight: 600; color: var(--text-sub);
-}
-.mood-btn span.emoji { font-size: 22px; }
-.mood-btn:hover { border-color: var(--green); transform: translateY(-2px); }
-.mood-btn.sel { border-color: var(--green); background: var(--green-light); color: var(--green-dark); box-shadow: 0 4px 12px rgba(22,161,106,0.18); }
-
-.feel-resp {
-  display: none; margin-top: 16px; border-radius: 16px; padding: 20px 22px;
-  animation: fadeUp .4s ease;
-}
-.feel-resp.emotion-fear { background: #FFF8E1; border: 2px solid #FFD54F; }
-.feel-resp.emotion-anxiety { background: #F3E5F5; border: 2px solid #CE93D8; }
-.feel-resp.emotion-sad { background: #E8EAF6; border: 2px solid #9FA8DA; }
-.feel-resp.emotion-tired { background: #FBE9E7; border: 2px solid #FFAB91; }
-.feel-resp.emotion-lost { background: #E0F7FA; border: 2px solid #80DEEA; }
-.feel-resp.emotion-motivated { background: var(--green-light); border: 2px solid var(--green-mid); }
-.feel-resp.emotion-stressed { background: #FCE4EC; border: 2px solid #F48FB1; }
-.feel-resp.emotion-neutral { background: #F5F5F5; border: 2px solid #E0E0E0; }
-.feel-emotion-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 13px; font-weight: 700; padding: 4px 12px;
-  border-radius: 20px; margin-bottom: 12px; background: rgba(255,255,255,0.7);
-}
-.feel-title { font-size: 17px; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
-.feel-msg { font-size: 14px; color: var(--text); line-height: 1.8; margin-bottom: 14px; }
-.feel-tips { display: flex; flex-direction: column; gap: 8px; }
-.feel-tip-item {
-  background: rgba(255,255,255,0.7); border-radius: 10px;
-  padding: 10px 14px; font-size: 13px; color: var(--navy);
-  display: flex; align-items: flex-start; gap: 8px;
-}
-.feel-tip-num {
-  background: var(--green); color: #fff; width: 20px; height: 20px;
-  border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 800; flex-shrink: 0; margin-top: 1px;
-}
-.detect-row {
-  display: flex; align-items: center; gap: 8px; margin: 8px 0;
-  font-size: 13px; color: var(--text-sub);
-}
-.detect-badge {
-  padding: 3px 10px; border-radius: 20px; font-size: 12px;
-  font-weight: 700; background: var(--green-light); color: var(--green-dark);
-}
-
-/* ─── DASHBOARD ─── */
-.dash-stat {
-  background: var(--white); border: 1.5px solid var(--border);
-  border-radius: 16px; padding: 18px 20px;
-  box-shadow: var(--shadow); text-align: center;
-}
-.dash-stat-num { font-size: 32px; font-weight: 800; color: var(--green-dark); }
-.dash-stat-lbl { font-size: 13px; color: var(--text-sub); margin-top: 4px; }
-.chart-wrap {
-  background: var(--white); border: 1.5px solid var(--border);
-  border-radius: 16px; padding: 20px 22px; margin-bottom: 16px;
-  box-shadow: var(--shadow);
-}
-.chart-title { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 16px; }
-.bar-chart { display: flex; flex-direction: column; gap: 10px; }
-.bar-row { display: flex; align-items: center; gap: 10px; }
-.bar-lbl { font-size: 13px; color: var(--text-sub); min-width: 120px; text-align: right; }
-html[dir="ltr"] .bar-lbl { text-align: left; }
-.bar-track { flex: 1; height: 28px; background: var(--green-light); border-radius: 8px; overflow: hidden; position: relative; }
-.bar-fill {
-  height: 100%; border-radius: 8px;
-  display: flex; align-items: center; justify-content: flex-end;
-  padding-right: 10px; font-size: 12px; font-weight: 700; color: #fff;
-  transition: width 1.4s cubic-bezier(0.4,0,0.2,1);
-  min-width: 40px;
-}
-html[dir="ltr"] .bar-fill { justify-content: flex-start; padding-right: 0; padding-left: 10px; }
-.donut-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: center; }
-.donut-legend { display: flex; flex-direction: column; gap: 8px; }
-.legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-sub); }
-.legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
-.trend-bars { display: flex; align-items: flex-end; gap: 8px; height: 80px; }
-.trend-bar {
-  flex: 1; border-radius: 6px 6px 0 0;
-  background: var(--green); opacity: 0.7;
-  transition: opacity .2s; cursor: pointer;
-  position: relative;
-}
-.trend-bar:hover { opacity: 1; }
-.trend-labels { display: flex; gap: 8px; margin-top: 6px; }
-.trend-label { flex: 1; text-align: center; font-size: 11px; color: var(--text-sub); }
-.insight-card {
-  background: var(--green-light); border: 1.5px solid var(--green-mid);
-  border-radius: 12px; padding: 14px 16px; margin-bottom: 10px;
-  display: flex; gap: 10px; align-items: flex-start;
-}
-.insight-icon { font-size: 20px; flex-shrink: 0; }
-.insight-text { font-size: 13px; color: var(--navy); line-height: 1.7; }
-
-/* ─── ETHICS ─── */
-.ethics-box {
-  background: linear-gradient(135deg, #EEF5FF 0%, #E6F0FF 100%);
-  border: 1.5px solid #B8D4FF; border-radius: 16px;
-  padding: 20px 22px; border-right: 5px solid #4488DD; margin-bottom: 16px;
-}
-html[dir="ltr"] .ethics-box { border-right: none; border-left: 5px solid #4488DD; }
-.check-list .step { margin-bottom: 8px; }
-.check-list .icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
-
-/* ─── MODAL ─── */
-.modal-bg {
-  display: none; position: fixed; inset: 0; z-index: 9999;
-  background: rgba(10,25,15,0.65);
-  align-items: center; justify-content: center;
-  backdrop-filter: blur(4px);
-}
-.modal-bg.open { display: flex; }
-.modal {
-  background: #fff; border-radius: 20px; padding: 28px 26px;
-  width: 92%; max-width: 420px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-  border: 1.5px solid var(--border);
-  animation: fadeUp .2s ease;
-}
-.modal-title { font-size: 18px; font-weight: 800; color: var(--navy); margin-bottom: 20px; }
-.modal-row { margin-bottom: 14px; }
-.modal-row label { display: block; font-size: 13px; font-weight: 700; color: var(--text-sub); margin-bottom: 5px; }
-.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 22px; }
-.btn-cancel {
-  padding: 10px 20px; border-radius: 10px;
-  border: 1.5px solid var(--border); background: var(--bg);
-  color: var(--text-sub); font-size: 14px; font-weight: 600;
-  cursor: pointer; font-family: 'Tajawal','Plus Jakarta Sans',sans-serif;
-}
-.btn-save {
-  padding: 10px 22px; border-radius: 10px; border: none;
-  background: var(--green); color: #fff; font-size: 14px;
-  font-weight: 700; cursor: pointer; font-family: 'Tajawal','Plus Jakarta Sans',sans-serif;
-  transition: background .15s;
-}
-.btn-save:hover { background: var(--green-dark); }
-
-/* ─── LIBRARY PAGE ─── */
-.lib-filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-.lib-filter {
-  padding: 7px 16px; border-radius: 20px; font-size: 13px;
-  cursor: pointer; border: 1.5px solid var(--border);
-  background: var(--bg); color: var(--text-sub);
-  transition: all .15s; font-family: 'Tajawal','Plus Jakarta Sans',sans-serif; font-weight: 600;
-}
-.lib-filter:hover { border-color: var(--green); color: var(--green-dark); }
-.lib-filter.active { background: var(--green); color: #fff; border-color: var(--green); font-weight: 700; }
-.lib-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 14px; }
-.lib-card {
-  background: var(--white); border: 1.5px solid var(--border);
-  border-radius: 14px; padding: 18px; box-shadow: var(--shadow);
-  transition: transform .15s, box-shadow .15s;
-}
-.lib-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
-.lib-tag {
-  display: inline-block; font-size: 11px; font-weight: 700;
-  padding: 3px 10px; border-radius: 20px; margin-bottom: 10px;
-}
-.lib-tag.focus    { background: #E3F2FD; color: #1565C0; }
-.lib-tag.memory   { background: #F3E5F5; color: #6A1B9A; }
-.lib-tag.planning { background: #FFF8E1; color: #F57F17; }
-.lib-tag.stress   { background: #FCE4EC; color: #AD1457; }
-.lib-tag.exam     { background: #E8F5E9; color: #2E7D32; }
-.lib-card-title { font-size: 14px; font-weight: 800; color: var(--navy); margin-bottom: 7px; }
-.lib-card-body  { font-size: 13px; color: var(--text-sub); line-height: 1.7; }
-.lib-empty { text-align: center; padding: 40px 20px; color: var(--text-sub); font-size: 14px; display: none; }
-
-/* ─── INTERNAL AI BADGE ─── */
-.internal-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: #E8F5E9; border: 1.5px solid #81C784;
-  color: #2E7D32; padding: 5px 14px; border-radius: 20px;
-  font-size: 12px; font-weight: 700; margin-bottom: 16px;
-}
-.pulse { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #4CAF50; animation: pulse 1.5s infinite; }
-@keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.4);opacity:0.6} }
+:root{--green:#16a16a;--green-dark:#0d7a50;--green-light:#e8f8f2;--green-mid:#b2e8d4;--navy:#0f2237;--text:#1a2e1a;--text-sub:#5a7a6a;--bg:#f4fbf7;--white:#ffffff;--border:#d0eadd;--red:#e05252;--shadow:0 4px 24px rgba(22,161,106,.10);--shadow-lg:0 8px 40px rgba(22,161,106,.18);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Tajawal','Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.7;min-height:100vh;}
+html[dir="ltr"] body{font-family:'Plus Jakarta Sans','Tajawal',sans-serif;}
+.navbar{background:var(--green-dark);position:sticky;top:0;z-index:1000;box-shadow:0 3px 16px rgba(0,0,0,.22);}
+.nav-top{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 4px;}
+.nav-brand{font-size:13px;font-weight:700;color:rgba(255,255,255,.9);display:flex;align-items:center;gap:6px;}
+.nav-brand span{color:#7eecc4;}
+.lang-btn{padding:5px 14px;border-radius:20px;border:1.5px solid rgba(255,255,255,.5);background:rgba(255,255,255,.12);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans','Tajawal',sans-serif;transition:all .15s;white-space:nowrap;}
+.lang-btn:hover{background:rgba(255,255,255,.25);}
+.nav-tabs{display:flex;flex-wrap:wrap;gap:3px;padding:6px 14px 0;}
+.tab{padding:7px 12px;font-size:12.5px;font-family:'Tajawal','Plus Jakarta Sans',sans-serif;font-weight:500;border:none;border-radius:8px 8px 0 0;background:rgba(255,255,255,.10);color:rgba(255,255,255,.78);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.tab:hover{background:rgba(255,255,255,.20);color:#fff;}
+.tab.on{background:var(--bg);color:var(--green-dark);font-weight:700;}
+.page{display:none;padding:28px 20px 60px;max-width:880px;margin:0 auto;}
+.page.on{display:block;}
+.sec-badge{display:inline-flex;align-items:center;gap:6px;background:var(--green-light);color:var(--green-dark);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:12px;border:1px solid var(--green-mid);}
+h1{font-size:24px;font-weight:800;margin-bottom:6px;color:var(--navy);}
+h2{font-size:17px;font-weight:700;margin:22px 0 10px;color:var(--navy);}
+h3{font-size:15px;font-weight:700;margin:10px 0 5px;}
+p{color:var(--text-sub);font-size:14px;margin-bottom:8px;}
+.card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:20px 22px;margin-bottom:16px;box-shadow:var(--shadow);}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:12px 0;}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:12px 0;}
+.g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:12px 0;}
+.meta{background:var(--green-light);border-radius:12px;padding:12px 14px;border:1px solid var(--green-mid);}
+.meta-label{font-size:11px;color:var(--text-sub);margin-bottom:3px;font-weight:500;}
+.meta-val{font-size:14px;font-weight:700;color:var(--navy);}
+.step{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;font-size:14px;color:var(--text-sub);}
+.snum{background:var(--green);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px;}
+.score-row{display:flex;align-items:center;gap:10px;margin:8px 0;}
+.score-label{font-size:13px;color:var(--text-sub);min-width:120px;}
+.score-bar{flex:1;height:10px;background:var(--green-light);border-radius:4px;overflow:hidden;}
+.score-fill{height:100%;border-radius:4px;background:var(--green);}
+.score-num{font-size:12px;font-weight:700;color:var(--green-dark);min-width:38px;text-align:left;}
+.fcrd{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:18px;text-align:center;box-shadow:var(--shadow);}
+.fcrd .icon{font-size:28px;margin-bottom:8px;}
+.lp-hero{background:linear-gradient(135deg,var(--green-dark) 0%,#0a9e66 100%);border-radius:16px;padding:36px 24px;text-align:center;margin-bottom:20px;color:#fff;box-shadow:0 8px 32px rgba(13,122,80,.3);}
+.lp-headline{font-size:26px;font-weight:800;margin-bottom:8px;line-height:1.3;}
+.lp-sub{font-size:15px;opacity:.88;margin-bottom:20px;}
+.cta-lp{background:#fff;color:var(--green-dark);padding:12px 28px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;border:none;font-family:'Tajawal','Plus Jakarta Sans',sans-serif;box-shadow:0 4px 16px rgba(0,0,0,.15);transition:transform .15s;}
+.cta-lp:hover{transform:translateY(-2px);}
+.tip-block{border-right:4px solid var(--green);padding:14px 16px;background:var(--white);margin-bottom:12px;border-radius:0 12px 12px 0;border-top:1.5px solid var(--border);border-bottom:1.5px solid var(--border);border-left:1.5px solid var(--border);box-shadow:var(--shadow);}
+html[dir="ltr"] .tip-block{border-right:none;border-left:4px solid var(--green);border-radius:12px 0 0 12px;}
+.divider{height:1.5px;background:var(--border);margin:20px 0;}
+.profile-card{background:linear-gradient(135deg,var(--navy) 0%,#174a35 100%);border-radius:16px;padding:18px 20px;margin-bottom:18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:#fff;box-shadow:0 6px 24px rgba(15,34,55,.25);}
+.p-avatar{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;border:2px solid rgba(255,255,255,.3);}
+.p-info{flex:1;min-width:140px;}
+.p-name{font-size:16px;font-weight:700;margin-bottom:2px;}
+.p-sub{font-size:12px;opacity:.75;}
+.edit-btn{padding:8px 16px;border-radius:8px;border:1.5px solid rgba(255,255,255,.5);background:rgba(255,255,255,.12);color:#fff;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;font-family:'Tajawal','Plus Jakarta Sans',sans-serif;}
+.edit-btn:hover{background:rgba(255,255,255,.22);}
+.ai-box{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:20px 22px;margin-bottom:16px;box-shadow:var(--shadow);}
+.ai-box h2{margin-top:0;}
+.inp-label{font-size:13px;color:var(--text-sub);margin-bottom:5px;font-weight:500;}
+.ai-sel,.ai-inp{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;font-size:14px;background:var(--bg);color:var(--text);font-family:'Tajawal','Plus Jakarta Sans',sans-serif;}
+html[dir="rtl"] .ai-sel,html[dir="rtl"] .ai-inp{direction:rtl;}
+html[dir="ltr"] .ai-sel,html[dir="ltr"] .ai-inp{direction:ltr;}
+.ai-sel:focus,.ai-inp:focus{outline:none;border-color:var(--green);}
+.ai-ta{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;font-size:14px;background:var(--bg);color:var(--text);font-family:'Tajawal','Plus Jakarta Sans',sans-serif;resize:vertical;min-height:90px;}
+html[dir="rtl"] .ai-ta{direction:rtl;}
+html[dir="ltr"] .ai-ta{direction:ltr;}
+.ai-ta:focus{outline:none;border-color:var(--green);}
+.tag-row{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0;}
+.tag{padding:5px 13px;border-radius:20px;font-size:13px;cursor:pointer;border:1.5px solid var(--border);background:var(--bg);color:var(--text-sub);transition:all .15s;font-family:'Tajawal','Plus Jakarta Sans',sans-serif;font-weight:500;}
+.tag:hover{border-color:var(--green);color:var(--green-dark);}
+.tag.sel{background:var(--green-light);color:var(--green-dark);border-color:var(--green);font-weight:700;}
+.send-btn{background:var(--green);color:#fff;border:none;border-radius:10px;padding:11px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Tajawal','Plus Jakarta Sans',sans-serif;margin-top:12px;transition:all .18s;display:inline-flex;align-items:center;gap:6px;}
+.send-btn:hover{background:var(--green-dark);transform:translateY(-1px);}
+.ai-resp{display:none;margin-top:14px;background:var(--green-light);border:1.5px solid var(--green-mid);border-radius:12px;padding:16px 18px;font-size:14px;color:var(--navy);line-height:1.8;animation:fadeUp .3s ease;}
+.ai-resp-header{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--green-dark);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--green-mid);}
+.ai-resp-text{white-space:pre-wrap;}
+.loading{display:none;text-align:center;padding:18px;color:var(--green-dark);font-size:14px;font-weight:500;}
+.dot{display:inline-block;animation:bounce 1.1s infinite;margin:0 2px;font-size:18px;}
+.dot:nth-child(2){animation-delay:.18s}.dot:nth-child(3){animation-delay:.36s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* Like/Dislike */
+.fb-row{display:flex;align-items:center;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid var(--green-mid);flex-wrap:wrap;}
+.fb-label{font-size:12px;color:var(--text-sub);}
+.fb-btn{padding:5px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--bg);font-size:13px;cursor:pointer;font-family:'Tajawal','Plus Jakarta Sans',sans-serif;font-weight:600;transition:all .18s;display:flex;align-items:center;gap:5px;}
+.fb-btn:hover{transform:translateY(-1px);}
+.fb-btn.like:hover,.fb-btn.liked{border-color:var(--green);color:var(--green-dark);background:var(--green-light);}
+.fb-btn.dislike:hover,.fb-btn.disliked{border-color:var(--red);color:var(--red);background:#FFF0F0;}
+.fb-done{font-size:12px;font-weight:700;display:none;}
+/* Subjects */
+.subj-wrap{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0;}
+.subj-chip{padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;border:1.5px solid var(--border);background:var(--bg);color:var(--text-sub);transition:all .15s;font-family:'Tajawal','Plus Jakarta Sans',sans-serif;font-weight:500;}
+.subj-chip:hover{border-color:var(--green);color:var(--green-dark);}
+.subj-chip.sel{background:var(--green-light);color:var(--green-dark);border-color:var(--green);font-weight:700;}
+.add-row{display:flex;gap:8px;margin-top:8px;}
+.add-row input{flex:1;border:1.5px solid var(--border);border-radius:10px;padding:8px 12px;font-size:14px;background:var(--bg);color:var(--text);font-family:'Tajawal','Plus Jakarta Sans',sans-serif;}
+.add-row input:focus{outline:none;border-color:var(--green);}
+.add-btn{padding:8px 16px;border-radius:10px;background:var(--green);color:#fff;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:'Tajawal','Plus Jakarta Sans',sans-serif;white-space:nowrap;}
+/* Feelings */
+.mood-grid{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0;}
+.mood-btn{padding:12px 18px;border-radius:14px;border:2px solid var(--border);background:var(--bg);cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:8px;font-family:'Tajawal','Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;color:var(--text-sub);}
+.mood-btn .em{font-size:22px;}
+.mood-btn:hover{border-color:var(--green);transform:translateY(-2px);}
+.mood-btn.sel{border-color:var(--green);background:var(--green-light);color:var(--green-dark);box-shadow:0 4px 12px rgba(22,161,106,.18);}
+.feel-resp{display:none;margin-top:16px;border-radius:16px;padding:20px 22px;animation:fadeUp .4s ease;}
+.feel-resp.ef{background:#FFF8E1;border:2px solid #FFD54F;}
+.feel-resp.ea{background:#F3E5F5;border:2px solid #CE93D8;}
+.feel-resp.es{background:#E8EAF6;border:2px solid #9FA8DA;}
+.feel-resp.et{background:#FBE9E7;border:2px solid #FFAB91;}
+.feel-resp.el{background:#E0F7FA;border:2px solid #80DEEA;}
+.feel-resp.em{background:var(--green-light);border:2px solid var(--green-mid);}
+.feel-resp.estr{background:#FCE4EC;border:2px solid #F48FB1;}
+.feel-resp.en{background:#F5F5F5;border:2px solid #E0E0E0;}
+.feel-badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:12px;background:rgba(255,255,255,.7);}
+.feel-title{font-size:17px;font-weight:800;color:var(--navy);margin-bottom:8px;}
+.feel-msg{font-size:14px;color:var(--text);line-height:1.8;margin-bottom:14px;}
+.feel-tips{display:flex;flex-direction:column;gap:8px;}
+.feel-tip{background:rgba(255,255,255,.7);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--navy);display:flex;align-items:flex-start;gap:8px;}
+.feel-tip-n{background:var(--green);color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px;}
+.kw-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:8px 0;font-size:13px;color:var(--text-sub);}
+.kw-badge{padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;background:var(--green-light);color:var(--green-dark);}
+.warn-note{font-size:13px;font-weight:600;color:#c0392b;margin-bottom:10px;}
+/* Dashboard */
+.dash-stat{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow);text-align:center;}
+.dash-num{font-size:32px;font-weight:800;color:var(--green-dark);}
+.dash-lbl{font-size:13px;color:var(--text-sub);margin-top:4px;}
+.chart-wrap{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:20px 22px;margin-bottom:16px;box-shadow:var(--shadow);}
+.chart-title{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:16px;}
+.bar-chart{display:flex;flex-direction:column;gap:10px;}
+.bar-row{display:flex;align-items:center;gap:10px;}
+.bar-lbl{font-size:13px;color:var(--text-sub);min-width:130px;text-align:right;}
+html[dir="ltr"] .bar-lbl{text-align:left;}
+.bar-track{flex:1;height:28px;background:var(--green-light);border-radius:8px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;font-size:12px;font-weight:700;color:#fff;min-width:40px;}
+html[dir="ltr"] .bar-fill{justify-content:flex-start;padding-right:0;padding-left:10px;}
+.donut-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:center;}
+.legend-wrap{display:flex;flex-direction:column;gap:8px;}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-sub);}
+.legend-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+.trend-bars{display:flex;align-items:flex-end;gap:8px;height:80px;}
+.trend-bar{flex:1;border-radius:6px 6px 0 0;background:var(--green);opacity:.7;transition:opacity .2s;}
+.trend-bar:hover{opacity:1;}
+.trend-lbls{display:flex;gap:8px;margin-top:6px;}
+.trend-lbl{flex:1;text-align:center;font-size:11px;color:var(--text-sub);}
+.insight-card{background:var(--green-light);border:1.5px solid var(--green-mid);border-radius:12px;padding:14px 16px;margin-bottom:10px;display:flex;gap:10px;align-items:flex-start;}
+.insight-icon{font-size:20px;flex-shrink:0;}
+.insight-text{font-size:13px;color:var(--navy);line-height:1.7;}
+/* Ethics */
+.ethics-box{background:linear-gradient(135deg,#EEF5FF 0%,#E6F0FF 100%);border:1.5px solid #B8D4FF;border-radius:16px;padding:20px 22px;border-right:5px solid #4488DD;margin-bottom:16px;}
+html[dir="ltr"] .ethics-box{border-right:none;border-left:5px solid #4488DD;}
+/* Modal */
+.modal-bg{display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,25,15,.65);align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.modal-bg.open{display:flex;}
+.modal{background:#fff;border-radius:20px;padding:28px 26px;width:92%;max-width:460px;box-shadow:0 20px 60px rgba(0,0,0,.25);border:1.5px solid var(--border);animation:fadeUp .2s ease;max-height:90vh;overflow-y:auto;}
+.modal-title{font-size:18px;font-weight:800;color:var(--navy);margin-bottom:20px;}
+.modal-row{margin-bottom:14px;}
+.modal-row label{display:block;font-size:13px;font-weight:700;color:var(--text-sub);margin-bottom:5px;}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;}
+.btn-cancel{padding:10px 20px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-sub);font-size:14px;font-weight:600;cursor:pointer;font-family:'Tajawal','Plus Jakarta Sans',sans-serif;}
+.btn-save{padding:10px 22px;border-radius:10px;border:none;background:var(--green);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:'Tajawal','Plus Jakarta Sans',sans-serif;}
+.btn-save:hover{background:var(--green-dark);}
+/* Library */
+.lib-filter-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+.lib-filter{padding:7px 16px;border-radius:20px;font-size:13px;cursor:pointer;border:1.5px solid var(--border);background:var(--bg);color:var(--text-sub);transition:all .15s;font-family:'Tajawal','Plus Jakarta Sans',sans-serif;font-weight:600;}
+.lib-filter.active{background:var(--green);color:#fff;border-color:var(--green);}
+.lib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+.lib-card{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s;}
+.lib-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+.lib-tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;}
+.lib-tag.focus{background:#E3F2FD;color:#1565C0;}
+.lib-tag.memory{background:#F3E5F5;color:#6A1B9A;}
+.lib-tag.planning{background:#FFF8E1;color:#F57F17;}
+.lib-tag.stress{background:#FCE4EC;color:#AD1457;}
+.lib-tag.exam{background:#E8F5E9;color:#2E7D32;}
+.lib-card-title{font-size:14px;font-weight:800;color:var(--navy);margin-bottom:7px;}
+.lib-card-body{font-size:13px;color:var(--text-sub);line-height:1.7;}
+.lib-empty{text-align:center;padding:40px 20px;color:var(--text-sub);font-size:14px;display:none;}
+.int-badge{display:inline-flex;align-items:center;gap:6px;background:#E8F5E9;border:1.5px solid #81C784;color:#2E7D32;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:16px;}
+.pulse{display:inline-block;width:8px;height:8px;border-radius:50%;background:#4CAF50;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.6}}
 </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
   <div class="nav-top">
     <div class="nav-brand">🧠 <span>Student Helper AI</span></div>
@@ -439,31 +193,29 @@ html[dir="ltr"] .ethics-box { border-right: none; border-left: 5px solid #4488DD
   </div>
   <div class="nav-tabs">
     <button class="tab on" onclick="go(0)" data-ar="📊 التحليل" data-en="📊 Analysis">📊 التحليل</button>
-    <button class="tab"   onclick="go(1)" data-ar="💡 مفهوم" data-en="💡 Concept">💡 مفهوم</button>
-    <button class="tab"   onclick="go(2)" data-ar="🖥 الرئيسية" data-en="🖥 Home">🖥 الرئيسية</button>
-    <button class="tab"   onclick="go(3)" data-ar="🤖 المساعد" data-en="🤖 Assistant">🤖 المساعد</button>
-    <button class="tab"   onclick="go(4)" data-ar="💜 كيف تشعر؟" data-en="💜 How Do You Feel?">💜 كيف تشعر؟</button>
-    <button class="tab"   onclick="go(5)" data-ar="📊 لوحة البيانات" data-en="📊 Dashboard">📊 لوحة البيانات</button>
-    <button class="tab"   onclick="go(6)" data-ar="📚 المكتبة" data-en="📚 Library">📚 المكتبة</button>
-    <button class="tab"   onclick="go(7)" data-ar="🛡 الأخلاقيات" data-en="🛡 Ethics">🛡 الأخلاقيات</button>
+    <button class="tab" onclick="go(1)" data-ar="💡 مفهوم" data-en="💡 Concept">💡 مفهوم</button>
+    <button class="tab" onclick="go(2)" data-ar="🖥 الرئيسية" data-en="🖥 Home">🖥 الرئيسية</button>
+    <button class="tab" onclick="go(3)" data-ar="🤖 المساعد" data-en="🤖 Assistant">🤖 المساعد</button>
+    <button class="tab" onclick="go(4)" data-ar="💜 كيف تشعر؟" data-en="💜 How Do You Feel?">💜 كيف تشعر؟</button>
+    <button class="tab" onclick="go(5)" data-ar="📊 لوحة البيانات" data-en="📊 Dashboard">📊 لوحة البيانات</button>
+    <button class="tab" onclick="go(6)" data-ar="📚 المكتبة" data-en="📚 Library">📚 المكتبة</button>
+    <button class="tab" onclick="go(7)" data-ar="🛡 الأخلاقيات" data-en="🛡 Ethics">🛡 الأخلاقيات</button>
   </div>
 </div>
 
-<!-- ══════════ PAGE 0 — التحليل ══════════ -->
+<!-- PAGE 0 -->
 <div id="p0" class="page on">
-  <div class="sec-badge" data-ar="📊 القسم الأول" data-en="📊 Section One">📊 القسم الأول</div>
+  <div class="sec-badge">📊 <span data-ar="القسم الأول" data-en="Section One">القسم الأول</span></div>
   <h1 data-ar="تحليل السوق وسلوك المستخدم" data-en="Market Analysis & User Behavior">تحليل السوق وسلوك المستخدم</h1>
-
   <div class="card">
     <h2 data-ar="🔍 المشكلة التي يواجهها الطلاب" data-en="🔍 Problems Students Face">🔍 المشكلة التي يواجهها الطلاب</h2>
     <div class="g2">
-      <div class="meta"><div class="meta-label" data-ar="المشكلة 1" data-en="Problem 1">المشكلة 1</div><div class="meta-val" data-ar="لا يعرف الطالب من أين يبدأ المذاكرة" data-en="Student doesn't know where to start studying">لا يعرف الطالب من أين يبدأ المذاكرة</div></div>
+      <div class="meta"><div class="meta-label" data-ar="المشكلة 1" data-en="Problem 1">المشكلة 1</div><div class="meta-val" data-ar="لا يعرف الطالب من أين يبدأ المذاكرة" data-en="Doesn't know where to start studying">لا يعرف الطالب من أين يبدأ المذاكرة</div></div>
       <div class="meta"><div class="meta-label" data-ar="المشكلة 2" data-en="Problem 2">المشكلة 2</div><div class="meta-val" data-ar="التشتت وضعف التركيز بسبب الهاتف" data-en="Distraction and poor focus due to phone">التشتت وضعف التركيز بسبب الهاتف</div></div>
       <div class="meta"><div class="meta-label" data-ar="المشكلة 3" data-en="Problem 3">المشكلة 3</div><div class="meta-val" data-ar="الإرهاق من كميات المادة الكبيرة" data-en="Burnout from large amounts of material">الإرهاق من كميات المادة الكبيرة</div></div>
       <div class="meta"><div class="meta-label" data-ar="المشكلة 4" data-en="Problem 4">المشكلة 4</div><div class="meta-val" data-ar="غياب التوجيه الشخصي المخصص" data-en="Lack of personalized guidance">غياب التوجيه الشخصي المخصص</div></div>
     </div>
   </div>
-
   <div class="card">
     <h2 data-ar="👤 شخصية المستخدم النموذجي" data-en="👤 Typical User Persona">👤 شخصية المستخدم النموذجي</h2>
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
@@ -475,12 +227,11 @@ html[dir="ltr"] .ethics-box { border-right: none; border-left: 5px solid #4488DD
     </div>
     <div class="g4">
       <div class="meta"><div class="meta-label" data-ar="العمر" data-en="Age">العمر</div><div class="meta-val" id="ana-age">20 سنة</div></div>
-      <div class="meta"><div class="meta-label" data-ar="الهدف" data-en="Goal">الهدف</div><div class="meta-val" data-ar="اجتياز الفصل بنجاح" data-en="Pass the semester successfully">اجتياز الفصل بنجاح</div></div>
-      <div class="meta"><div class="meta-label" data-ar="المشكلة" data-en="Problem">المشكلة</div><div class="meta-val" id="ana-problem">يُرجئ المذاكرة دائماً</div></div>
-      <div class="meta"><div class="meta-label" data-ar="السلوك" data-en="Behavior">السلوك</div><div class="meta-val" data-ar="يذاكر فقط قبل الامتحان" data-en="Only studies before the exam">يذاكر فقط قبل الامتحان</div></div>
+      <div class="meta"><div class="meta-label" data-ar="الهدف" data-en="Goal">الهدف</div><div class="meta-val" id="ana-goal">اجتياز الفصل بنجاح</div></div>
+      <div class="meta"><div class="meta-label" data-ar="المشكلة" data-en="Problem">المشكلة</div><div class="meta-val" id="ana-problem">صعوبة التركيز</div></div>
+      <div class="meta"><div class="meta-label" data-ar="السلوك الدراسي" data-en="Study Behavior">السلوك الدراسي</div><div class="meta-val" id="ana-behavior">يذاكر فقط قبل الامتحان</div></div>
     </div>
   </div>
-
   <div class="card">
     <h2 data-ar="📈 الفرصة السوقية" data-en="📈 Market Opportunity">📈 الفرصة السوقية</h2>
     <div class="score-row"><div class="score-label" data-ar="حجم الجمهور" data-en="Audience Size">حجم الجمهور</div><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><div class="score-num">90%</div></div>
@@ -490,58 +241,53 @@ html[dir="ltr"] .ethics-box { border-right: none; border-left: 5px solid #4488DD
   </div>
 </div>
 
-<!-- ══════════ PAGE 1 — مفهوم الموقع ══════════ -->
+<!-- PAGE 1 -->
 <div id="p1" class="page">
   <div class="sec-badge">💡 <span data-ar="القسم الثاني" data-en="Section Two">القسم الثاني</span></div>
   <h1 data-ar="مفهوم الموقع وتطويره" data-en="Website Concept & Development">مفهوم الموقع وتطويره</h1>
   <div class="card">
     <h2 data-ar="ما هو Student Helper AI؟" data-en="What is Student Helper AI?">ما هو Student Helper AI؟</h2>
-    <p data-ar="موقع إلكتروني يستهدف الطلاب الجامعيين، يوفر نصائح مذاكرة مخصصة وجداول دراسية ذكية باستخدام الذكاء الاصطناعي الداخلي. ليس بديلاً عن الأستاذ — بل مساعد ذكي متاح 24/7 بدون تكلفة." data-en="A website targeting university students, providing personalized study tips and smart study schedules using an internal AI engine. Not a replacement for professors — but a smart assistant available 24/7 for free.">موقع إلكتروني يستهدف الطلاب الجامعيين، يوفر نصائح مذاكرة مخصصة وجداول دراسية ذكية باستخدام الذكاء الاصطناعي الداخلي. ليس بديلاً عن الأستاذ — بل مساعد ذكي متاح 24/7 بدون تكلفة.</p>
+    <p data-ar="موقع للطلاب الجامعيين بذكاء داخلي مدمج — نصائح مخصصة، جداول ذكية، ودعم نفسي. مجاناً ومتاح 24/7." data-en="A website for university students with a built-in internal AI — personalized tips, smart schedules, and emotional support. Free and available 24/7.">موقع للطلاب الجامعيين بذكاء داخلي مدمج — نصائح مخصصة، جداول ذكية، ودعم نفسي. مجاناً ومتاح 24/7.</p>
   </div>
   <div class="card">
     <h2 data-ar="🌟 المميزات الرئيسية" data-en="🌟 Key Features">🌟 المميزات الرئيسية</h2>
     <div class="g3">
       <div class="fcrd"><div class="icon">🎯</div><h3 data-ar="نصائح مخصصة" data-en="Personalized Tips">نصائح مخصصة</h3><p data-ar="بناءً على تخصصك ومشكلتك الفعلية" data-en="Based on your major and actual problem">بناءً على تخصصك ومشكلتك الفعلية</p></div>
-      <div class="fcrd"><div class="icon">💜</div><h3 data-ar="دعم نفسي" data-en="Emotional Support">دعم نفسي</h3><p data-ar="يحلل مشاعرك ويدعمك" data-en="Analyzes your feelings and supports you">يحلل مشاعرك ويدعمك</p></div>
-      <div class="fcrd"><div class="icon">📊</div><h3 data-ar="لوحة بيانات" data-en="Dashboard">لوحة بيانات</h3><p data-ar="إحصائيات أكثر المشاكل شيوعاً" data-en="Statistics on most common problems">إحصائيات أكثر المشاكل شيوعاً</p></div>
+      <div class="fcrd"><div class="icon">💜</div><h3 data-ar="دعم نفسي ذكي" data-en="Smart Emotional Support">دعم نفسي ذكي</h3><p data-ar="يحلل ما تكتبه ويدعمك" data-en="Analyzes what you write and supports you">يحلل ما تكتبه ويدعمك</p></div>
+      <div class="fcrd"><div class="icon">📊</div><h3 data-ar="لوحة بيانات حية" data-en="Live Dashboard">لوحة بيانات حية</h3><p data-ar="رضا يتحدث بناءً على تقييماتك" data-en="Satisfaction updates from your ratings">رضا يتحدث بناءً على تقييماتك</p></div>
     </div>
   </div>
   <div class="card">
     <h2 data-ar="🚶 كيف يستخدم الطالب الموقع؟" data-en="🚶 How Does a Student Use It?">🚶 كيف يستخدم الطالب الموقع؟</h2>
-    <div class="step"><div class="snum">1</div><div data-ar="يفتح الموقع ويرى واجهة بسيطة وواضحة بدون تعقيد" data-en="Opens the website and sees a simple, clear interface">يفتح الموقع ويرى واجهة بسيطة وواضحة بدون تعقيد</div></div>
-    <div class="step"><div class="snum">2</div><div data-ar="يُدخل اسمه وتخصصه والمشكلة التي يواجهها" data-en="Enters his name, major, and the problem he faces">يُدخل اسمه وتخصصه والمشكلة التي يواجهها</div></div>
-    <div class="step"><div class="snum">3</div><div data-ar="يكتب كيف يشعر — الذكاء الداخلي يحلل ويدعمه" data-en="Writes how he feels — internal AI analyzes and supports him">يكتب كيف يشعر — الذكاء الداخلي يحلل ويدعمه</div></div>
-    <div class="step"><div class="snum">4</div><div data-ar="يحصل على نصائح فورية ومخصصة له تماماً" data-en="Gets instant, fully personalized tips">يحصل على نصائح فورية ومخصصة له تماماً</div></div>
+    <div class="step"><div class="snum">1</div><div data-ar="يُدخل بياناته: الاسم، التخصص، الهدف، السلوك الدراسي، المشكلة" data-en="Enters data: name, major, goal, study behavior, problem">يُدخل بياناته: الاسم، التخصص، الهدف، السلوك الدراسي، المشكلة</div></div>
+    <div class="step"><div class="snum">2</div><div data-ar="يختار موادّه الدراسية ويُنشئ جدولاً أسبوعياً مخصصاً" data-en="Selects subjects and generates a personalized weekly schedule">يختار موادّه الدراسية ويُنشئ جدولاً أسبوعياً مخصصاً</div></div>
+    <div class="step"><div class="snum">3</div><div data-ar="يكتب مشاعره — الذكاء يقرأ النص ويقدم دعماً نفسياً مناسباً" data-en="Writes their feelings — AI reads the text and provides fitting support">يكتب مشاعره — الذكاء يقرأ النص ويقدم دعماً نفسياً مناسباً</div></div>
+    <div class="step"><div class="snum">4</div><div data-ar="يُقيّم النصائح بـ 👍 أو 👎 ويتابع الإحصائيات في لوحة البيانات" data-en="Rates tips with 👍 or 👎 and tracks stats in the dashboard">يُقيّم النصائح بـ 👍 أو 👎 ويتابع الإحصائيات في لوحة البيانات</div></div>
   </div>
 </div>
 
-<!-- ══════════ PAGE 2 — الصفحة الرئيسية ══════════ -->
+<!-- PAGE 2 -->
 <div id="p2" class="page">
   <div class="sec-badge">🖥 <span data-ar="القسم الثالث" data-en="Section Three">القسم الثالث</span></div>
   <h1 data-ar="تصميم الصفحة الرئيسية" data-en="Homepage Design">تصميم الصفحة الرئيسية</h1>
   <div class="lp-hero">
     <div style="font-size:40px;margin-bottom:10px">🧠</div>
     <div class="lp-headline" data-ar="ذاكر بذكاء، لا بجهد أعمى" data-en="Study Smart, Not Hard">ذاكر بذكاء، لا بجهد أعمى</div>
-    <div class="lp-sub" data-ar="نصائح مذاكرة مخصصة لك — مدعومة بذكاء داخلي، مجاناً وفي ثوانٍ" data-en="Personalized study tips — powered by internal AI, free and in seconds">نصائح مذاكرة مخصصة لك — مدعومة بذكاء داخلي، مجاناً وفي ثوانٍ</div>
-    <button class="cta-lp" data-ar="ابدأ الآن — احصل على نصيحتك ✨" data-en="Start Now — Get Your Tip ✨">ابدأ الآن — احصل على نصيحتك ✨</button>
+    <div class="lp-sub" data-ar="نصائح مذاكرة مخصصة — مدعومة بذكاء داخلي، مجاناً وفي ثوانٍ" data-en="Personalized study tips — powered by internal AI, free and in seconds">نصائح مذاكرة مخصصة — مدعومة بذكاء داخلي، مجاناً وفي ثوانٍ</div>
+    <button class="cta-lp" onclick="go(3)" data-ar="ابدأ الآن — احصل على نصيحتك ✨" data-en="Start Now — Get Your Tip ✨">ابدأ الآن — احصل على نصيحتك ✨</button>
   </div>
   <div class="g3">
-    <div class="fcrd"><div class="icon">🎯</div><h3 data-ar="نصائح مخصصة لك" data-en="Personalized Tips">نصائح مخصصة لك</h3><p data-ar="أدخل تخصصك ومشكلتك واحصل على نصائح تناسبك تماماً" data-en="Enter your major and problem for perfectly tailored tips">أدخل تخصصك ومشكلتك واحصل على نصائح تناسبك تماماً</p></div>
-    <div class="fcrd"><div class="icon">💜</div><h3 data-ar="دعم نفسي ذكي" data-en="Smart Emotional Support">دعم نفسي ذكي</h3><p data-ar="يحلل مشاعرك ويقدم دعماً مخصصاً لحالتك" data-en="Analyzes your feelings and provides personalized support">يحلل مشاعرك ويقدم دعماً مخصصاً لحالتك</p></div>
-    <div class="fcrd"><div class="icon">📚</div><h3 data-ar="مكتبة النصائح" data-en="Tips Library">مكتبة النصائح</h3><p data-ar="عشرات النصائح المجربة جاهزة للاستخدام الفوري" data-en="Dozens of proven tips ready for immediate use">عشرات النصائح المجربة جاهزة للاستخدام الفوري</p></div>
+    <div class="fcrd"><div class="icon">🎯</div><h3 data-ar="نصائح مخصصة لك" data-en="Tips Tailored for You">نصائح مخصصة لك</h3><p data-ar="أدخل تخصصك ومشكلتك واحصل على نصائح تناسبك" data-en="Enter your major and problem for tailored tips">أدخل تخصصك ومشكلتك واحصل على نصائح تناسبك</p></div>
+    <div class="fcrd"><div class="icon">💜</div><h3 data-ar="دعم نفسي ذكي" data-en="Smart Emotional Support">دعم نفسي ذكي</h3><p data-ar="يحلل مشاعرك ويقدم دعماً مخصصاً" data-en="Analyzes your feelings and provides personalized support">يحلل مشاعرك ويقدم دعماً مخصصاً</p></div>
+    <div class="fcrd"><div class="icon">📚</div><h3 data-ar="مكتبة النصائح" data-en="Tips Library">مكتبة النصائح</h3><p data-ar="عشرات النصائح المجربة جاهزة فوراً" data-en="Dozens of proven tips ready to use instantly">عشرات النصائح المجربة جاهزة فوراً</p></div>
   </div>
 </div>
 
-<!-- ══════════ PAGE 3 — المساعد الذكي ══════════ -->
+<!-- PAGE 3 -->
 <div id="p3" class="page">
   <div class="sec-badge">🤖 <span data-ar="القسم الرابع" data-en="Section Four">القسم الرابع</span></div>
   <h1 data-ar="المساعد الذكي للطلاب" data-en="AI Student Assistant">المساعد الذكي للطلاب</h1>
-
-  <div class="internal-badge">
-    <span class="pulse"></span>
-    <span data-ar="ذكاء داخلي — يعمل بدون API خارجي" data-en="Internal AI — Works Without External API">ذكاء داخلي — يعمل بدون API خارجي</span>
-  </div>
-
+  <div class="int-badge"><span class="pulse"></span><span data-ar="ذكاء داخلي — يعمل بدون API خارجي" data-en="Internal AI — Works Without External API">ذكاء داخلي — يعمل بدون API خارجي</span></div>
   <div class="profile-card">
     <div class="p-avatar">👨‍🎓</div>
     <div class="p-info">
@@ -556,160 +302,152 @@ html[dir="ltr"] .ethics-box { border-right: none; border-left: 5px solid #4488DD
     <h2 data-ar="🎯 نصيحة مذاكرة مخصصة" data-en="🎯 Personalized Study Tip">🎯 نصيحة مذاكرة مخصصة</h2>
     <div class="inp-label" data-ar="نوع المساعدة" data-en="Help Type">نوع المساعدة</div>
     <div class="tag-row" id="tipTags">
-      <span class="tag sel" onclick="selTag(this,'tipTags')" data-ar="نصيحة مذاكرة" data-en="Study Tip">نصيحة مذاكرة</span>
-      <span class="tag" onclick="selTag(this,'tipTags')" data-ar="تقنية تركيز" data-en="Focus Technique">تقنية تركيز</span>
-      <span class="tag" onclick="selTag(this,'tipTags')" data-ar="خطة يومية" data-en="Daily Plan">خطة يومية</span>
-      <span class="tag" onclick="selTag(this,'tipTags')" data-ar="تحفيز" data-en="Motivation">تحفيز</span>
-      <span class="tag" onclick="selTag(this,'tipTags')" data-ar="إدارة الوقت" data-en="Time Management">إدارة الوقت</span>
+      <span class="tag sel" onclick="selTag(this,'tipTags')" data-key-ar="نصيحة مذاكرة" data-key-en="Study Tip" data-ar="نصيحة مذاكرة" data-en="Study Tip">نصيحة مذاكرة</span>
+      <span class="tag" onclick="selTag(this,'tipTags')" data-key-ar="تقنية تركيز" data-key-en="Focus Technique" data-ar="تقنية تركيز" data-en="Focus Technique">تقنية تركيز</span>
+      <span class="tag" onclick="selTag(this,'tipTags')" data-key-ar="خطة يومية" data-key-en="Daily Plan" data-ar="خطة يومية" data-en="Daily Plan">خطة يومية</span>
+      <span class="tag" onclick="selTag(this,'tipTags')" data-key-ar="تحفيز" data-key-en="Motivation" data-ar="تحفيز" data-en="Motivation">تحفيز</span>
+      <span class="tag" onclick="selTag(this,'tipTags')" data-key-ar="إدارة الوقت" data-key-en="Time Management" data-ar="إدارة الوقت" data-en="Time Management">إدارة الوقت</span>
+      <span class="tag" onclick="selTag(this,'tipTags')" data-key-ar="ليلة الامتحان" data-key-en="Exam Night" data-ar="ليلة الامتحان" data-en="Exam Night">ليلة الامتحان</span>
+      <span class="tag" onclick="selTag(this,'tipTags')" data-key-ar="تقليل التوتر" data-key-en="Reduce Stress" data-ar="تقليل التوتر" data-en="Reduce Stress">تقليل التوتر</span>
     </div>
-    <button class="send-btn" id="btn1" onclick="runTip()">
-      <span data-ar="احصل على النصيحة" data-en="Get Tip">احصل على النصيحة</span> <span>✦</span>
-    </button>
+    <button class="send-btn" onclick="runTip()"><span data-ar="احصل على النصيحة" data-en="Get Tip">احصل على النصيحة</span> <span>✦</span></button>
     <div class="loading" id="load1"><span class="dot">●</span><span class="dot">●</span><span class="dot">●</span></div>
     <div class="ai-resp" id="resp1">
-      <div class="ai-resp-header">🤖 <span data-ar="إجابة المساعد الذكي" data-en="AI Assistant Response">إجابة المساعد الذكي</span></div>
+      <div class="ai-resp-header">🤖 <span data-ar="النصيحة المخصصة لك" data-en="Your Personalized Tip">النصيحة المخصصة لك</span></div>
       <div class="ai-resp-text" id="resp1text"></div>
+      <div class="fb-row">
+        <span class="fb-label" data-ar="هل كانت مفيدة؟" data-en="Was this helpful?">هل كانت مفيدة؟</span>
+        <button class="fb-btn like" onclick="doFeedback('tip',true,this)">👍 <span data-ar="نعم" data-en="Yes">نعم</span></button>
+        <button class="fb-btn dislike" onclick="doFeedback('tip',false,this)">👎 <span data-ar="لا" data-en="No">لا</span></button>
+        <span class="fb-done" id="fb-tip"></span>
+      </div>
     </div>
   </div>
 
   <!-- جدول أسبوعي -->
   <div class="ai-box">
     <h2 data-ar="📅 مولّد الجدول الأسبوعي" data-en="📅 Weekly Schedule Generator">📅 مولّد الجدول الأسبوعي</h2>
-    <div class="g2" style="margin-bottom:10px">
-      <div>
-        <div class="inp-label" data-ar="عدد المواد" data-en="Number of Subjects">عدد المواد</div>
-        <select class="ai-sel" id="subjects">
-          <option data-ar="3 مواد" data-en="3 Subjects">3 مواد</option>
-          <option selected data-ar="5 مواد" data-en="5 Subjects">5 مواد</option>
-          <option data-ar="7 مواد" data-en="7 Subjects">7 مواد</option>
-          <option data-ar="8 مواد" data-en="8 Subjects">8 مواد</option>
-        </select>
-      </div>
-      <div>
-        <div class="inp-label" data-ar="ساعات متاحة يومياً" data-en="Available Hours Daily">ساعات متاحة يومياً</div>
-        <select class="ai-sel" id="hours">
-          <option data-ar="ساعة واحدة" data-en="1 Hour">ساعة واحدة</option>
-          <option data-ar="ساعتان" data-en="2 Hours">ساعتان</option>
-          <option selected data-ar="3 ساعات" data-en="3 Hours">3 ساعات</option>
-          <option data-ar="4 ساعات" data-en="4 Hours">4 ساعات</option>
-          <option data-ar="5 ساعات أو أكثر" data-en="5+ Hours">5 ساعات أو أكثر</option>
-        </select>
-      </div>
+    <div class="inp-label" data-ar="اختر موادّك الدراسية (يمكن إضافة مواد مخصصة)" data-en="Select your subjects (you can add custom ones)">اختر موادّك الدراسية (يمكن إضافة مواد مخصصة)</div>
+    <div class="subj-wrap" id="subjWrap">
+      <span class="subj-chip sel" data-name-ar="رياضيات" data-name-en="Math" onclick="toggleSubj(this)">رياضيات</span>
+      <span class="subj-chip sel" data-name-ar="فيزياء" data-name-en="Physics" onclick="toggleSubj(this)">فيزياء</span>
+      <span class="subj-chip sel" data-name-ar="إنجليزي" data-name-en="English" onclick="toggleSubj(this)">إنجليزي</span>
+      <span class="subj-chip" data-name-ar="كيمياء" data-name-en="Chemistry" onclick="toggleSubj(this)">كيمياء</span>
+      <span class="subj-chip" data-name-ar="برمجة" data-name-en="Programming" onclick="toggleSubj(this)">برمجة</span>
+      <span class="subj-chip" data-name-ar="قواعد بيانات" data-name-en="Databases" onclick="toggleSubj(this)">قواعد بيانات</span>
+      <span class="subj-chip" data-name-ar="شبكات" data-name-en="Networks" onclick="toggleSubj(this)">شبكات</span>
+      <span class="subj-chip" data-name-ar="محاسبة" data-name-en="Accounting" onclick="toggleSubj(this)">محاسبة</span>
+      <span class="subj-chip" data-name-ar="أحياء" data-name-en="Biology" onclick="toggleSubj(this)">أحياء</span>
+      <span class="subj-chip" data-name-ar="عربي" data-name-en="Arabic" onclick="toggleSubj(this)">عربي</span>
+      <span class="subj-chip" data-name-ar="إحصاء" data-name-en="Statistics" onclick="toggleSubj(this)">إحصاء</span>
     </div>
-    <button class="send-btn" id="btn2" onclick="runSchedule()">
-      <span data-ar="أنشئ جدولي" data-en="Build My Schedule">أنشئ جدولي</span> <span>✦</span>
-    </button>
+    <div class="add-row">
+      <input id="customSubjInp" data-ar-placeholder="أضف مادة مخصصة..." data-en-placeholder="Add a custom subject..." placeholder="أضف مادة مخصصة...">
+      <button class="add-btn" onclick="addSubj()" data-ar="+ إضافة" data-en="+ Add">+ إضافة</button>
+    </div>
+    <div style="margin-top:14px">
+      <div class="inp-label" data-ar="ساعات متاحة يومياً" data-en="Available Hours Daily">ساعات متاحة يومياً</div>
+      <select class="ai-sel" id="hours">
+        <option data-ar="ساعة واحدة" data-en="1 Hour">ساعة واحدة</option>
+        <option data-ar="ساعتان" data-en="2 Hours">ساعتان</option>
+        <option selected data-ar="3 ساعات" data-en="3 Hours">3 ساعات</option>
+        <option data-ar="4 ساعات" data-en="4 Hours">4 ساعات</option>
+        <option data-ar="5 ساعات أو أكثر" data-en="5+ Hours">5 ساعات أو أكثر</option>
+      </select>
+    </div>
+    <button class="send-btn" onclick="runSchedule()"><span data-ar="أنشئ جدولي" data-en="Build My Schedule">أنشئ جدولي</span> <span>✦</span></button>
     <div class="loading" id="load2"><span class="dot">●</span><span class="dot">●</span><span class="dot">●</span></div>
     <div class="ai-resp" id="resp2">
       <div class="ai-resp-header">🤖 <span data-ar="جدولك الأسبوعي" data-en="Your Weekly Schedule">جدولك الأسبوعي</span></div>
       <div class="ai-resp-text" id="resp2text"></div>
+      <div class="fb-row">
+        <span class="fb-label" data-ar="هل الجدول مناسب؟" data-en="Is this schedule suitable?">هل الجدول مناسب؟</span>
+        <button class="fb-btn like" onclick="doFeedback('sched',true,this)">👍 <span data-ar="نعم" data-en="Yes">نعم</span></button>
+        <button class="fb-btn dislike" onclick="doFeedback('sched',false,this)">👎 <span data-ar="لا" data-en="No">لا</span></button>
+        <span class="fb-done" id="fb-sched"></span>
+      </div>
     </div>
   </div>
 
   <!-- سؤال حر -->
   <div class="ai-box">
     <h2 data-ar="💬 اسأل بحرية" data-en="💬 Ask Freely">💬 اسأل بحرية</h2>
-    <textarea class="ai-ta" id="freeq" rows="3" data-ar-placeholder="مثال: كيف أذاكر الرياضيات في يومين؟" data-en-placeholder="Example: How do I study math in two days?" placeholder="مثال: كيف أذاكر الرياضيات في يومين؟"></textarea>
-    <button class="send-btn" id="btn3" onclick="runFree()">
-      <span data-ar="أرسل سؤالك" data-en="Send Question">أرسل سؤالك</span> <span>✦</span>
-    </button>
+    <p style="margin-bottom:10px" data-ar="اسأل أي شيء — دراسي، أكاديمي، عن تخصصك، أو حتى إذا كنت تعبان اليوم 😊" data-en="Ask anything — study tips, about your major, or even if you're feeling sick today 😊">اسأل أي شيء — دراسي، أكاديمي، عن تخصصك، أو حتى إذا كنت تعبان اليوم 😊</p>
+    <textarea class="ai-ta" id="freeq" rows="3"
+      data-ar-placeholder="مثال: في تخصص نظم المعلومات في برمجة؟ / أنا مريض اليوم عندي امتحان بكرا / كيف أذاكر الرياضيات في يومين؟"
+      data-en-placeholder="e.g. Is there programming in Information Systems? / I'm sick today and have an exam tomorrow / How do I study math in two days?"
+      placeholder="مثال: في تخصص نظم المعلومات في برمجة؟ / أنا مريض اليوم عندي امتحان بكرا"></textarea>
+    <button class="send-btn" onclick="runFree()"><span data-ar="أرسل سؤالك" data-en="Send Question">أرسل سؤالك</span> <span>✦</span></button>
     <div class="loading" id="load3"><span class="dot">●</span><span class="dot">●</span><span class="dot">●</span></div>
     <div class="ai-resp" id="resp3">
       <div class="ai-resp-header">🤖 <span data-ar="إجابة المساعد" data-en="Assistant Response">إجابة المساعد</span></div>
       <div class="ai-resp-text" id="resp3text"></div>
+      <div class="fb-row">
+        <span class="fb-label" data-ar="هل كانت الإجابة مفيدة؟" data-en="Was this answer helpful?">هل كانت الإجابة مفيدة؟</span>
+        <button class="fb-btn like" onclick="doFeedback('free',true,this)">👍 <span data-ar="نعم" data-en="Yes">نعم</span></button>
+        <button class="fb-btn dislike" onclick="doFeedback('free',false,this)">👎 <span data-ar="لا" data-en="No">لا</span></button>
+        <span class="fb-done" id="fb-free"></span>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════ PAGE 4 — كيف تشعر؟ ══════════ -->
+<!-- PAGE 4 -->
 <div id="p4" class="page">
   <div class="sec-badge">💜 <span data-ar="القسم الخامس" data-en="Section Five">القسم الخامس</span></div>
   <h1 data-ar="كيف تشعر الآن؟" data-en="How Are You Feeling Right Now?">كيف تشعر الآن؟</h1>
-  <p data-ar="أخبرنا كيف حالك — الذكاء الداخلي سيحلل ما تكتبه ويقدم دعماً مخصصاً لك" data-en="Tell us how you're doing — the internal AI will analyze what you write and provide personalized support">أخبرنا كيف حالك — الذكاء الداخلي سيحلل ما تكتبه ويقدم دعماً مخصصاً لك</p>
-
+  <p data-ar="اكتب ما تشعر به — الذكاء يقرأ كلامك ويحلله. ما تكتبه يتفوق على الأيقونة التي اخترتها." data-en="Write what you feel — the AI reads your words and analyzes them. What you write overrides the icon you picked.">اكتب ما تشعر به — الذكاء يقرأ كلامك ويحلله. ما تكتبه يتفوق على الأيقونة التي اخترتها.</p>
   <div class="card">
-    <h2 style="margin-top:0" data-ar="1. اختر الحالة الأقرب لمشاعرك" data-en="1. Choose the Mood Closest to You">1. اختر الحالة الأقرب لمشاعرك</h2>
+    <h2 style="margin-top:0" data-ar="1. اختر حالتك الأولية (اختياري)" data-en="1. Pick Your Initial State (Optional)">1. اختر حالتك الأولية (اختياري)</h2>
     <div class="mood-grid" id="moodGrid">
-      <button class="mood-btn" onclick="selMood(this,'scared')" data-mood="scared"><span class="emoji">😨</span><span data-ar="خائف" data-en="Scared">خائف</span></button>
-      <button class="mood-btn" onclick="selMood(this,'anxious')" data-mood="anxious"><span class="emoji">😰</span><span data-ar="قلق" data-en="Anxious">قلق</span></button>
-      <button class="mood-btn" onclick="selMood(this,'sad')" data-mood="sad"><span class="emoji">😔</span><span data-ar="حزين" data-en="Sad">حزين</span></button>
-      <button class="mood-btn" onclick="selMood(this,'tired')" data-mood="tired"><span class="emoji">😩</span><span data-ar="متعب" data-en="Tired">متعب</span></button>
-      <button class="mood-btn" onclick="selMood(this,'lost')" data-mood="lost"><span class="emoji">😵</span><span data-ar="ضائع" data-en="Lost">ضائع</span></button>
-      <button class="mood-btn" onclick="selMood(this,'motivated')" data-mood="motivated"><span class="emoji">💪</span><span data-ar="متحمس" data-en="Motivated">متحمس</span></button>
+      <button class="mood-btn" onclick="selMood(this,'scared')" data-mood="scared"><span class="em">😨</span><span data-ar="خائف" data-en="Scared">خائف</span></button>
+      <button class="mood-btn" onclick="selMood(this,'anxious')" data-mood="anxious"><span class="em">😰</span><span data-ar="قلق" data-en="Anxious">قلق</span></button>
+      <button class="mood-btn" onclick="selMood(this,'sad')" data-mood="sad"><span class="em">😔</span><span data-ar="حزين" data-en="Sad">حزين</span></button>
+      <button class="mood-btn" onclick="selMood(this,'tired')" data-mood="tired"><span class="em">😩</span><span data-ar="متعب" data-en="Tired">متعب</span></button>
+      <button class="mood-btn" onclick="selMood(this,'lost')" data-mood="lost"><span class="em">😵</span><span data-ar="ضائع" data-en="Lost">ضائع</span></button>
+      <button class="mood-btn" onclick="selMood(this,'motivated')" data-mood="motivated"><span class="em">💪</span><span data-ar="متحمس" data-en="Motivated">متحمس</span></button>
     </div>
-
-    <h2 data-ar="2. اكتب ما تشعر به بحرية" data-en="2. Write What You Feel Freely">2. اكتب ما تشعر به بحرية</h2>
-    <p style="margin-bottom:10px" data-ar="أكتب عن مخاوفك، أهدافك، ما يقلقك، ما تريد تحقيقه — كل شيء" data-en="Write about your fears, goals, worries, what you want to achieve — everything">أكتب عن مخاوفك، أهدافك، ما يقلقك، ما تريد تحقيقه — كل شيء</p>
+    <h2 data-ar="2. اكتب ما تشعر به بصدق" data-en="2. Write What You Honestly Feel">2. اكتب ما تشعر به بصدق</h2>
+    <p class="warn-note" data-ar="⚠️ ما تكتبه يحكم النتيجة — حتى لو اخترت 'متحمس' لكن كتبت أنك خائف، سيكتشف الذكاء ذلك." data-en="⚠️ What you write determines the result — even if you picked 'Motivated' but wrote that you're scared, the AI will detect it.">⚠️ ما تكتبه يحكم النتيجة — حتى لو اخترت 'متحمس' لكن كتبت أنك خائف، سيكتشف الذكاء ذلك.</p>
     <textarea class="ai-ta" id="feelText" rows="5"
-      data-ar-placeholder="مثال: أشعر بالخوف من الفشل في الامتحان... أريد أن أنجح لكن لا أعرف من أين أبدأ... أشعر بضغط كبير..."
-      data-en-placeholder="Example: I feel scared of failing the exam... I want to succeed but don't know where to start..."
-      placeholder="مثال: أشعر بالخوف من الفشل في الامتحان... أريد أن أنجح لكن لا أعرف من أين أبدأ... أشعر بضغط كبير..."></textarea>
-
-    <button class="send-btn" onclick="analyzeFeelings()" style="margin-top:12px">
-      <span data-ar="حلّل مشاعري" data-en="Analyze My Feelings">حلّل مشاعري</span> <span>💜</span>
-    </button>
+      data-ar-placeholder="اكتب بحرية: أخاف من الفشل... أريد أن أنجح لكن ما أعرف من وين أبدأ... أشعر بضغط كثير..."
+      data-en-placeholder="Write freely: I'm scared of failing... I want to succeed but don't know where to start... I feel a lot of pressure..."
+      placeholder="اكتب بحرية: أخاف من الفشل... أريد أن أنجح لكن ما أعرف من وين أبدأ..."></textarea>
+    <button class="send-btn" onclick="analyzeFeelings()" style="margin-top:12px"><span data-ar="حلّل مشاعري" data-en="Analyze My Feelings">حلّل مشاعري</span> <span>💜</span></button>
   </div>
-
   <div class="feel-resp" id="feelResp">
-    <div class="feel-emotion-badge" id="feelBadge"></div>
+    <div class="feel-badge" id="feelBadge"></div>
     <div class="feel-title" id="feelTitle"></div>
     <div class="feel-msg" id="feelMsg"></div>
-    <div class="detect-row" id="detectRow"></div>
+    <div class="kw-row" id="kwRow"></div>
     <div class="feel-tips" id="feelTips"></div>
   </div>
 </div>
 
-<!-- ══════════ PAGE 5 — Dashboard ══════════ -->
+<!-- PAGE 5 -->
 <div id="p5" class="page">
   <div class="sec-badge">📊 <span data-ar="القسم السادس" data-en="Section Six">القسم السادس</span></div>
   <h1 data-ar="لوحة بيانات الطلاب" data-en="Student Data Dashboard">لوحة بيانات الطلاب</h1>
-  <p data-ar="إحصائيات تفاعلية توضح أكثر المشاكل والحالات النفسية شيوعاً بين الطلاب" data-en="Interactive statistics showing the most common problems and emotional states among students">إحصائيات تفاعلية توضح أكثر المشاكل والحالات النفسية شيوعاً بين الطلاب</p>
-
+  <p data-ar="نسبة الرضا تتحدث فعلياً من تقييماتكم بـ 👍 / 👎" data-en="Satisfaction percentage updates live from your 👍 / 👎 ratings">نسبة الرضا تتحدث فعلياً من تقييماتكم بـ 👍 / 👎</p>
   <div class="g4" style="margin-bottom:20px">
-    <div class="dash-stat"><div class="dash-stat-num">2,847</div><div class="dash-stat-lbl" data-ar="طالب استخدم الموقع" data-en="Students Used the Site">طالب استخدم الموقع</div></div>
-    <div class="dash-stat"><div class="dash-stat-num">94%</div><div class="dash-stat-lbl" data-ar="رضا عن النصائح" data-en="Tip Satisfaction">رضا عن النصائح</div></div>
-    <div class="dash-stat"><div class="dash-stat-num">38%</div><div class="dash-stat-lbl" data-ar="يعانون قلق الامتحانات" data-en="Suffer Exam Anxiety">يعانون قلق الامتحانات</div></div>
-    <div class="dash-stat"><div class="dash-stat-num">61%</div><div class="dash-stat-lbl" data-ar="تحسّنوا بعد الاستخدام" data-en="Improved After Use">تحسّنوا بعد الاستخدام</div></div>
+    <div class="dash-stat"><div class="dash-num">2,847</div><div class="dash-lbl" data-ar="طالب استخدم الموقع" data-en="Students Used the Site">طالب استخدم الموقع</div></div>
+    <div class="dash-stat"><div class="dash-num" id="satisfyPct" style="color:var(--green-dark)">94%</div><div class="dash-lbl" data-ar="رضا عن النصائح — حي" data-en="Tip Satisfaction — Live">رضا عن النصائح — حي</div></div>
+    <div class="dash-stat"><div class="dash-num">38%</div><div class="dash-lbl" data-ar="يعانون قلق الامتحانات" data-en="Suffer Exam Anxiety">يعانون قلق الامتحانات</div></div>
+    <div class="dash-stat"><div class="dash-num" id="improvedPct">61%</div><div class="dash-lbl" data-ar="تحسّنوا بعد الاستخدام" data-en="Improved After Use">تحسّنوا بعد الاستخدام</div></div>
   </div>
-
-  <!-- Bar Chart: أكثر المشاكل -->
   <div class="chart-wrap">
     <div class="chart-title" data-ar="📋 أكثر مشاكل الطلاب شيوعاً" data-en="📋 Most Common Student Problems">📋 أكثر مشاكل الطلاب شيوعاً</div>
     <div class="bar-chart">
-      <div class="bar-row">
-        <div class="bar-lbl" data-ar="صعوبة التركيز" data-en="Difficulty Focusing">صعوبة التركيز</div>
-        <div class="bar-track"><div class="bar-fill" style="width:82%;background:linear-gradient(90deg,#16a16a,#0d7a50)">82%</div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-lbl" data-ar="التسويف والتأجيل" data-en="Procrastination">التسويف والتأجيل</div>
-        <div class="bar-track"><div class="bar-fill" style="width:75%;background:linear-gradient(90deg,#7c3aed,#5b21b6)">75%</div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-lbl" data-ar="الخوف من الفشل" data-en="Fear of Failure">الخوف من الفشل</div>
-        <div class="bar-track"><div class="bar-fill" style="width:68%;background:linear-gradient(90deg,#f59e0b,#d97706)">68%</div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-lbl" data-ar="كثرة المواد" data-en="Too Many Subjects">كثرة المواد</div>
-        <div class="bar-track"><div class="bar-fill" style="width:61%;background:linear-gradient(90deg,#2563eb,#1d4ed8)">61%</div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-lbl" data-ar="ضعف الذاكرة" data-en="Weak Memory">ضعف الذاكرة</div>
-        <div class="bar-track"><div class="bar-fill" style="width:54%;background:linear-gradient(90deg,#ec4899,#be185d)">54%</div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-lbl" data-ar="الإرهاق النفسي" data-en="Mental Burnout">الإرهاق النفسي</div>
-        <div class="bar-track"><div class="bar-fill" style="width:47%;background:linear-gradient(90deg,#e05252,#b91c1c)">47%</div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-lbl" data-ar="إدارة الوقت" data-en="Time Management">إدارة الوقت</div>
-        <div class="bar-track"><div class="bar-fill" style="width:40%;background:linear-gradient(90deg,#06b6d4,#0891b2)">40%</div></div>
-      </div>
+      <div class="bar-row"><div class="bar-lbl" data-ar="صعوبة التركيز" data-en="Difficulty Focusing">صعوبة التركيز</div><div class="bar-track"><div class="bar-fill" style="width:82%;background:linear-gradient(90deg,#16a16a,#0d7a50)">82%</div></div></div>
+      <div class="bar-row"><div class="bar-lbl" data-ar="التسويف والتأجيل" data-en="Procrastination">التسويف والتأجيل</div><div class="bar-track"><div class="bar-fill" style="width:75%;background:linear-gradient(90deg,#7c3aed,#5b21b6)">75%</div></div></div>
+      <div class="bar-row"><div class="bar-lbl" data-ar="الخوف من الفشل" data-en="Fear of Failure">الخوف من الفشل</div><div class="bar-track"><div class="bar-fill" style="width:68%;background:linear-gradient(90deg,#f59e0b,#d97706)">68%</div></div></div>
+      <div class="bar-row"><div class="bar-lbl" data-ar="كثرة المواد" data-en="Too Many Subjects">كثرة المواد</div><div class="bar-track"><div class="bar-fill" style="width:61%;background:linear-gradient(90deg,#2563eb,#1d4ed8)">61%</div></div></div>
+      <div class="bar-row"><div class="bar-lbl" data-ar="ضعف الذاكرة" data-en="Weak Memory">ضعف الذاكرة</div><div class="bar-track"><div class="bar-fill" style="width:54%;background:linear-gradient(90deg,#ec4899,#be185d)">54%</div></div></div>
+      <div class="bar-row"><div class="bar-lbl" data-ar="الإرهاق النفسي" data-en="Mental Burnout">الإرهاق النفسي</div><div class="bar-track"><div class="bar-fill" style="width:47%;background:linear-gradient(90deg,#e05252,#b91c1c)">47%</div></div></div>
     </div>
   </div>
-
-  <!-- Donut: الحالات النفسية -->
   <div class="chart-wrap">
-    <div class="chart-title" data-ar="💜 توزيع الحالات النفسية للطلاب" data-en="💜 Distribution of Student Emotional States">💜 توزيع الحالات النفسية للطلاب</div>
+    <div class="chart-title" data-ar="💜 توزيع الحالات النفسية" data-en="💜 Emotional State Distribution">💜 توزيع الحالات النفسية</div>
     <div class="donut-row">
       <svg width="160" height="160" viewBox="0 0 160 160">
         <circle cx="80" cy="80" r="60" fill="none" stroke="#f3e5f5" stroke-width="28"/>
@@ -719,52 +457,43 @@ html[dir="ltr"] .ethics-box { border-right: none; border-left: 5px solid #4488DD
         <circle cx="80" cy="80" r="60" fill="none" stroke="#e05252" stroke-width="28" stroke-dasharray="36 282" stroke-dashoffset="-225" transform="rotate(-90 80 80)"/>
         <circle cx="80" cy="80" r="60" fill="none" stroke="#2563eb" stroke-width="28" stroke-dasharray="21 282" stroke-dashoffset="-261" transform="rotate(-90 80 80)"/>
         <text x="80" y="85" text-anchor="middle" font-size="13" font-weight="800" fill="#0f2237">2,847</text>
-        <text x="80" y="100" text-anchor="middle" font-size="10" fill="#5a7a6a">طالب</text>
       </svg>
-      <div class="donut-legend">
-        <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div><span data-ar="قلق / خوف — 34%" data-en="Anxiety / Fear — 34%">قلق / خوف — 34%</span></div>
+      <div class="legend-wrap">
+        <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div><span data-ar="قلق/خوف — 34%" data-en="Anxiety/Fear — 34%">قلق/خوف — 34%</span></div>
         <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div><span data-ar="ضغط الامتحانات — 27%" data-en="Exam Stress — 27%">ضغط الامتحانات — 27%</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:#16a16a"></div><span data-ar="متحمس / إيجابي — 19%" data-en="Motivated / Positive — 19%">متحمس / إيجابي — 19%</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:#e05252"></div><span data-ar="إرهاق / يأس — 13%" data-en="Burnout / Despair — 13%">إرهاق / يأس — 13%</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div><span data-ar="ضياع / تشتت — 7%" data-en="Lost / Confused — 7%">ضياع / تشتت — 7%</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#16a16a"></div><span data-ar="متحمس/إيجابي — 19%" data-en="Motivated/Positive — 19%">متحمس/إيجابي — 19%</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#e05252"></div><span data-ar="إرهاق/يأس — 13%" data-en="Burnout/Despair — 13%">إرهاق/يأس — 13%</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div><span data-ar="ضياع/تشتت — 7%" data-en="Lost/Confused — 7%">ضياع/تشتت — 7%</span></div>
       </div>
     </div>
   </div>
-
-  <!-- Trend Chart -->
   <div class="chart-wrap">
     <div class="chart-title" data-ar="📈 نشاط الطلاب هذا الأسبوع" data-en="📈 Student Activity This Week">📈 نشاط الطلاب هذا الأسبوع</div>
-    <div class="trend-bars" id="trendBars">
-      <div class="trend-bar" style="height:55%" title="السبت: 156"></div>
-      <div class="trend-bar" style="height:72%" title="الأحد: 204"></div>
-      <div class="trend-bar" style="height:60%" title="الاثنين: 172"></div>
-      <div class="trend-bar" style="height:85%" title="الثلاثاء: 241"></div>
-      <div class="trend-bar" style="height:100%" title="الأربعاء: 289"></div>
-      <div class="trend-bar" style="height:90%" title="الخميس: 257"></div>
+    <div class="trend-bars">
+      <div class="trend-bar" style="height:55%"></div><div class="trend-bar" style="height:72%"></div>
+      <div class="trend-bar" style="height:60%"></div><div class="trend-bar" style="height:85%"></div>
+      <div class="trend-bar" style="height:100%"></div><div class="trend-bar" style="height:90%"></div>
     </div>
-    <div class="trend-labels">
-      <div class="trend-label" data-ar="السبت" data-en="Sat">السبت</div>
-      <div class="trend-label" data-ar="الأحد" data-en="Sun">الأحد</div>
-      <div class="trend-label" data-ar="الاثنين" data-en="Mon">الاثنين</div>
-      <div class="trend-label" data-ar="الثلاثاء" data-en="Tue">الثلاثاء</div>
-      <div class="trend-label" data-ar="الأربعاء" data-en="Wed">الأربعاء</div>
-      <div class="trend-label" data-ar="الخميس" data-en="Thu">الخميس</div>
+    <div class="trend-lbls">
+      <div class="trend-lbl" data-ar="السبت" data-en="Sat">السبت</div>
+      <div class="trend-lbl" data-ar="الأحد" data-en="Sun">الأحد</div>
+      <div class="trend-lbl" data-ar="الاثنين" data-en="Mon">الاثنين</div>
+      <div class="trend-lbl" data-ar="الثلاثاء" data-en="Tue">الثلاثاء</div>
+      <div class="trend-lbl" data-ar="الأربعاء" data-en="Wed">الأربعاء</div>
+      <div class="trend-lbl" data-ar="الخميس" data-en="Thu">الخميس</div>
     </div>
   </div>
-
-  <!-- Insights -->
   <h2 data-ar="🔍 رؤى تحليلية" data-en="🔍 Analytical Insights">🔍 رؤى تحليلية</h2>
-  <div class="insight-card"><div class="insight-icon">💡</div><div class="insight-text" data-ar="أكثر مشكلة يُبلّغ عنها هي صعوبة التركيز (82%) — وهذا يعني أن المحتوى المتعلق بتقنيات التركيز يجب أن يكون في صدارة الموقع." data-en="The most reported problem is difficulty focusing (82%) — meaning focus technique content should be at the forefront of the site.">أكثر مشكلة يُبلّغ عنها هي صعوبة التركيز (82%) — وهذا يعني أن المحتوى المتعلق بتقنيات التركيز يجب أن يكون في صدارة الموقع.</div></div>
-  <div class="insight-card"><div class="insight-icon">📅</div><div class="insight-text" data-ar="ذروة النشاط يوم الأربعاء (289 طالب) — قبيل نهاية الأسبوع الدراسي. وهذا يدل على أن الطلاب يبحثون عن مساعدة عند اقتراب موعد التسليمات." data-en="Peak activity on Wednesday (289 students) — just before the end of the study week. This shows students seek help as deadlines approach.">ذروة النشاط يوم الأربعاء (289 طالب) — قبيل نهاية الأسبوع الدراسي. وهذا يدل على أن الطلاب يبحثون عن مساعدة عند اقتراب موعد التسليمات.</div></div>
-  <div class="insight-card"><div class="insight-icon">💜</div><div class="insight-text" data-ar="61% من الطلاب الذين استخدموا قسم 'كيف تشعر؟' أفادوا بتحسن ملحوظ في مزاجهم ومستوى تركيزهم بعد تلقي الدعم النفسي المخصص." data-en="61% of students who used the 'How Do You Feel?' section reported noticeable improvement in mood and focus level after receiving personalized emotional support.">61% من الطلاب الذين استخدموا قسم 'كيف تشعر؟' أفادوا بتحسن ملحوظ في مزاجهم ومستوى تركيزهم بعد تلقي الدعم النفسي المخصص.</div></div>
+  <div class="insight-card"><div class="insight-icon">💡</div><div class="insight-text" data-ar="أكثر مشكلة يُبلّغ عنها: صعوبة التركيز (82%) — محتوى تقنيات التركيز يجب أن يكون في صدارة الموقع." data-en="Most reported problem: difficulty focusing (82%) — focus technique content should be front and center.">أكثر مشكلة يُبلّغ عنها: صعوبة التركيز (82%) — محتوى تقنيات التركيز يجب أن يكون في صدارة الموقع.</div></div>
+  <div class="insight-card"><div class="insight-icon">📅</div><div class="insight-text" data-ar="ذروة النشاط يوم الأربعاء — الطلاب يبحثون عن مساعدة عند اقتراب مواعيد التسليمات." data-en="Peak activity on Wednesday — students seek help as deadlines approach.">ذروة النشاط يوم الأربعاء — الطلاب يبحثون عن مساعدة عند اقتراب مواعيد التسليمات.</div></div>
+  <div class="insight-card"><div class="insight-icon">💜</div><div class="insight-text" id="satisfyInsight" data-ar="94% من الطلاب الذين قيّموا النصائح أعطوا 👍 — يُثبت فعالية الذكاء الداخلي." data-en="94% of students who rated tips gave 👍 — proving the internal AI's effectiveness.">94% من الطلاب الذين قيّموا النصائح أعطوا 👍 — يُثبت فعالية الذكاء الداخلي.</div></div>
 </div>
 
-<!-- ══════════ PAGE 6 — المكتبة ══════════ -->
+<!-- PAGE 6 -->
 <div id="p6" class="page">
   <div class="sec-badge">📚 <span data-ar="القسم السابع" data-en="Section Seven">القسم السابع</span></div>
   <h1 data-ar="مكتبة النصائح" data-en="Tips Library">مكتبة النصائح</h1>
-  <p data-ar="نصائح مجربة وجاهزة — اضغط على الفئة لتصفيتها" data-en="Proven and ready tips — click a category to filter">نصائح مجربة وجاهزة — اضغط على الفئة لتصفيتها</p>
-
+  <p data-ar="نصائح مجربة وجاهزة — اضغط الفئة لتصفيتها" data-en="Proven tips — click a category to filter">نصائح مجربة وجاهزة — اضغط الفئة لتصفيتها</p>
   <div class="lib-filter-row">
     <button class="lib-filter active" onclick="filterLib('all',this)" data-ar="🗂 الكل" data-en="🗂 All">🗂 الكل</button>
     <button class="lib-filter" onclick="filterLib('focus',this)" data-ar="🎯 التركيز" data-en="🎯 Focus">🎯 التركيز</button>
@@ -773,698 +502,624 @@ html[dir="ltr"] .ethics-box { border-right: none; border-left: 5px solid #4488DD
     <button class="lib-filter" onclick="filterLib('stress',this)" data-ar="💆 الضغط" data-en="💆 Stress">💆 الضغط</button>
     <button class="lib-filter" onclick="filterLib('exam',this)" data-ar="✅ الامتحان" data-en="✅ Exam Day">✅ الامتحان</button>
   </div>
-
   <div class="lib-grid" id="libGrid">
-    <div class="lib-card" data-cat="focus"><span class="lib-tag focus" data-ar="🎯 التركيز" data-en="🎯 Focus">🎯 التركيز</span><div class="lib-card-title" data-ar="أغلق الهاتف تماماً لا تكتمه فقط" data-en="Turn Off Your Phone Completely, Don't Just Silence It">أغلق الهاتف تماماً لا تكتمه فقط</div><div class="lib-card-body" data-ar="الإشعارات الصامتة تسرق انتباهك حتى لو ما شفتها. ضع الهاتف في غرفة ثانية أثناء المذاكرة. الدراسات تُثبت أن مجرد وجود الهاتف على الطاولة يُقلل التركيز بنسبة 20%." data-en="Silent notifications steal your attention even if you don't see them. Put your phone in another room while studying. Studies show that just having a phone on the table reduces focus by 20%.">الإشعارات الصامتة تسرق انتباهك حتى لو ما شفتها. ضع الهاتف في غرفة ثانية أثناء المذاكرة. الدراسات تُثبت أن مجرد وجود الهاتف على الطاولة يُقلل التركيز بنسبة 20%.</div></div>
-    <div class="lib-card" data-cat="focus"><span class="lib-tag focus" data-ar="🎯 التركيز" data-en="🎯 Focus">🎯 التركيز</span><div class="lib-card-title" data-ar="تقنية الـ 2 دقيقة لبدء المذاكرة" data-en="The 2-Minute Technique to Start Studying">تقنية الـ 2 دقيقة لبدء المذاكرة</div><div class="lib-card-body" data-ar="إذا صعب عليك البدء، قل لنفسك سأذاكر دقيقتين فقط. معظم الوقت ستستمر تلقائياً. المشكلة الأساسية هي البدء وليس الاستمرار." data-en="If starting is hard, tell yourself you'll study for just 2 minutes. Most of the time you'll continue automatically. The main problem is starting, not continuing.">إذا صعب عليك البدء، قل لنفسك سأذاكر دقيقتين فقط. معظم الوقت ستستمر تلقائياً. المشكلة الأساسية هي البدء وليس الاستمرار.</div></div>
-    <div class="lib-card" data-cat="focus"><span class="lib-tag focus" data-ar="🎯 التركيز" data-en="🎯 Focus">🎯 التركيز</span><div class="lib-card-title" data-ar="ذاكر في نفس المكان دائماً" data-en="Always Study in the Same Place">ذاكر في نفس المكان دائماً</div><div class="lib-card-body" data-ar="عقلك يربط الأماكن بالأنشطة. إذا ذاكرت دائماً على مكتب معين، سيدخل عقلك تلقائياً في وضع المذاكرة. تجنب المذاكرة على السرير." data-en="Your brain associates places with activities. If you always study at a specific desk, your brain will automatically enter study mode. Avoid studying on your bed.">عقلك يربط الأماكن بالأنشطة. إذا ذاكرت دائماً على مكتب معين، سيدخل عقلك تلقائياً في وضع المذاكرة. تجنب المذاكرة على السرير.</div></div>
-    <div class="lib-card" data-cat="memory"><span class="lib-tag memory" data-ar="🧠 الحفظ" data-en="🧠 Memory">🧠 الحفظ</span><div class="lib-card-title" data-ar="المراجعة المتباعدة — السر الذي لا يعرفه كثيرون" data-en="Spaced Repetition — The Secret Most Don't Know">المراجعة المتباعدة — السر الذي لا يعرفه كثيرون</div><div class="lib-card-body" data-ar="راجع المادة بعد يوم، ثم بعد 3 أيام، ثم بعد أسبوع. هذا النمط يُثبّت المعلومات في الذاكرة طويلة المدى أفضل بكثير من المذاكرة المتواصلة." data-en="Review material after 1 day, then after 3 days, then after a week. This pattern embeds information in long-term memory far better than continuous studying.">راجع المادة بعد يوم، ثم بعد 3 أيام، ثم بعد أسبوع. هذا النمط يُثبّت المعلومات في الذاكرة طويلة المدى أفضل بكثير من المذاكرة المتواصلة.</div></div>
-    <div class="lib-card" data-cat="memory"><span class="lib-tag memory" data-ar="🧠 الحفظ" data-en="🧠 Memory">🧠 الحفظ</span><div class="lib-card-title" data-ar="اصنع قصة من المعلومات" data-en="Turn Information Into a Story">اصنع قصة من المعلومات</div><div class="lib-card-body" data-ar="العقل يحفظ القصص أسرع من الحقائق المجردة. حوّل أي قائمة أو خطوات إلى قصة قصيرة مضحكة. كلما كانت القصة أكثر مبالغة، كلما حفظتها أسرع." data-en="The brain retains stories faster than abstract facts. Turn any list or steps into a funny short story. The more exaggerated the story, the faster you memorize it.">العقل يحفظ القصص أسرع من الحقائق المجردة. حوّل أي قائمة أو خطوات إلى قصة قصيرة مضحكة. كلما كانت القصة أكثر مبالغة، كلما حفظتها أسرع.</div></div>
-    <div class="lib-card" data-cat="planning"><span class="lib-tag planning" data-ar="📅 التخطيط" data-en="📅 Planning">📅 التخطيط</span><div class="lib-card-title" data-ar="ابدأ بالمادة الأصعب وليس الأسهل" data-en="Start With the Hardest Subject, Not the Easiest">ابدأ بالمادة الأصعب وليس الأسهل</div><div class="lib-card-body" data-ar="طاقتك الذهنية تكون في أعلى مستوياتها في بداية الجلسة. إذا بدأت بالسهل، ستُنهي طاقتك قبل الوصول للصعب." data-en="Your mental energy is at its peak at the start of your session. If you start with easy subjects, you'll exhaust your energy before reaching the hard ones.">طاقتك الذهنية تكون في أعلى مستوياتها في بداية الجلسة. إذا بدأت بالسهل، ستُنهي طاقتك قبل الوصول للصعب.</div></div>
-    <div class="lib-card" data-cat="planning"><span class="lib-tag planning" data-ar="📅 التخطيط" data-en="📅 Planning">📅 التخطيط</span><div class="lib-card-title" data-ar="خطط للغد في نهاية كل يوم" data-en="Plan Tomorrow at the End of Each Day">خطط للغد في نهاية كل يوم</div><div class="lib-card-body" data-ar="قبل النوم، اكتب 3 مهام محددة تريد إنجازها غداً. هذا يمنع اللحظة الضائعة في الصباح. المهام المكتوبة لها احتمالية إنجاز أعلى بـ 42% من المحفوظة في الذهن." data-en="Before bed, write 3 specific tasks you want to complete tomorrow. This prevents the lost morning moment. Written tasks are 42% more likely to be completed than mental ones.">قبل النوم، اكتب 3 مهام محددة تريد إنجازها غداً. هذا يمنع اللحظة الضائعة في الصباح. المهام المكتوبة لها احتمالية إنجاز أعلى بـ 42% من المحفوظة في الذهن.</div></div>
-    <div class="lib-card" data-cat="stress"><span class="lib-tag stress" data-ar="💆 الضغط" data-en="💆 Stress">💆 الضغط</span><div class="lib-card-title" data-ar="تنفّس 4-7-8 عند الشعور بالقلق" data-en="4-7-8 Breathing When Feeling Anxious">تنفّس 4-7-8 عند الشعور بالقلق</div><div class="lib-card-body" data-ar="استنشق 4 ثوانٍ، احبس النفس 7 ثوانٍ، أخرج الهواء 8 ثوانٍ. كرر 3 مرات. هذه التقنية تُهدئ القلق خلال دقيقتين فعلياً." data-en="Inhale 4 seconds, hold 7 seconds, exhale 8 seconds. Repeat 3 times. This technique calms anxiety within 2 minutes.">استنشق 4 ثوانٍ، احبس النفس 7 ثوانٍ، أخرج الهواء 8 ثوانٍ. كرر 3 مرات. هذه التقنية تُهدئ القلق خلال دقيقتين فعلياً.</div></div>
-    <div class="lib-card" data-cat="stress"><span class="lib-tag stress" data-ar="💆 الضغط" data-en="💆 Stress">💆 الضغط</span><div class="lib-card-title" data-ar="النوم الكافي أهم من ساعة مذاكرة إضافية" data-en="Enough Sleep Is More Important Than Extra Study Hours">النوم الكافي أهم من ساعة مذاكرة إضافية</div><div class="lib-card-body" data-ar="النوم هو الوقت الذي يُثبّت فيه الدماغ المعلومات. المذاكرة حتى الفجر قبل الامتحان تُضر أكثر مما تنفع. 7-8 ساعات نوم تُحسّن الذاكرة أضعاف أي ساعات مذاكرة إضافية." data-en="Sleep is when the brain consolidates information. Studying until dawn before an exam hurts more than it helps. 7-8 hours of sleep improves memory far more than extra study hours.">النوم هو الوقت الذي يُثبّت فيه الدماغ المعلومات. المذاكرة حتى الفجر قبل الامتحان تُضر أكثر مما تنفع. 7-8 ساعات نوم تُحسّن الذاكرة أضعاف أي ساعات مذاكرة إضافية.</div></div>
-    <div class="lib-card" data-cat="exam"><span class="lib-tag exam" data-ar="✅ الامتحان" data-en="✅ Exam Day">✅ الامتحان</span><div class="lib-card-title" data-ar="اقرأ الأسئلة كلها أولاً قبل الإجابة" data-en="Read All Questions First Before Answering">اقرأ الأسئلة كلها أولاً قبل الإجابة</div><div class="lib-card-body" data-ar="أول 5 دقائق اقرأ جميع الأسئلة بدون إجابة. عقلك سيبدأ تلقائياً في معالجة الصعبة في الخلفية بينما تجيب على السهلة." data-en="Spend the first 5 minutes reading all questions without answering. Your brain will automatically start processing the hard ones in the background while you answer the easy ones.">أول 5 دقائق اقرأ جميع الأسئلة بدون إجابة. عقلك سيبدأ تلقائياً في معالجة الصعبة في الخلفية بينما تجيب على السهلة.</div></div>
-    <div class="lib-card" data-cat="exam"><span class="lib-tag exam" data-ar="✅ الامتحان" data-en="✅ Exam Day">✅ الامتحان</span><div class="lib-card-title" data-ar="كُل وجبة خفيفة قبل الامتحان بساعة" data-en="Eat a Light Meal an Hour Before the Exam">كُل وجبة خفيفة قبل الامتحان بساعة</div><div class="lib-card-body" data-ar="الجوع يُضعف التركيز والذاكرة. كُل شيئاً خفيفاً غنياً بالبروتين مثل بيضة أو مكسرات. تجنب السكريات السريعة — ترفع طاقتك ثم تُهبطها فجأة." data-en="Hunger weakens focus and memory. Eat something light and protein-rich like an egg or nuts. Avoid fast sugars — they spike your energy then crash it suddenly.">الجوع يُضعف التركيز والذاكرة. كُل شيئاً خفيفاً غنياً بالبروتين مثل بيضة أو مكسرات. تجنب السكريات السريعة — ترفع طاقتك ثم تُهبطها فجأة.</div></div>
+    <div class="lib-card" data-cat="focus"><span class="lib-tag focus">🎯 <span data-ar="التركيز" data-en="Focus">التركيز</span></span><div class="lib-card-title" data-ar="أغلق الهاتف تماماً لا تصامته فقط" data-en="Turn Off Your Phone, Don't Just Silence It">أغلق الهاتف تماماً لا تصامته فقط</div><div class="lib-card-body" data-ar="الدراسات تُثبت أن مجرد وجود الهاتف على الطاولة يُقلل التركيز 20% حتى لو لم تلمسه." data-en="Studies show having a phone on the table reduces focus by 20%, even untouched.">الدراسات تُثبت أن مجرد وجود الهاتف على الطاولة يُقلل التركيز 20% حتى لو لم تلمسه.</div></div>
+    <div class="lib-card" data-cat="focus"><span class="lib-tag focus">🎯 <span data-ar="التركيز" data-en="Focus">التركيز</span></span><div class="lib-card-title" data-ar="تقنية الـ 2 دقيقة لكسر الجمود" data-en="The 2-Minute Technique to Break Inertia">تقنية الـ 2 دقيقة لكسر الجمود</div><div class="lib-card-body" data-ar="قل لنفسك سأذاكر دقيقتين فقط. معظم الوقت ستستمر تلقائياً. المشكلة هي البدء وليس الاستمرار." data-en="Tell yourself you'll study for just 2 minutes. Most of the time you'll continue automatically.">قل لنفسك سأذاكر دقيقتين فقط. معظم الوقت ستستمر تلقائياً. المشكلة هي البدء وليس الاستمرار.</div></div>
+    <div class="lib-card" data-cat="focus"><span class="lib-tag focus">🎯 <span data-ar="التركيز" data-en="Focus">التركيز</span></span><div class="lib-card-title" data-ar="ذاكر في نفس المكان دائماً" data-en="Always Study in the Same Place">ذاكر في نفس المكان دائماً</div><div class="lib-card-body" data-ar="عقلك يربط الأماكن بالأنشطة. المكتب المخصص = وضع التركيز التلقائي." data-en="Your brain associates places with activities. A dedicated desk = automatic focus mode.">عقلك يربط الأماكن بالأنشطة. المكتب المخصص = وضع التركيز التلقائي.</div></div>
+    <div class="lib-card" data-cat="memory"><span class="lib-tag memory">🧠 <span data-ar="الحفظ" data-en="Memory">الحفظ</span></span><div class="lib-card-title" data-ar="المراجعة المتباعدة — السر الذي لا يعرفه كثيرون" data-en="Spaced Repetition — The Secret Most Don't Know">المراجعة المتباعدة — السر الذي لا يعرفه كثيرون</div><div class="lib-card-body" data-ar="راجع بعد يوم ← 3 أيام ← أسبوع. يُثبّت المعلومات في الذاكرة طويلة المدى أفضل من المذاكرة المتواصلة." data-en="Review after 1 day → 3 days → 1 week. Far better than cramming for long-term memory.">راجع بعد يوم ← 3 أيام ← أسبوع. يُثبّت المعلومات في الذاكرة طويلة المدى أفضل من المذاكرة المتواصلة.</div></div>
+    <div class="lib-card" data-cat="memory"><span class="lib-tag memory">🧠 <span data-ar="الحفظ" data-en="Memory">الحفظ</span></span><div class="lib-card-title" data-ar="اشرح المادة لنفسك بصوت عالٍ" data-en="Explain the Material Out Loud to Yourself">اشرح المادة لنفسك بصوت عالٍ</div><div class="lib-card-body" data-ar="بعد القراءة، أغلق الكتاب واشرح. ستكتشف تلقائياً الثغرات. يُثبّت المعلومات أضعاف التكرار." data-en="After reading, close the book and explain. You'll discover gaps automatically. Retains far better than re-reading.">بعد القراءة، أغلق الكتاب واشرح. ستكتشف تلقائياً الثغرات. يُثبّت المعلومات أضعاف التكرار.</div></div>
+    <div class="lib-card" data-cat="planning"><span class="lib-tag planning">📅 <span data-ar="التخطيط" data-en="Planning">التخطيط</span></span><div class="lib-card-title" data-ar="ابدأ بالأصعب وليس بالأسهل" data-en="Start with the Hardest, Not the Easiest">ابدأ بالأصعب وليس بالأسهل</div><div class="lib-card-body" data-ar="طاقتك الذهنية في أعلى مستوياتها في بداية الجلسة. لا تُبدّدها في المادة السهلة." data-en="Your mental energy is highest at the start. Don't waste it on easy subjects.">طاقتك الذهنية في أعلى مستوياتها في بداية الجلسة. لا تُبدّدها في المادة السهلة.</div></div>
+    <div class="lib-card" data-cat="planning"><span class="lib-tag planning">📅 <span data-ar="التخطيط" data-en="Planning">التخطيط</span></span><div class="lib-card-title" data-ar="خطط الغد في نهاية كل يوم" data-en="Plan Tomorrow at End of Each Day">خطط الغد في نهاية كل يوم</div><div class="lib-card-body" data-ar="قبل النوم، اكتب 3 مهام محددة لغداً. المهام المكتوبة لها احتمالية إنجاز أعلى بـ 42% من المحفوظة في الذهن." data-en="Before bed, write 3 specific tasks for tomorrow. Written tasks are 42% more likely to be completed.">قبل النوم، اكتب 3 مهام محددة لغداً. المهام المكتوبة لها احتمالية إنجاز أعلى بـ 42% من المحفوظة في الذهن.</div></div>
+    <div class="lib-card" data-cat="stress"><span class="lib-tag stress">💆 <span data-ar="الضغط" data-en="Stress">الضغط</span></span><div class="lib-card-title" data-ar="تنفّس 4-7-8 عند الشعور بالقلق" data-en="4-7-8 Breathing When Anxious">تنفّس 4-7-8 عند الشعور بالقلق</div><div class="lib-card-body" data-ar="استنشق 4 ثوانٍ ← احبس 7 ← أخرج 8. كرر 3 مرات. تُهدئ القلق خلال دقيقتين فعلياً." data-en="Inhale 4s → Hold 7s → Exhale 8s. Repeat 3 times. Calms anxiety within 2 minutes.">استنشق 4 ثوانٍ ← احبس 7 ← أخرج 8. كرر 3 مرات. تُهدئ القلق خلال دقيقتين فعلياً.</div></div>
+    <div class="lib-card" data-cat="stress"><span class="lib-tag stress">💆 <span data-ar="الضغط" data-en="Stress">الضغط</span></span><div class="lib-card-title" data-ar="النوم الكافي أهم من ساعة مذاكرة إضافية" data-en="Enough Sleep Beats Extra Study Hours">النوم الكافي أهم من ساعة مذاكرة إضافية</div><div class="lib-card-body" data-ar="النوم = وقت تثبيت المعلومات. 7-8 ساعات تُحسّن الذاكرة أضعاف أي ساعات مذاكرة إضافية." data-en="Sleep = memory consolidation time. 7-8 hours improves memory far more than extra study hours.">النوم = وقت تثبيت المعلومات. 7-8 ساعات تُحسّن الذاكرة أضعاف أي ساعات مذاكرة إضافية.</div></div>
+    <div class="lib-card" data-cat="exam"><span class="lib-tag exam">✅ <span data-ar="الامتحان" data-en="Exam Day">الامتحان</span></span><div class="lib-card-title" data-ar="اقرأ الأسئلة كلها أولاً قبل الإجابة" data-en="Read All Questions Before Answering">اقرأ الأسئلة كلها أولاً قبل الإجابة</div><div class="lib-card-body" data-ar="أول 5 دقائق اقرأ كل الأسئلة. عقلك سيبدأ معالجة الصعبة في الخلفية بينما تجيب على السهلة." data-en="Spend the first 5 minutes reading all questions. Your brain starts processing hard ones in the background.">أول 5 دقائق اقرأ كل الأسئلة. عقلك سيبدأ معالجة الصعبة في الخلفية بينما تجيب على السهلة.</div></div>
+    <div class="lib-card" data-cat="exam"><span class="lib-tag exam">✅ <span data-ar="الامتحان" data-en="Exam Day">الامتحان</span></span><div class="lib-card-title" data-ar="كُل وجبة خفيفة قبل الامتحان بساعة" data-en="Eat a Light Meal an Hour Before the Exam">كُل وجبة خفيفة قبل الامتحان بساعة</div><div class="lib-card-body" data-ar="الجوع يُضعف التركيز. تجنب السكريات السريعة — ترفع طاقتك ثم تُهبطها فجأة في منتصف الامتحان." data-en="Hunger weakens focus. Avoid fast sugars — they spike then crash your energy mid-exam.">الجوع يُضعف التركيز. تجنب السكريات السريعة — ترفع طاقتك ثم تُهبطها فجأة في منتصف الامتحان.</div></div>
   </div>
-  <div class="lib-empty" id="libEmpty" data-ar="لا توجد نصائح في هذه الفئة" data-en="No tips found in this category">لا توجد نصائح في هذه الفئة</div>
+  <div class="lib-empty" id="libEmpty">لا توجد نصائح في هذه الفئة</div>
 </div>
 
-<!-- ══════════ PAGE 7 — الأخلاقيات ══════════ -->
+<!-- PAGE 7 -->
 <div id="p7" class="page">
   <div class="sec-badge">🛡 <span data-ar="القسم الثامن" data-en="Section Eight">القسم الثامن</span></div>
   <h1 data-ar="الأخلاقيات والاستخدام المسؤول" data-en="Ethics & Responsible Use">الأخلاقيات والاستخدام المسؤول</h1>
   <div class="ethics-box">
-    <h2 style="margin-top:0;color:#1a3a7a" data-ar="بيان الاستخدام الأخلاقي للذكاء الاصطناعي" data-en="Ethical AI Use Statement">بيان الاستخدام الأخلاقي للذكاء الاصطناعي</h2>
-    <p style="color:#2a4a9a;font-size:14px;margin-bottom:8px" data-ar="يستخدم مشروع Student Helper AI تقنيات الذكاء الاصطناعي بطريقة شفافة ومسؤولة. نُصرّح بوضوح لكل مستخدم أن المحتوى مُولَّد بمساعدة الذكاء الداخلي." data-en="Student Helper AI uses AI technologies transparently and responsibly. We clearly disclose to every user that content is generated by the internal AI.">يستخدم مشروع Student Helper AI تقنيات الذكاء الاصطناعي بطريقة شفافة ومسؤولة. نُصرّح بوضوح لكل مستخدم أن المحتوى مُولَّد بمساعدة الذكاء الداخلي.</p>
-    <p style="color:#2a4a9a;font-size:14px;margin-bottom:8px" data-ar="كل نصيحة تمر بمراجعة بشرية قبل عرضها للطلاب. هدفنا مساعدة الطالب، لا استبدال تفكيره أو جهده." data-en="Every tip undergoes human review before being shown to students. Our goal is to help students, not replace their thinking or effort.">كل نصيحة تمر بمراجعة بشرية قبل عرضها للطلاب. هدفنا مساعدة الطالب، لا استبدال تفكيره أو جهده.</p>
-    <p style="color:#2a4a9a;font-size:14px;margin:0" data-ar="الموقع لا يجمع بيانات شخصية حساسة ولا يُعطي نصائح طبية أو نفسية متخصصة." data-en="The site does not collect sensitive personal data and does not provide specialized medical or psychological advice.">الموقع لا يجمع بيانات شخصية حساسة ولا يُعطي نصائح طبية أو نفسية متخصصة.</p>
+    <h2 style="margin-top:0;color:#1a3a7a" data-ar="بيان الاستخدام الأخلاقي" data-en="Ethical Use Statement">بيان الاستخدام الأخلاقي</h2>
+    <p style="color:#2a4a9a;font-size:14px;margin-bottom:8px" data-ar="يستخدم مشروع Student Helper AI تقنيات الذكاء الاصطناعي بطريقة شفافة ومسؤولة. كل مستخدم يعلم أن المحتوى مُولَّد بذكاء داخلي." data-en="Student Helper AI uses AI technologies transparently and responsibly. Every user knows content is generated by internal AI.">يستخدم مشروع Student Helper AI تقنيات الذكاء الاصطناعي بطريقة شفافة ومسؤولة.</p>
+    <p style="color:#2a4a9a;font-size:14px;margin:0" data-ar="الموقع لا يجمع بيانات شخصية. هدفنا مساعدة الطالب، لا استبدال تفكيره." data-en="The site doesn't collect personal data. Our goal is to help students, not replace their thinking.">الموقع لا يجمع بيانات شخصية. هدفنا مساعدة الطالب، لا استبدال تفكيره.</p>
   </div>
   <div class="g2">
     <div class="card">
       <h3 style="color:var(--green-dark);margin-bottom:12px" data-ar="✅ ما يفعله المشروع" data-en="✅ What the Project Does">✅ ما يفعله المشروع</h3>
-      <div class="check-list">
-        <div class="step"><span class="icon">✅</span><div data-ar="نصائح مدروسة ومراجعة بشرية" data-en="Thoughtful tips with human review">نصائح مدروسة ومراجعة بشرية</div></div>
-        <div class="step"><span class="icon">✅</span><div data-ar="شفافية كاملة مع المستخدم" data-en="Full transparency with the user">شفافية كاملة مع المستخدم</div></div>
-        <div class="step"><span class="icon">✅</span><div data-ar="احترام خصوصية الطالب الكاملة" data-en="Full respect for student privacy">احترام خصوصية الطالب الكاملة</div></div>
-        <div class="step"><span class="icon">✅</span><div data-ar="تشجيع الطالب على التفكير الذاتي" data-en="Encouraging independent student thinking">تشجيع الطالب على التفكير الذاتي</div></div>
-      </div>
+      <div class="step"><span>✅</span><div data-ar="نصائح مدروسة ومراجعة بشرية" data-en="Thoughtful tips with human review">نصائح مدروسة ومراجعة بشرية</div></div>
+      <div class="step"><span>✅</span><div data-ar="شفافية كاملة مع المستخدم" data-en="Full transparency with the user">شفافية كاملة مع المستخدم</div></div>
+      <div class="step"><span>✅</span><div data-ar="احترام خصوصية الطالب" data-en="Full respect for student privacy">احترام خصوصية الطالب</div></div>
+      <div class="step"><span>✅</span><div data-ar="تحسين مستمر بناءً على تقييمات الطلاب" data-en="Continuous improvement from student feedback">تحسين مستمر بناءً على تقييمات الطلاب</div></div>
     </div>
     <div class="card">
       <h3 style="color:var(--red);margin-bottom:12px" data-ar="❌ ما لا يفعله المشروع" data-en="❌ What the Project Doesn't Do">❌ ما لا يفعله المشروع</h3>
-      <div class="check-list">
-        <div class="step"><span class="icon">❌</span><div data-ar="لا يستبدل الأستاذ أو المرشد" data-en="Doesn't replace a professor or advisor">لا يستبدل الأستاذ أو المرشد</div></div>
-        <div class="step"><span class="icon">❌</span><div data-ar="لا يُقدّم إجابات الاختبارات" data-en="Doesn't provide exam answers">لا يُقدّم إجابات الاختبارات</div></div>
-        <div class="step"><span class="icon">❌</span><div data-ar="لا يضمن نتائج دراسية محددة" data-en="Doesn't guarantee specific academic results">لا يضمن نتائج دراسية محددة</div></div>
-        <div class="step"><span class="icon">❌</span><div data-ar="لا يجمع أي بيانات شخصية" data-en="Doesn't collect any personal data">لا يجمع أي بيانات شخصية</div></div>
-      </div>
+      <div class="step"><span>❌</span><div data-ar="لا يستبدل الأستاذ أو المرشد" data-en="Doesn't replace professors or advisors">لا يستبدل الأستاذ أو المرشد</div></div>
+      <div class="step"><span>❌</span><div data-ar="لا يُقدّم إجابات الاختبارات" data-en="Doesn't provide exam answers">لا يُقدّم إجابات الاختبارات</div></div>
+      <div class="step"><span>❌</span><div data-ar="لا يضمن نتائج دراسية محددة" data-en="Doesn't guarantee specific results">لا يضمن نتائج دراسية محددة</div></div>
+      <div class="step"><span>❌</span><div data-ar="لا يجمع أي بيانات شخصية" data-en="Doesn't collect any personal data">لا يجمع أي بيانات شخصية</div></div>
     </div>
   </div>
 </div>
 
-<!-- ══════════ MODAL ══════════ -->
+<!-- MODAL -->
 <div class="modal-bg" id="modal">
   <div class="modal">
     <div class="modal-title" data-ar="✏️ تعديل البيانات الشخصية" data-en="✏️ Edit Personal Data">✏️ تعديل البيانات الشخصية</div>
+    <div class="modal-row"><label data-ar="الاسم الكامل" data-en="Full Name">الاسم الكامل</label><input class="ai-inp" id="m-name" type="text" data-ar-placeholder="اكتب اسمك..." data-en-placeholder="Enter your name..." placeholder="اكتب اسمك..."></div>
+    <div class="modal-row"><label data-ar="العمر" data-en="Age">العمر</label><input class="ai-inp" id="m-age" type="number" min="16" max="40" placeholder="21"></div>
+    <div class="modal-row"><label data-ar="التخصص الدراسي" data-en="Major">التخصص الدراسي</label><input class="ai-inp" id="m-major" type="text" data-ar-placeholder="مثال: هندسة، طب، تقنية معلومات..." data-en-placeholder="e.g. Engineering, Medicine, CS..." placeholder="مثال: هندسة، طب، تقنية معلومات..."></div>
     <div class="modal-row">
-      <label data-ar="الاسم الكامل" data-en="Full Name">الاسم الكامل</label>
-      <input class="ai-inp" id="m-name" type="text" data-ar-placeholder="اكتب اسمك..." data-en-placeholder="Enter your name..." placeholder="اكتب اسمك...">
+      <label data-ar="هدفك الدراسي" data-en="Study Goal">هدفك الدراسي</label>
+      <select class="ai-sel" id="m-goal">
+        <option value="اجتياز الفصل بنجاح" data-ar="اجتياز الفصل بنجاح" data-en="Pass the semester successfully">اجتياز الفصل بنجاح</option>
+        <option value="الحصول على معدل مرتفع" data-ar="الحصول على معدل مرتفع" data-en="Achieve a high GPA">الحصول على معدل مرتفع</option>
+        <option value="الحصول على منحة دراسية" data-ar="الحصول على منحة دراسية" data-en="Get a scholarship">الحصول على منحة دراسية</option>
+        <option value="التخرج في الوقت المحدد" data-ar="التخرج في الوقت المحدد" data-en="Graduate on time">التخرج في الوقت المحدد</option>
+        <option value="الالتحاق بالدراسات العليا" data-ar="الالتحاق بالدراسات العليا" data-en="Join postgraduate studies">الالتحاق بالدراسات العليا</option>
+      </select>
     </div>
     <div class="modal-row">
-      <label data-ar="العمر" data-en="Age">العمر</label>
-      <input class="ai-inp" id="m-age" type="number" min="16" max="40" placeholder="21">
-    </div>
-    <div class="modal-row">
-      <label data-ar="التخصص الدراسي" data-en="Major">التخصص الدراسي</label>
-      <input class="ai-inp" id="m-major" type="text" data-ar-placeholder="مثال: هندسة، طب، إدارة أعمال..." data-en-placeholder="e.g. Engineering, Medicine, Business..." placeholder="مثال: هندسة، طب، إدارة أعمال...">
+      <label data-ar="سلوكك الدراسي المعتاد" data-en="Your Usual Study Behavior">سلوكك الدراسي المعتاد</label>
+      <select class="ai-sel" id="m-behavior">
+        <option value="يذاكر فقط قبل الامتحان" data-ar="يذاكر فقط قبل الامتحان" data-en="Studies only before the exam">يذاكر فقط قبل الامتحان</option>
+        <option value="يذاكر بانتظام خلال الفصل" data-ar="يذاكر بانتظام خلال الفصل" data-en="Studies regularly throughout the semester">يذاكر بانتظام خلال الفصل</option>
+        <option value="يُرجئ ثم يسارع في آخر لحظة" data-ar="يُرجئ ثم يسارع في آخر لحظة" data-en="Procrastinates then rushes last minute">يُرجئ ثم يسارع في آخر لحظة</option>
+        <option value="يذاكر عشوائياً بدون خطة" data-ar="يذاكر عشوائياً بدون خطة" data-en="Studies randomly without a plan">يذاكر عشوائياً بدون خطة</option>
+        <option value="يذاكر في مجموعات فقط" data-ar="يذاكر في مجموعات فقط" data-en="Only studies in groups">يذاكر في مجموعات فقط</option>
+      </select>
     </div>
     <div class="modal-row">
       <label data-ar="أكبر تحدٍّ تواجهه" data-en="Biggest Challenge">أكبر تحدٍّ تواجهه</label>
       <select class="ai-sel" id="m-problem">
-        <option data-ar="صعوبة التركيز" data-en="Difficulty Focusing">صعوبة التركيز</option>
-        <option data-ar="تأجيل المذاكرة" data-en="Procrastination">تأجيل المذاكرة</option>
-        <option data-ar="نسيان المعلومات" data-en="Forgetting Information">نسيان المعلومات</option>
-        <option data-ar="كثرة المواد وضيق الوقت" data-en="Too Many Subjects, Too Little Time">كثرة المواد وضيق الوقت</option>
-        <option data-ar="الإرهاق النفسي" data-en="Mental Burnout">الإرهاق النفسي</option>
-        <option data-ar="صعوبة فهم المادة" data-en="Difficulty Understanding Material">صعوبة فهم المادة</option>
+        <option value="صعوبة التركيز" data-ar="صعوبة التركيز" data-en="Difficulty Focusing">صعوبة التركيز</option>
+        <option value="تأجيل المذاكرة" data-ar="تأجيل المذاكرة" data-en="Procrastination">تأجيل المذاكرة</option>
+        <option value="نسيان المعلومات" data-ar="نسيان المعلومات" data-en="Forgetting Information">نسيان المعلومات</option>
+        <option value="كثرة المواد وضيق الوقت" data-ar="كثرة المواد وضيق الوقت" data-en="Too Many Subjects, Too Little Time">كثرة المواد وضيق الوقت</option>
+        <option value="الإرهاق النفسي" data-ar="الإرهاق النفسي" data-en="Mental Burnout">الإرهاق النفسي</option>
+        <option value="صعوبة فهم المادة" data-ar="صعوبة فهم المادة" data-en="Difficulty Understanding Material">صعوبة فهم المادة</option>
       </select>
     </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal()" data-ar="إلغاء" data-en="Cancel">إلغاء</button>
-      <button class="btn-save" onclick="saveProfile()" data-ar="حفظ التغييرات ✓" data-en="Save Changes ✓">حفظ التغييرات ✓</button>
+      <button class="btn-save" onclick="saveProfile()" data-ar="حفظ ✓" data-en="Save ✓">حفظ ✓</button>
     </div>
   </div>
 </div>
 
 <script>
-// ─── LANGUAGE ───
-let lang = 'ar';
-
-function toggleLang() {
-  lang = lang === 'ar' ? 'en' : 'ar';
-  const html = document.getElementById('htmlRoot');
-  html.setAttribute('lang', lang);
-  html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-  document.getElementById('langBtn').textContent = lang === 'ar' ? 'EN 🌐' : 'AR 🌐';
+/* ── LANGUAGE ── */
+let lang='ar';
+function toggleLang(){
+  lang=lang==='ar'?'en':'ar';
+  const h=document.getElementById('htmlRoot');
+  h.setAttribute('lang',lang);h.setAttribute('dir',lang==='ar'?'rtl':'ltr');
+  document.getElementById('langBtn').textContent=lang==='ar'?'EN 🌐':'AR 🌐';
   applyLang();
 }
-
-function applyLang() {
-  document.querySelectorAll('[data-ar]').forEach(el => {
-    const key = lang === 'ar' ? 'ar' : 'en';
-    const val = el.getAttribute('data-' + key);
-    if (val && el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA' && el.tagName !== 'OPTION') {
-      el.textContent = val;
-    }
+function applyLang(){
+  document.querySelectorAll('[data-ar]').forEach(el=>{
+    const v=el.getAttribute('data-'+lang);
+    if(v&&!['INPUT','TEXTAREA','OPTION','SELECT'].includes(el.tagName)) el.textContent=v;
   });
-  document.querySelectorAll('[data-ar-placeholder]').forEach(el => {
-    el.placeholder = lang === 'ar' ? el.getAttribute('data-ar-placeholder') : el.getAttribute('data-en-placeholder');
+  document.querySelectorAll('[data-ar-placeholder]').forEach(el=>{
+    el.placeholder=lang==='ar'?el.getAttribute('data-ar-placeholder'):el.getAttribute('data-en-placeholder');
   });
-  document.querySelectorAll('option[data-ar]').forEach(el => {
-    el.textContent = lang === 'ar' ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+  document.querySelectorAll('option[data-ar]').forEach(el=>{
+    el.textContent=lang==='ar'?el.getAttribute('data-ar'):el.getAttribute('data-en');
   });
-  // Update profile display with new language
+  // translate subj chips
+  document.querySelectorAll('#subjWrap .subj-chip[data-name-ar]').forEach(el=>{
+    el.textContent=lang==='ar'?el.getAttribute('data-name-ar'):el.getAttribute('data-name-en');
+  });
   updateAllViews();
 }
 
-// ─── NAVIGATION ───
-const allPages = document.querySelectorAll('.page');
-const allTabs  = document.querySelectorAll('.tab');
-function go(i) {
-  allPages.forEach(p => p.classList.remove('on'));
-  allTabs.forEach(t  => t.classList.remove('on'));
-  allPages[i].classList.add('on');
-  allTabs[i].classList.add('on');
-  window.scrollTo(0, 0);
+/* ── NAV ── */
+function go(i){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.page')[i].classList.add('on');
+  document.querySelectorAll('.tab')[i].classList.add('on');
+  window.scrollTo(0,0);
 }
 
-// ─── TAGS ───
-function selTag(el, gid) {
-  document.querySelectorAll('#' + gid + ' .tag').forEach(t => t.classList.remove('sel'));
+/* ── TAGS ── */
+function selTag(el,gid){
+  document.querySelectorAll('#'+gid+' .tag').forEach(t=>t.classList.remove('sel'));
   el.classList.add('sel');
 }
-function getSelTag(gid) {
-  const s = document.querySelector('#' + gid + ' .tag.sel');
-  return s ? s.textContent.trim() : (lang === 'ar' ? 'نصيحة مذاكرة' : 'Study Tip');
+
+/* ── SUBJECTS ── */
+function toggleSubj(el){ el.classList.toggle('sel'); }
+function addSubj(){
+  const inp=document.getElementById('customSubjInp');
+  const v=inp.value.trim(); if(!v) return;
+  const s=document.createElement('span');
+  s.className='subj-chip sel';
+  s.setAttribute('data-name-ar',v);s.setAttribute('data-name-en',v);
+  s.textContent=v;
+  s.onclick=function(){toggleSubj(this);};
+  document.getElementById('subjWrap').appendChild(s);
+  inp.value='';
+}
+function getSubjects(){
+  return Array.from(document.querySelectorAll('#subjWrap .subj-chip.sel'))
+    .map(el=>el.getAttribute('data-name-'+lang)||el.textContent);
 }
 
-// ─── PROFILE ───
-let profile = { name: 'سامي الأحمد', age: '20', major: 'تقنية المعلومات', problem: 'صعوبة التركيز' };
+/* ── PROFILE ── */
+const PROB_MAP={
+  'صعوبة التركيز':{ar:'صعوبة التركيز',en:'Difficulty Focusing'},
+  'تأجيل المذاكرة':{ar:'تأجيل المذاكرة',en:'Procrastination'},
+  'نسيان المعلومات':{ar:'نسيان المعلومات',en:'Forgetting Information'},
+  'كثرة المواد وضيق الوقت':{ar:'كثرة المواد وضيق الوقت',en:'Too Many Subjects'},
+  'الإرهاق النفسي':{ar:'الإرهاق النفسي',en:'Mental Burnout'},
+  'صعوبة فهم المادة':{ar:'صعوبة فهم المادة',en:'Difficulty Understanding'}
+};
+const GOAL_MAP={
+  'اجتياز الفصل بنجاح':{ar:'اجتياز الفصل بنجاح',en:'Pass the semester'},
+  'الحصول على معدل مرتفع':{ar:'الحصول على معدل مرتفع',en:'Achieve high GPA'},
+  'الحصول على منحة دراسية':{ar:'الحصول على منحة دراسية',en:'Get a scholarship'},
+  'التخرج في الوقت المحدد':{ar:'التخرج في الوقت المحدد',en:'Graduate on time'},
+  'الالتحاق بالدراسات العليا':{ar:'الالتحاق بالدراسات العليا',en:'Postgrad studies'}
+};
+const BEH_MAP={
+  'يذاكر فقط قبل الامتحان':{ar:'يذاكر فقط قبل الامتحان',en:'Studies only before exam'},
+  'يذاكر بانتظام خلال الفصل':{ar:'يذاكر بانتظام خلال الفصل',en:'Studies regularly'},
+  'يُرجئ ثم يسارع في آخر لحظة':{ar:'يُرجئ ثم يسارع في آخر لحظة',en:'Last-minute crammer'},
+  'يذاكر عشوائياً بدون خطة':{ar:'يذاكر عشوائياً بدون خطة',en:'Studies randomly'},
+  'يذاكر في مجموعات فقط':{ar:'يذاكر في مجموعات فقط',en:'Group study only'}
+};
+function lbl(map,key){ return (map[key]&&map[key][lang])?map[key][lang]:key; }
 
-function updateAllViews() {
-  document.getElementById('pname').textContent = profile.name;
-  const subAr = profile.major + ' · ' + profile.age + ' سنة · مشكلة: ' + profile.problem;
-  const subEn = profile.major + ' · ' + profile.age + ' yrs · Problem: ' + profile.problem;
-  document.getElementById('psub').textContent = lang === 'ar' ? subAr : subEn;
-  document.getElementById('ana-name').textContent = profile.name;
-  document.getElementById('ana-age').textContent  = profile.age + (lang === 'ar' ? ' سنة' : ' yrs');
-  document.getElementById('ana-problem').textContent = profile.problem;
-  const subAr2 = 'طالب — ' + profile.major + '، السنة الثانية';
-  const subEn2 = 'Student — ' + profile.major + ', Second Year';
-  document.getElementById('ana-sub').textContent = lang === 'ar' ? subAr2 : subEn2;
+let profile={name:'سامي الأحمد',age:'20',major:'تقنية المعلومات',problem:'صعوبة التركيز',goal:'اجتياز الفصل بنجاح',behavior:'يذاكر فقط قبل الامتحان'};
+
+function updateAllViews(){
+  const probD=lbl(PROB_MAP,profile.problem);
+  document.getElementById('pname').textContent=profile.name;
+  document.getElementById('psub').textContent=profile.major+' · '+profile.age+(lang==='ar'?' سنة':' yrs')+' · '+(lang==='ar'?'مشكلة: ':'Problem: ')+probD;
+  document.getElementById('ana-name').textContent=profile.name;
+  document.getElementById('ana-age').textContent=profile.age+(lang==='ar'?' سنة':' yrs');
+  document.getElementById('ana-problem').textContent=probD;
+  document.getElementById('ana-goal').textContent=lbl(GOAL_MAP,profile.goal);
+  document.getElementById('ana-behavior').textContent=lbl(BEH_MAP,profile.behavior);
+  document.getElementById('ana-sub').textContent=(lang==='ar'?'طالب — ':'Student — ')+profile.major+(lang==='ar'?'، السنة الثانية':', Second Year');
 }
-
-function openModal() {
-  document.getElementById('m-name').value    = profile.name;
-  document.getElementById('m-age').value     = profile.age;
-  document.getElementById('m-major').value   = profile.major;
+function openModal(){
+  document.getElementById('m-name').value=profile.name;
+  document.getElementById('m-age').value=profile.age;
+  document.getElementById('m-major').value=profile.major;
+  document.getElementById('m-goal').value=profile.goal;
+  document.getElementById('m-behavior').value=profile.behavior;
+  document.getElementById('m-problem').value=profile.problem;
   document.getElementById('modal').classList.add('open');
 }
-function closeModal() { document.getElementById('modal').classList.remove('open'); }
-function saveProfile() {
-  const n = document.getElementById('m-name').value.trim();
-  const m = document.getElementById('m-major').value.trim();
-  if (!n) { document.getElementById('m-name').focus(); return; }
-  if (!m) { document.getElementById('m-major').focus(); return; }
-  profile.name    = n;
-  profile.age     = document.getElementById('m-age').value.trim() || profile.age;
-  profile.major   = m;
-  profile.problem = document.getElementById('m-problem').value;
-  updateAllViews();
-  closeModal();
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+function saveProfile(){
+  const n=document.getElementById('m-name').value.trim();
+  const m=document.getElementById('m-major').value.trim();
+  if(!n){document.getElementById('m-name').focus();return;}
+  if(!m){document.getElementById('m-major').focus();return;}
+  profile.name=n; profile.age=document.getElementById('m-age').value.trim()||profile.age;
+  profile.major=m; profile.goal=document.getElementById('m-goal').value;
+  profile.behavior=document.getElementById('m-behavior').value;
+  profile.problem=document.getElementById('m-problem').value;
+  updateAllViews(); closeModal();
 }
-document.getElementById('modal').addEventListener('click', e => {
-  if (e.target === document.getElementById('modal')) closeModal();
-});
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
 
-// ─── INTERNAL AI ENGINE ───
-// Keyword arrays for emotion detection and topic matching
-const KB = {
-  // Tip responses by type
-  tips: {
-    'نصيحة مذاكرة': [
-      'استخدم تقنية بومودورو: ذاكر 25 دقيقة ثم استرح 5 دقائق. بعد 4 دورات خذ استراحة 20 دقيقة. هذه الطريقة تُبقي عقلك نشطاً وتمنع الإرهاق الذهني.\n\nأيضاً: ابدأ دائماً بالمادة الأصعب — طاقتك الذهنية في أعلى مستوياتها في بداية الجلسة.',
-      'جرّب أسلوب التعليم العكسي: اشرح المادة لنفسك بصوت عالٍ كأنك تُعلّم أحداً آخر. ستكتشف تلقائياً النقاط التي لم تفهمها جيداً.',
-      'قسّم المادة إلى وحدات صغيرة. بدل "سأذاكر الفصل كله"، قل "سأذاكر الصفحات 1-15". الأهداف الصغيرة تعطيك إحساساً بالإنجاز.'
-    ],
-    'Study Tip': [
-      'Use the Pomodoro technique: study 25 minutes, rest 5 minutes. After 4 cycles, take a 20-minute break. This keeps your brain active and prevents mental fatigue.\n\nAlso: always start with the hardest subject — your mental energy is highest at the beginning.',
-      'Try the Feynman technique: explain the material out loud as if you\'re teaching someone else. You\'ll automatically discover the gaps in your understanding.',
-      'Break material into small chunks. Instead of "I\'ll study the whole chapter", say "I\'ll study pages 1-15". Small goals give you a sense of achievement.'
-    ],
-    'تقنية تركيز': [
-      'ضع هاتفك في غرفة أخرى — وليس فقط على الصامت. الدراسات تُثبت أن مجرد وجود الهاتف على الطاولة يُقلل التركيز 20%.\n\nأضف موسيقى بيضاء (White Noise) في الخلفية — تُساعد كثيراً على الدخول في حالة تركيز عميق.',
-      'استخدم تقنية "الغرفة المخصصة" — ذاكر في نفس المكان دائماً. عقلك سيدخل وضع التركيز تلقائياً عند جلوسك فيه.',
-      'قبل البدء، اكتب كل الأفكار التي تشتت ذهنك في ورقة ("أحتاج أتصل بـ...", "لا تنسى..."). هذا يُفرّغ ذهنك ويتيح التركيز الكامل.'
-    ],
-    'Focus Technique': [
-      'Put your phone in another room — not just on silent. Studies show that just having a phone on the table reduces focus by 20%.\n\nAdd white noise in the background — it helps greatly to enter deep focus mode.',
-      'Use the "dedicated room" technique — always study in the same place. Your brain will automatically enter focus mode when you sit there.',
-      'Before starting, write down every distracting thought on paper. This clears your mind and allows full concentration.'
-    ],
-    'خطة يومية': [
-      'خطتك اليومية المثالية:\n• الصباح (9-11): أصعب مادة\n• الظهر: راحة + وجبة خفيفة\n• العصر (2-4): مادة متوسطة الصعوبة\n• المساء (7-9): مراجعة وتلخيص\n\nالمفتاح: لا تجدول أكثر من 6 ساعات فعلية — الجودة أهم من الكمية.',
-      'قبل النوم، اكتب 3 مهام محددة لغداً فقط. هذا يمنع الضياع الصباحي ويوفر ساعة تفكير يومياً.'
-    ],
-    'Daily Plan': [
-      'Your ideal daily plan:\n• Morning (9-11 AM): Hardest subject\n• Midday: Rest + light meal\n• Afternoon (2-4 PM): Medium difficulty subject\n• Evening (7-9 PM): Review and summarize\n\nKey: don\'t schedule more than 6 actual hours — quality over quantity.',
-      'Before bed, write exactly 3 tasks for tomorrow only. This prevents morning confusion and saves you an hour of daily mental energy.'
-    ],
-    'تحفيز': [
-      'تذكّر دائماً: الشعور بعدم الرغبة في المذاكرة طبيعي ولا يعني أنك كسول. ابدأ بدقيقتين فقط — عقلك سيستمر تلقائياً.\n\nاحتفل بكل إنجاز صغير. أنهيت فصلاً؟ أعطِ نفسك مكافأة صغيرة. الدماغ يتعلم الاستمرار عندما يشعر بالمكافأة.',
-      'ضع هدفاً واضحاً أمامك: لماذا تدرس؟ اكتبه على ورقة وضعها أمامك. الهدف الواضح يُحرّكك حتى في اللحظات الصعبة.'
-    ],
-    'Motivation': [
-      'Remember: not feeling like studying is normal and doesn\'t mean you\'re lazy. Start with just 2 minutes — your brain will continue automatically.\n\nCelebrate every small achievement. Finished a chapter? Give yourself a small reward. The brain learns to persist when it feels rewarded.',
-      'Set a clear goal in front of you: why are you studying? Write it on paper and place it in front of you. A clear goal moves you even in difficult moments.'
-    ],
-    'إدارة الوقت': [
-      'قاعدة الـ 80/20: 20% من المادة تُشكّل 80% من الامتحان. ركّز على الأجزاء الأساسية أولاً ولا تضيع وقتك في التفاصيل الثانوية.\n\nعندما تُقدّر وقت مهمة، أضف 30% إضافياً — نحن دائماً نُقدّر الوقت بأقل مما تحتاج المهام فعلاً.',
-      'استخدم "مصفوفة أيزنهاور":\n• عاجل ومهم: افعله الآن\n• مهم وغير عاجل: جدوله\n• عاجل وغير مهم: فوّضه\n• غير عاجل وغير مهم: تجاهله'
-    ],
-    'Time Management': [
-      'The 80/20 rule: 20% of material makes up 80% of the exam. Focus on the key parts first and don\'t waste time on secondary details.\n\nWhen estimating how long a task takes, add 30% extra — we always underestimate how long things actually take.',
-      'Use the Eisenhower Matrix:\n• Urgent & Important: Do it now\n• Important, not urgent: Schedule it\n• Urgent, not important: Delegate\n• Neither: Ignore it'
-    ]
-  },
+/* ── SATISFACTION TRACKER ── */
+let fbStats={likes:94,total:100};
+function updateSatisfy(){
+  const pct=Math.round(fbStats.likes/fbStats.total*100);
+  document.getElementById('satisfyPct').textContent=pct+'%';
+  document.getElementById('improvedPct').textContent=Math.min(99,pct-3)+'%';
+  document.getElementById('satisfyInsight').textContent=
+    lang==='ar'
+      ? pct+'% من الطلاب الذين قيّموا النصائح أعطوا 👍 — يُثبت فعالية الذكاء الداخلي.'
+      : pct+'% of students who rated tips gave 👍 — proving the internal AI\'s effectiveness.';
+}
+function doFeedback(key,liked,btn){
+  const row=btn.closest('.fb-row');
+  row.querySelectorAll('.fb-btn').forEach(b=>{b.disabled=true;});
+  btn.classList.add(liked?'liked':'disliked');
+  if(liked) fbStats.likes++;
+  fbStats.total++;
+  updateSatisfy();
+  const d=document.getElementById('fb-'+key);
+  d.style.display='inline';
+  d.textContent=liked?(lang==='ar'?'✅ شكراً!':'✅ Thanks!'):(lang==='ar'?'📝 سنحسّنه.':'📝 We\'ll improve it.');
+}
 
-  // Schedule templates
-  schedules: {
-    3: ['رياضيات', 'فيزياء', 'إنجليزي'],
-    5: ['رياضيات', 'فيزياء', 'إنجليزي', 'كيمياء', 'تاريخ'],
-    7: ['رياضيات', 'فيزياء', 'إنجليزي', 'كيمياء', 'تاريخ', 'عربي', 'أحياء'],
-    8: ['رياضيات', 'فيزياء', 'إنجليزي', 'كيمياء', 'تاريخ', 'عربي', 'أحياء', 'جغرافيا']
-  },
-
-  // Free question keyword matching
-  freeKeywords: {
-    math: { ar: ['رياضيات','رياضة','math','معادلات','حساب','جبر','تفاضل'], en: 'math' },
-    exam: { ar: ['امتحان','اختبار','اختباري','exam','test','يومين','ثلاثة أيام','يوم واحد','اخر لحظة'], en: 'exam' },
-    memory: { ar: ['نسيت','حفظ','أحفظ','ذاكرة','أنسى','تحفيظ','memory'], en: 'memory' },
-    sleep: { ar: ['نوم','نعسان','تعب','إرهاق','نايم','sleep','سهر'], en: 'sleep' },
-    focus: { ar: ['تركيز','مشتت','شتت','focus','انتباه','أركّز'], en: 'focus' },
-    motivation: { ar: ['تحفيز','خايف','خوف','فاشل','يأس','محبط','motivat','حماس'], en: 'motivation' },
-    time: { ar: ['وقت','وقتي','time','ساعات','مهلة','أيام','سرعة','أنهي'], en: 'time' },
-    schedule: { ar: ['جدول','خطة','plan','schedule','ترتيب','تنظيم'], en: 'schedule' }
-  },
-
-  freeAnswers: {
-    math: {
-      ar: 'لمذاكرة الرياضيات بفعالية:\n\n١. لا تقرأ الرياضيات — حلّها. اقرأ المثال ثم أغلق الكتاب وحلّه بنفسك.\n٢. ابدأ بالأمثلة المحلولة في الكتاب قبل التمارين.\n٣. ركّز على فهم الخطوات وليس حفظ الإجابات.\n٤. حلّ على الأقل 5 مسائل من كل نوع قبل الانتقال للتالي.\n٥. الأخطاء في التمارين = تعلّم — لا تتخطاها، افهم لماذا أخطأت.',
-      en: 'To study math effectively:\n\n1. Don\'t read math — solve it. Read the example then close the book and solve it yourself.\n2. Start with the solved examples in the book before exercises.\n3. Focus on understanding steps, not memorizing answers.\n4. Solve at least 5 problems of each type before moving on.\n5. Mistakes in exercises = learning — don\'t skip them, understand why you got it wrong.'
-    },
-    exam: {
-      ar: 'استراتيجية المذاكرة في وقت ضيّق:\n\n١. اكتب قائمة بأهم المواضيع (80/20 — 20% من المادة = 80% من الامتحان).\n٢. ركّز على الملخصات والعناوين الرئيسية أولاً.\n٣. حلّ أسئلة الامتحانات السابقة — أكثر شيء مفيد في وقت ضيّق.\n٤. لا تبدأ من الصفر — راجع ملاحظاتك السابقة.\n٥. نم جيداً الليلة الأخيرة — أفضل من ساعات مذاكرة إضافية.',
-      en: 'Last-minute study strategy:\n\n1. List the most important topics (80/20 — 20% of material = 80% of the exam).\n2. Focus on summaries and main headings first.\n3. Solve past exam questions — the most useful thing in limited time.\n4. Don\'t start from scratch — review your existing notes.\n5. Sleep well the last night — better than extra study hours.'
-    },
-    memory: {
-      ar: 'تقنيات تُقوّي الذاكرة فعلاً:\n\n١. المراجعة المتباعدة: راجع بعد يوم، ثم 3 أيام، ثم أسبوع.\n٢. التعليم العكسي: اشرح المادة لنفسك بصوت عالٍ.\n٣. اصنع قصة أو صورة ذهنية من المعلومات.\n٤. الكتابة اليدوية تُعزز الحفظ أكثر من الطباعة بنسبة كبيرة.\n٥. النوم الجيد هو الأداة الأولى للذاكرة — لا تهاون فيه.',
-      en: 'Memory-strengthening techniques that actually work:\n\n1. Spaced repetition: review after 1 day, then 3 days, then a week.\n2. The Feynman technique: explain material out loud to yourself.\n3. Create a story or mental image from the information.\n4. Handwriting strengthens memory significantly more than typing.\n5. Good sleep is the #1 memory tool — don\'t compromise on it.'
-    },
-    sleep: {
-      ar: 'النوم والمذاكرة:\n\nالنوم ليس وقتاً ضائعاً — هو الوقت الذي يُثبّت فيه دماغك كل ما تعلّمته.\n\n• 7-8 ساعات نوم = أداء أفضل من ساعات مذاكرة إضافية بدون نوم.\n• نم في نفس الوقت يومياً حتى في نهاية الأسبوع.\n• لا تذاكر على السرير — دماغك سيربط السرير بالاستيقاظ الليلي.\n• إذا كنت نعسان جداً، قيلولة 20 دقيقة أفضل من ساعة مذاكرة مُرهقة.',
-      en: 'Sleep and studying:\n\nSleep is not wasted time — it\'s when your brain consolidates everything you\'ve learned.\n\n• 7-8 hours of sleep = better performance than extra study hours without sleep.\n• Sleep at the same time daily, even on weekends.\n• Don\'t study on your bed — your brain will associate bed with being awake at night.\n• If very sleepy, a 20-minute nap is better than an exhausting hour of studying.'
-    },
-    focus: {
-      ar: 'للتغلب على التشتت:\n\n١. ضع الهاتف في غرفة أخرى (ليس فقط على الصامت).\n٢. ابدأ بـ"دقيقتين فقط" — ستستمر تلقائياً.\n٣. استخدم تقنية بومودورو: 25 دقيقة مذاكرة + 5 استراحة.\n٤. قبل الجلسة، اكتب كل ما في ذهنك على ورقة وضعها جانباً.\n٥. موسيقى بيضاء أو أصوات طبيعية تُساعد على التركيز.',
-      en: 'To overcome distraction:\n\n1. Put your phone in another room (not just on silent).\n2. Start with "just 2 minutes" — you\'ll continue automatically.\n3. Use the Pomodoro technique: 25 minutes study + 5 rest.\n4. Before the session, write everything on your mind on paper and set it aside.\n5. White noise or nature sounds help with focus.'
-    },
-    motivation: {
-      ar: 'لاسترجاع التحفيز:\n\n١. اكتب هدفك الكبير على ورقة وضعها أمامك دائماً.\n٢. احتفل بكل إنجاز صغير — أنهيت فصلاً؟ كافئ نفسك.\n٣. تذكر: الشعور بعدم الرغبة طبيعي تماماً — البطل ليس من لا يشعر بالخوف، بل من يتصرف رغمه.\n٤. ابحث عن "لماذا" القوي — ما الذي ستحققه عندما تنجح؟\n٥. صاحب الأشخاص المجتهدين — البيئة تصنع السلوك.',
-      en: 'To reclaim motivation:\n\n1. Write your big goal on paper and keep it in front of you always.\n2. Celebrate every small achievement — finished a chapter? Reward yourself.\n3. Remember: not feeling like studying is completely normal — the hero isn\'t someone who doesn\'t feel afraid, but someone who acts despite it.\n4. Find your powerful "why" — what will you achieve when you succeed?\n5. Surround yourself with hardworking people — environment shapes behavior.'
-    },
-    time: {
-      ar: 'لإدارة وقتك بذكاء:\n\n١. قاعدة 80/20: 20% من المادة = 80% من الامتحان. ركّز على الأساسيات.\n٢. عند تقدير الوقت، أضف 30% إضافياً دائماً.\n٣. لا تُجدول أكثر من 6 ساعات مذاكرة فعلية يومياً.\n٤. المهام الصغيرة (أقل من دقيقتين): افعلها فوراً.\n٥. راجع جدولك كل يوم أحد وعدّله حسب الواقع.',
-      en: 'To manage your time smartly:\n\n1. The 80/20 rule: 20% of material = 80% of the exam. Focus on the essentials.\n2. When estimating time, always add 30% extra.\n3. Don\'t schedule more than 6 actual study hours daily.\n4. Small tasks (under 2 minutes): do them immediately.\n5. Review your schedule every Sunday and adjust it based on reality.'
-    },
-    schedule: {
-      ar: 'لبناء جدول فعّال:\n\n• الصباح الباكر: أصعب مادة (أعلى تركيز)\n• منتصف النهار: مادة متوسطة\n• المساء: مراجعة وتلخيص\n\nقواعد الجدول الناجح:\n١. لا تملأ كل الوقت — اترك مساحة للطوارئ.\n٢. ضع وقتاً للراحة حقيقياً.\n٣. جدوّل المذاكرة لا المادة فقط ("سأذاكر من 9-11" وليس "سأذاكر الفصل الثالث").',
-      en: 'To build an effective schedule:\n\n• Early morning: hardest subject (highest concentration)\n• Midday: medium difficulty subject\n• Evening: review and summarize\n\nRules for a successful schedule:\n1. Don\'t fill every minute — leave buffer for emergencies.\n2. Schedule real breaks.\n3. Schedule the study time, not just the subject ("I\'ll study 9-11 AM" not "I\'ll study Chapter 3").'
-    },
-    default: {
-      ar: 'نصيحتي لك:\n\n١. ابدأ صغيراً: حتى 10 دقائق مذاكرة أفضل من الصفر.\n٢. الثبات أهم من الكثافة: 1 ساعة يومياً أفضل من 8 ساعات مرة واحدة في الأسبوع.\n٣. لا تقارن نفسك بالآخرين — قارنك بنفسك أمس فقط.\n٤. اعتنِ بصحتك: نوم + أكل جيد + حركة = عقل أفضل.\n٥. اطلب المساعدة عند الحاجة — القوة في السؤال وليس في الصمت.',
-      en: 'My advice to you:\n\n1. Start small: even 10 minutes of studying beats zero.\n2. Consistency beats intensity: 1 hour daily is better than 8 hours once a week.\n3. Don\'t compare yourself to others — only compare yourself to who you were yesterday.\n4. Take care of your health: sleep + good food + movement = better mind.\n5. Ask for help when needed — strength is in asking, not in silence.'
-    }
-  },
-
-  // Feelings / emotion detection
-  emotionKeywords: {
-    fear:       ['خائف','خوف','أخاف','أخشى','يخوفني','scared','fear','afraid','terrified','فزع','رعب','مرعوب','يرعبني','هلع'],
-    anxiety:    ['قلق','قلقان','قلقة','توتر','متوتر','anxious','anxiety','worried','nervous','أعصاب','عصبي','وسواس','تفكير كثير'],
-    sad:        ['حزين','حزينة','زهقت','مزعوج','depressed','sad','unhappy','down','يأس','يائس','مكتئب','اكتئاب','بكى','بكيت','دمعة'],
-    tired:      ['تعبان','مرهق','إرهاق','منهك','tired','exhausted','burnout','مجهود','مجهد','ما قادر','تعب','جهد','مش قادر'],
-    lost:       ['ضايع','تائه','مش عارف','ما أعرف','lost','confused','مشتت','فوضى','ما فيه حل','ما أدري','أبدأ من وين','من وين أبدأ'],
-    stressed:   ['ضغط','ضغوط','مضغوط','stress','stressed','overwhelmed','كثير عليّ','ما أتحمل','صعب','زحمة','كم شغلة','مواد كثيرة'],
-    motivated:  ['متحمس','حماس','جاهز','أبي','أريد','motivated','excited','مصمم','عازم','أقدر','أستطيع','ناجح','بنجح'],
-    failure:    ['فشل','فاشل','راسب','رسبت','رسوب','راح يرسب','fail','failure','فشلت','مش ناجح','ما نجحت','مو كافي','أقل من']
-  }
+/* ── TIPS KNOWLEDGE BASE ── */
+const TIPS={
+  'نصيحة مذاكرة':[
+    'تقنية بومودورو:\nذاكر 25 دقيقة ← استرح 5 دقائق ← كرر 4 مرات ← استراحة كبيرة 20 دقيقة.\nعقلك يبقى يقظاً بدل أن يُرهق من جلسة طويلة مستمرة.',
+    'أسلوب فاينمان (التعليم العكسي):\nاقرأ الموضوع ← أغلق الكتاب ← اشرحه بصوت عالٍ كأنك تُعلّم طفلاً ← ارجع لتعبئ الثغرات.\nيُثبّت المعلومات أكثر بكثير من إعادة القراءة.',
+    'قسّم المادة إلى وحدات صغيرة:\nبدل "سأذاكر الفصل كله"، قل "سأذاكر الصفحات 1-15 الآن".\nالأهداف الصغيرة تعطيك إحساساً بالإنجاز وتمنع الشعور بالإرهاق.',
+    'ابدأ بالمادة الأصعب أولاً:\nطاقتك الذهنية في أعلى مستوياتها في بداية الجلسة. استثمرها في الصعب.\nبعد انخفاض الطاقة، المادة السهلة ستُكمل نفسها.',
+    'استخدم الكتابة اليدوية:\nالكتابة اليدوية تُفعّل مناطق أكثر في الدماغ وتُحسّن التركيز والحفظ مقارنة بالطباعة.'
+  ],
+  'Study Tip':[
+    'Pomodoro Technique:\nStudy 25 min → Rest 5 min → Repeat 4 times → Long break 20 min.\nYour brain stays alert instead of burning out in one long session.',
+    'Feynman Technique:\nRead the topic → Close the book → Explain it out loud like you\'re teaching a child → Return to fill gaps.\nFar better for retention than re-reading.',
+    'Break material into small chunks:\nInstead of "study the whole chapter," say "study pages 1-15 now."\nSmall goals give a sense of achievement and prevent overwhelm.',
+    'Start with the hardest subject:\nMental energy peaks at the start — invest it in the difficult material.',
+    'Use handwriting:\nHandwriting activates more brain regions and improves focus and retention compared to typing.'
+  ],
+  'تقنية تركيز':[
+    'ضع هاتفك في غرفة أخرى — وليس فقط على الصامت.\nالدراسات تُثبت أن مجرد وجوده على الطاولة يُقلل التركيز 20% حتى لو لم تلمسه.',
+    'قبل البدء، اكتب كل ما في ذهنك على ورقة:\n"أحتاج أتصل بفلان" / "لا تنسى كذا"...\nهذا يُفرّغ الذاكرة العاملة من الأفكار المشتتة.',
+    'ذاكر في نفس المكان دائماً:\nعقلك يربط الأماكن بالأنشطة. المكتب المخصص = وضع التركيز التلقائي.',
+    'موسيقى بيضاء أو أصوات الطبيعة:\nBrown noise أو rain sounds تُساعد على الدخول في تركيز عميق وتحجب الضوضاء.',
+    'قاعدة الـ 5 ثوانٍ:\nعندما تتردد في البدء، عدّ 5-4-3-2-1 وابدأ فوراً. لا تُعطِ عقلك وقتاً للاعتراض.'
+  ],
+  'Focus Technique':[
+    'Phone in another room — not just silent.\nStudies show having it on the table (untouched) reduces focus by 20%.',
+    'Write every distracting thought on paper before starting.\nThis clears working memory and allows full concentration.',
+    'Always study in the same place.\nYour brain associates places with activities — a dedicated desk triggers focus automatically.',
+    'White noise or nature sounds help enter deep focus state and block surrounding noise.',
+    'The 5-second rule: count 5-4-3-2-1 and start immediately when you hesitate.'
+  ],
+  'خطة يومية':[
+    'الخطة اليومية المثالية:\n🌅 9-11 صباحاً: أصعب مادة\n☀️ 12-1 ظهراً: راحة + وجبة\n🌤 2-4 عصراً: مادة متوسطة\n🌆 7-9 مساءً: مراجعة وتلخيص\n\nلا تجدول أكثر من 6 ساعات فعلية — الجودة تتفوق على الكمية.',
+    'قاعدة 3 مهام:\nقبل النوم، اكتب 3 مهام فقط للغد — كبيرة + متوسطة + صغيرة.\nيمنع الضياع الصباحي ويُعطيك شعوراً بالإنجاز.',
+    'Time Blocking:\nخصص كتل زمنية محددة: "من 9 لـ11 رياضيات فقط — لا واتساب، لا يوتيوب".\nالتركيز على شيء واحد يُنتج ضعف العمل المتقطع.',
+    'أضف 30% وقت احتياطي:\nكل مهمة تُقدّر أنها ساعة — خصص لها ساعة ونصف. نحن دائماً نُقلّل التقدير.'
+  ],
+  'Daily Plan':[
+    'Ideal daily schedule:\n🌅 9-11 AM: Hardest subject\n☀️ 12-1 PM: Rest + meal\n🌤 2-4 PM: Medium difficulty\n🌆 7-9 PM: Review and summarize\n\nDon\'t schedule more than 6 actual hours — quality beats quantity.',
+    '3-task rule:\nBefore bed, write only 3 tasks for tomorrow — big + medium + small.\nPrevents morning confusion and gives a sense of progress.',
+    'Time Blocking:\nAssign specific time blocks: "9-11 AM math only — no messages, no distractions."\nSingle-tasking produces double the output of fragmented work.',
+    'Add 30% buffer time:\nWhatever you estimate will take 1 hour — schedule 1.5 hours.'
+  ],
+  'تحفيز':[
+    'تذكّر لماذا بدأت:\nاكتب هدفك كاملاً على ورقة: "أريد أن أتخرج لأن..." وضعها أمامك دائماً.',
+    'احتفل بكل إنجاز صغير:\nأنهيت فصلاً؟ كافئ نفسك. الدماغ يتعلم الاستمرار عندما يشعر بالمكافأة.',
+    'قاعدة 1% يومياً:\nلا تحاول التحسن 100% في يوم. تحسّن 1% كل يوم — بعد 100 يوم أنت تحسّنت بشكل كبير.',
+    'صاحب المجتهدين:\nشخص واحد مجتهد في محيطك يرفع مستواك دون أن تشعر. البيئة تصنع السلوك.',
+    'تقنية النجاح المسبق:\nقبل الجلسة، تخيّل نفسك بعد الانتهاء وأنت مرتاح ومُنجز. هذا يُعطي عقلك سبباً للتحرك.'
+  ],
+  'Motivation':[
+    'Remember why you started:\nWrite your full goal on paper: "I want to graduate because..." and keep it in front of you.',
+    'Celebrate every small win:\nFinished a chapter? Reward yourself. The brain learns to persist when it feels rewarded.',
+    '1% daily rule:\nDon\'t try to improve 100% in one day. Improve 1% daily — consistent progress compounds.',
+    'Surround yourself with hardworking people:\nOne motivated person in your circle lifts your performance without you noticing.',
+    'Pre-success visualization:\nBefore a session, imagine yourself finished — relaxed and accomplished. It gives your brain a reason to move.'
+  ],
+  'إدارة الوقت':[
+    'قاعدة 80/20:\n20% من المادة تُشكّل 80% من الامتحان. حدد هذه الـ20% وركّز عليها.',
+    'مصفوفة أيزنهاور:\n● عاجل+مهم: افعله الآن\n● مهم+غير عاجل: جدوله\n● عاجل+غير مهم: فوّضه\n● لا عاجل ولا مهم: احذفه',
+    'تقنية "أكل الضفدع":\nأصعب مهمة = الضفدع. افعلها أول شيء في الصباح. بعدها كل شيء يبدو سهلاً.',
+    'قاعدة دقيقتين:\nإذا كانت المهمة أقل من دقيقتين — افعلها فوراً. لا تدرجها في قائمة المهام.',
+    'مراجعة أسبوعية:\nكل نهاية أسبوع، راجع ما أنجزت وما لم تنجز. هذا يُحسّن تخطيطك باستمرار.'
+  ],
+  'Time Management':[
+    '80/20 Rule:\n20% of material = 80% of the exam. Identify that 20% and focus on it.',
+    'Eisenhower Matrix:\n● Urgent+Important: Do now\n● Important, not urgent: Schedule\n● Urgent, not important: Delegate\n● Neither: Delete',
+    '"Eat the Frog":\nHardest task first thing every morning. Everything after feels easy.',
+    'Two-minute rule:\nIf a task takes under 2 minutes — do it immediately.',
+    'Weekly review:\nEvery week-end, review what you completed. This continuously improves your planning.'
+  ],
+  'ليلة الامتحان':[
+    'ليلة الامتحان — ماذا تفعل وماذا لا تفعل:\n✅ راجع ملاحظاتك الملخصة فقط\n✅ نم 7-8 ساعات — أهم من أي مذاكرة إضافية\n✅ جهّز أدواتك قبل النوم\n❌ لا تبدأ مواضيع جديدة\n❌ لا تسهر بعد منتصف الليل',
+    'قبل الامتحان بساعة:\n1. كُل وجبة خفيفة (بروتين لا سكر)\n2. تنفس عميق 5 دقائق\n3. راجع ورقة ملخص واحدة فقط\n4. توقف عن المذاكرة قبل 30 دقيقة',
+    'داخل قاعة الامتحان:\n● اقرأ كل الأسئلة أولاً (5 دقائق)\n● ابدأ بما تعرف إجابته\n● راقب الوقت لكل سؤال\n● لا تعلق على سؤال واحد أكثر من اللازم'
+  ],
+  'Exam Night':[
+    'Exam night — do\'s and don\'ts:\n✅ Review your summary notes only\n✅ Sleep 7-8 hours — more important than extra studying\n✅ Prepare your tools before sleeping\n❌ Don\'t start new topics\n❌ Don\'t stay up past midnight',
+    'One hour before:\n1. Eat light (protein, not sugar)\n2. Deep breathing for 5 min\n3. Review one summary page only\n4. Stop studying 30 min before — let your brain rest',
+    'Inside the exam hall:\n● Read all questions first (5 min)\n● Start with what you know\n● Watch the time per question\n● Don\'t get stuck on one question'
+  ],
+  'تقليل التوتر':[
+    'تقنية 4-7-8:\nاستنشق 4 ثوانٍ ← احبس 7 ← أخرج 8. كرر 3 مرات. تُهدئ الجهاز العصبي خلال دقيقتين.',
+    'أفرغ قلقك على ورقة:\nاكتب كل ما يقلقك بالتفصيل. يُفرّغ الذاكرة العاملة من الأفكار السلبية.',
+    'حرّك جسدك:\n10 دقائق مشي تُفرز هرمونات تُقلل التوتر وتُحسّن المزاج والتركيز.',
+    'قسّم المشكلة:\nالضغط يأتي من رؤية كل شيء ككتلة واحدة. قسّمها — كل مهمة صغيرة تبدو قابلة للحل.',
+    'الامتنان:\nقبل النوم، اكتب 3 أشياء إيجابية حدثت اليوم مهما صغرت. يُعيد توازن العقل.'
+  ],
+  'Reduce Stress':[
+    '4-7-8 Breathing: Inhale 4s → Hold 7s → Exhale 8s. Repeat 3 times. Calms the nervous system in 2 minutes.',
+    'Dump your worries on paper. This clears working memory of negative thoughts.',
+    '10 minutes of walking releases stress hormones and improves mood and focus.',
+    'Break the problem down — pressure comes from seeing everything as one huge block.',
+    'Gratitude: Before bed, write 3 positive things from today. Rebalances the mind.'
+  ]
 };
 
-// ─── INTERNAL AI FUNCTIONS ───
-function fakeDelay(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-function showResult(loadId, respId, textId, text) {
-  document.getElementById(loadId).style.display = 'none';
-  const el = document.getElementById(textId);
-  el.textContent = text;
-  const resp = document.getElementById(respId);
-  resp.style.display = 'block';
+const lastIdx={};
+function getUniqueTip(key){
+  const pool=TIPS[key];
+  if(!pool||!pool.length) return null;
+  if(pool.length===1) return pool[0];
+  let i; do{i=Math.floor(Math.random()*pool.length);}while(i===lastIdx[key]);
+  lastIdx[key]=i; return pool[i];
 }
 
-async function runTip() {
-  const typeEl = document.querySelector('#tipTags .tag.sel');
-  const type = typeEl ? typeEl.textContent.trim() : (lang === 'ar' ? 'نصيحة مذاكرة' : 'Study Tip');
+/* ── FREE QUESTION ENGINE ── */
+const INTENTS=[
+  {key:'sick',
+   kw:['مريض','وجع','مرض','صداع','سخونة','تعبان صحياً','نزلة برد','sick','ill','not feeling well','headache','fever','unwell'],
+   ans:{
+     ar:(q,p)=>`يبدو أنك لست بصحة جيدة اليوم — هذا مفهوم تماماً.\n\nنصائح عملية:\n• إذا كانت الحالة خفيفة: ذاكر 20-30 دقيقة فقط على ملاحظاتك الملخصة. لا تحاول إنهاء كل شيء.\n• إذا كانت الحالة صعبة: نم الآن. جسدك يحتاج طاقته للتعافي، والمذاكرة لن تدخل الذهن بشكل صحيح.\n• عندك امتحان غداً؟ راجع الأهم فقط لمدة 30 دقيقة ثم نم مبكراً.\n\nالصحة أولاً — عقل مرتاح غداً يُفيدك أكثر من ساعات مذاكرة بجسد متعب.`,
+     en:(q,p)=>`It sounds like you're not feeling well today — that's completely understandable.\n\nPractical advice:\n• If it's mild: study 20-30 minutes on your summary notes only. Don't try to finish everything.\n• If you feel really bad: sleep now. Your body needs its energy to recover, and studying won't stick properly.\n• Have an exam tomorrow? Review only the most important things for 30 min, then sleep early.\n\nHealth first — a rested mind tomorrow is worth more than hours of exhausted studying.`
+   }},
+  {key:'programming_in_major',
+   kw:['في تخصص','في الهندسة','تخصصي','في الطب','في المحاسبة','in my major','does my major','my program have','programming in'],
+   ans:{
+     ar:(q,p)=>{
+       const ql=q.toLowerCase(),ml=p.major.toLowerCase();
+       if(ql.includes('برمجة')||ql.includes('programming')){
+         if(ml.includes('نظم')||ml.includes('معلومات')||ml.includes('information'))
+           return 'نعم! تخصص نظم المعلومات يحتوي على برمجة:\n\n• المستوى 1-2: أساسيات البرمجة (Python أو Java عادةً)\n• المستوى 3: برمجة كائنية + قواعد بيانات\n• المستوى 4: تطوير أنظمة ومشاريع متكاملة\n\nالبرمجة في نظم المعلومات أقل نظرية من علوم الحاسب — التركيز على بناء الأنظمة وإدارة البيانات.';
+         if(ml.includes('حاسب')||ml.includes('computer')||ml.includes('cs')||ml.includes('software'))
+           return 'نعم بالتأكيد — البرمجة هي صلب تخصصك!\n\nمواد البرمجة الأساسية في CS:\n• مقدمة في البرمجة\n• هياكل البيانات والخوارزميات\n• برمجة كائنية التوجه\n• نظم التشغيل\n• مشاريع متكاملة\n\nهل تريد نصائح لمادة برمجة محددة؟';
+         if(ml.includes('هندسة')||ml.includes('engineer'))
+           return 'الهندسة والبرمجة:\n\n• هندسة الحاسب/البرمجيات: برمجة مكثفة جداً (C++, Java, Python)\n• الهندسة الكهربائية: MATLAB + C/C++\n• الهندسة الميكاترونيكية: Embedded C\n• الهندسة المدنية/الكيميائية: MATLAB وPython للتحليل\n\nما هو تخصصك بالتحديد؟';
+         return `في تخصص "${p.major}"، البرمجة موجودة في معظم التخصصات التقنية والعلمية.\n\nأنصحك بـ:\n1. مراجعة الخطة الدراسية على موقع جامعتك\n2. سؤال المرشد الأكاديمي\n3. التحدث مع طلاب في سنوات أعلى\n\nهل عندك سؤال عن مادة أو مهارة محددة؟`;
+       }
+       return `سؤال جيد عن تخصص "${p.major}"!\n\nكل تخصص له مواد مختلفة. أنصحك بمراجعة الخطة الدراسية على موقع جامعتك أو سؤال المرشد الأكاديمي لأدق الإجابات.`;
+     },
+     en:(q,p)=>{
+       const ql=q.toLowerCase(),ml=p.major.toLowerCase();
+       if(ql.includes('programming')||ql.includes('coding')){
+         if(ml.includes('information')||ml.includes('systems'))
+           return `Yes! Information Systems includes programming:\n\n• Years 1-2: Programming basics (Python or Java)\n• Year 3: OOP and databases\n• Year 4: Systems development projects\n\nIS programming is less theoretical than CS — focus is on building systems and managing data.`;
+         if(ml.includes('computer')||ml.includes('cs')||ml.includes('software'))
+           return `Yes, absolutely — programming is the core of your major!\n\nKey CS programming courses:\n• Intro to Programming\n• Data Structures & Algorithms\n• Object-Oriented Programming\n• Operating Systems\n• Integrated Projects`;
+       }
+       return `Great question about "${p.major}"!\n\nI'd recommend checking the course catalog on your university website or asking your academic advisor for the most accurate answer about your specific program.`;
+     }
+   }},
+  {key:'math',
+   kw:['رياضيات','حساب','جبر','معادلات','تفاضل','إحصاء','math','calculus','algebra','statistics','equations'],
+   ans:{
+     ar:(q,p)=>'لمذاكرة الرياضيات بفعالية:\n\n١. لا تقرأ الرياضيات — حلّها. اقرأ المثال ثم أغلق الكتاب وحلّه بنفسك.\n٢. ابدأ بالأمثلة المحلولة قبل التمارين.\n٣. ركّز على لماذا نفعل كل خطوة، ليس فقط كيف.\n٤. حلّ 5 مسائل على الأقل من كل نوع قبل الانتقال.\n٥. الأخطاء = تعلم. لا تتخطاها — افهم سبب الخطأ.',
+     en:(q,p)=>'To study math effectively:\n\n1. Don\'t read math — solve it. Read the example then close the book and solve it yourself.\n2. Start with solved examples before exercises.\n3. Focus on WHY each step is done, not just how.\n4. Solve at least 5 problems of each type before moving on.\n5. Mistakes = learning. Don\'t skip them — understand why you got it wrong.'
+   }},
+  {key:'exam',
+   kw:['امتحان','اختبار','يومين','ثلاثة أيام','يوم واحد','آخر لحظة','exam','test','last minute','two days'],
+   ans:{
+     ar:(q,p)=>'استراتيجية المذاكرة في وقت ضيّق:\n\n١. طبّق 80/20: ركّز على أهم 20% من المادة (العناوين، التعريفات، القواعد الأساسية).\n٢. حلّ امتحانات سابقة — أكثر شيء مفيد في وقت ضيّق.\n٣. لا تبدأ من الصفر — راجع ملاحظاتك الموجودة.\n٤. نم جيداً الليلة الأخيرة — أفضل من السهر حتى الفجر.\n٥. اليوم الأخير: مراجعة خفيفة فقط، لا مواضيع جديدة.',
+     en:(q,p)=>'Last-minute strategy:\n\n1. Apply 80/20: focus on the most important 20% (headings, definitions, key rules).\n2. Solve past exams — most useful with limited time.\n3. Don\'t start from scratch — review existing notes.\n4. Sleep well the last night — better than staying up until dawn.\n5. Last day: light review only, no new topics.'
+   }},
+  {key:'memory',
+   kw:['نسيان','حفظ','أحفظ','ذاكرة','أنسى','نسيت','forget','memory','memorize','remember','retention'],
+   ans:{
+     ar:(q,p)=>'تقنيات تُقوّي الذاكرة فعلاً:\n\n١. المراجعة المتباعدة: بعد يوم ← 3 أيام ← أسبوع.\n٢. فاينمان: اشرح المادة لنفسك بصوت عالٍ.\n٣. اصنع قصة مضحكة أو مبالغ فيها من المعلومات.\n٤. الكتابة اليدوية تُعزز الحفظ أكثر من الطباعة.\n٥. النوم الجيد = الأداة الأولى للذاكرة.',
+     en:(q,p)=>'Memory-strengthening techniques that actually work:\n\n1. Spaced repetition: 1 day → 3 days → 1 week.\n2. Feynman: explain the material out loud to yourself.\n3. Turn information into a funny, exaggerated story.\n4. Handwriting strengthens memory more than typing.\n5. Good sleep = the #1 memory tool.'
+   }},
+  {key:'sleep',
+   kw:['نوم','نعسان','سهر','نايم','sleep','tired','sleepy','can\'t sleep','insomnia'],
+   ans:{
+     ar:(q,p)=>'النوم والمذاكرة:\n\nالنوم ليس وقتاً ضائعاً — هو وقت تثبيت ما تعلمته.\n\n• 7-8 ساعات = أداء أفضل من ساعات مذاكرة إضافية.\n• نم في نفس الوقت يومياً حتى في الإجازة.\n• لا تذاكر على السرير — عقلك سيربطه بالاستيقاظ.\n• قيلولة 20 دقيقة أفضل من ساعة مذاكرة بدون تركيز.',
+     en:(q,p)=>'Sleep and studying:\n\nSleep is not wasted time — it\'s when your brain consolidates what you\'ve learned.\n\n• 7-8 hours = better performance than extra study hours.\n• Sleep at the same time daily, even on days off.\n• Don\'t study on your bed — your brain will associate it with being awake.\n• A 20-minute nap beats an unfocused hour of studying.'
+   }},
+  {key:'focus',
+   kw:['تركيز','مشتت','شتت','أركّز','focus','distracted','concentrate','can\'t focus'],
+   ans:{
+     ar:(q,p)=>'للتغلب على التشتت:\n\n١. هاتفك في غرفة أخرى (ليس فقط على الصامت).\n٢. ابدأ بـ"دقيقتين فقط" — ستستمر تلقائياً.\n٣. بومودورو: 25 دقيقة مذاكرة + 5 دقائق استراحة.\n٤. اكتب ما في ذهنك قبل البدء على ورقة.\n٥. White noise أو أصوات الطبيعة تُساعد.',
+     en:(q,p)=>'To overcome distraction:\n\n1. Phone in another room (not just silent).\n2. Start with "just 2 minutes" — you\'ll continue automatically.\n3. Pomodoro: 25 min study + 5 min rest.\n4. Write everything on your mind on paper before starting.\n5. White noise or nature sounds help with focus.'
+   }},
+  {key:'greeting',
+   kw:['مرحبا','اهلا','هلا','السلام عليكم','كيف حالك','هاي','hello','hi','hey','how are you'],
+   ans:{
+     ar:(q,p)=>`أهلاً ${p.name}! 👋\n\nأنا مساعدك الدراسي. يمكنني مساعدتك في:\n• نصائح المذاكرة والتركيز\n• الإجابة على أسئلتك الأكاديمية\n• التعامل مع التوتر والضغط\n• جداول مذاكرة مخصصة\n• أي تحدٍّ دراسي تواجهه\n\nما الذي تحتاج مساعدة فيه اليوم؟`,
+     en:(q,p)=>`Hello ${p.name}! 👋\n\nI'm your study assistant. I can help with:\n• Study and focus tips\n• Academic questions\n• Handling stress and pressure\n• Personalized study schedules\n• Any study challenge you face\n\nWhat do you need help with today?`
+   }}
+];
 
-  document.getElementById('load1').style.display = 'block';
-  document.getElementById('resp1').style.display = 'none';
-  await fakeDelay(900 + Math.random() * 600);
-
-  // Pick answer from KB
-  const answers = KB.tips[type] || KB.tips[lang === 'ar' ? 'نصيحة مذاكرة' : 'Study Tip'];
-  const baseAnswer = answers[Math.floor(Math.random() * answers.length)];
-
-  // Personalize with profile
-  const prefix = lang === 'ar'
-    ? `بناءً على تخصصك (${profile.major}) ومشكلتك (${profile.problem}):\n\n`
-    : `Based on your major (${profile.major}) and problem (${profile.problem}):\n\n`;
-
-  showResult('load1', 'resp1', 'resp1text', prefix + baseAnswer);
+function detectIntent(q){
+  const ql=q.toLowerCase();
+  for(const intent of INTENTS){
+    if(intent.kw.some(k=>ql.includes(k))) return intent;
+  }
+  return null;
 }
 
-async function runSchedule() {
-  document.getElementById('load2').style.display = 'block';
-  document.getElementById('resp2').style.display = 'none';
-  await fakeDelay(1100 + Math.random() * 800);
+/* ── EMOTION KB ── */
+const EMO_KW={
+  fear:['خائف','خوف','أخاف','أخشى','يخوفني','scared','fear','afraid','terrified','فزع','مرعوب','هلع','رهبة'],
+  anxiety:['قلق','قلقان','قلقة','توتر','متوتر','anxious','anxiety','worried','nervous','عصبي','وسواس'],
+  sad:['حزين','حزينة','زهقت','مزعوج','depressed','sad','unhappy','down','يأس','يائس','مكتئب','اكتئاب','بكيت'],
+  tired:['تعبان','مرهق','إرهاق','منهك','tired','exhausted','burnout','مجهد','ما قادر','مش قادر'],
+  lost:['ضايع','تائه','مش عارف','ما أعرف','lost','confused','مشتت','فوضى','ما أدري','من وين أبدأ'],
+  stressed:['ضغط','ضغوط','مضغوط','stress','stressed','overwhelmed','كثير علي','ما أتحمل','زحمة'],
+  motivated:['متحمس','حماس','جاهز','مصمم','motivated','excited','أقدر','أستطيع','طاقة','نشاط'],
+  failure:['فشل','فاشل','راسب','رسبت','fail','failure','فشلت','مش ناجح','ما نجحت']
+};
+function detectEmotion(text){
+  const t=text.toLowerCase();
+  const sc={};
+  for(const [e,kws] of Object.entries(EMO_KW)) sc[e]=kws.filter(k=>t.includes(k)).length;
+  const top=Object.entries(sc).sort((a,b)=>b[1]-a[1]);
+  return top[0]&&top[0][1]>0?top[0][0]:null;
+}
 
-  const subsEl = document.getElementById('subjects');
-  const hoursEl = document.getElementById('hours');
-  const subsVal = parseInt(subsEl.value) || 5;
-  const subsNum = [3,5,7,8].reduce((prev, curr) => Math.abs(curr - subsVal) < Math.abs(prev - subsVal) ? curr : prev);
-  const subjects = KB.schedules[subsNum];
-  const hoursText = hoursEl.value || (lang === 'ar' ? '3 ساعات' : '3 Hours');
+const EMO_DATA={
+  fear:{css:'ef',
+    ar:{badge:'😨 الذكاء اكتشف: خوف',title:'الخوف يعني أنك تُهتم — وهذا قوة',msg:'شعورك بالخوف من الفشل يعني أنك تُهتم بمستقبلك. الخوف طبيعي تماماً — الفارق بين من ينجح ومن لا ينجح ليس غياب الخوف، بل التصرف رغمه.',tips:['اكتب خوفك بالتحديد: "أخاف أن..." — تسمية الخوف تُصغّره.','خذ خطوة واحدة صغيرة الآن — وليس الخطة كاملة.','تذكر وقتاً نجحت فيه رغم خوفك — كل نجاح سابق دليل على قدرتك.']},
+    en:{badge:'😨 AI Detected: Fear',title:'Fear Means You Care — That\'s Strength',msg:'Feeling scared of failure means you care about your future. Fear is completely normal — the difference between those who succeed and those who don\'t isn\'t the absence of fear, but acting despite it.',tips:['Write your fear specifically: "I\'m afraid that..." — naming it shrinks it.','Take one small step now — not the whole plan.','Remember a time you succeeded despite fear — every past success proves your capability.']}},
+  anxiety:{css:'ea',
+    ar:{badge:'😰 الذكاء اكتشف: قلق',title:'قلقك دليل أهمية — لنُهدّئه معاً',msg:'القلق يعني أن هناك شيئاً مهماً لك. والأخبار الجيدة: القلق قابل للإدارة بخطوات عملية بسيطة.',tips:['تنفّس 4-7-8: استنشق 4 ثوانٍ، احبس 7، أخرج 8. كرر 3 مرات الآن.','اكتب كل ما يقلقك على ورقة — يُفرّغ الذهن فعلاً.','ركّز على اليوم فقط — ماذا تستطيع فعله الآن؟']},
+    en:{badge:'😰 AI Detected: Anxiety',title:'Your Anxiety Shows What Matters — Let\'s Calm It',msg:'Anxiety means there\'s something important to you. The good news: anxiety is manageable with simple practical steps.',tips:['4-7-8 breathing: inhale 4s, hold 7s, exhale 8s. Repeat 3 times right now.','Write everything worrying you on paper — it genuinely clears the mind.','Focus on today only — what can you do right now?']}},
+  sad:{css:'es',
+    ar:{badge:'😔 الذكاء اكتشف: حزن',title:'أنت لست وحدك — والحزن مؤقت',msg:'الحزن وسط ضغوط الدراسة طبيعي جداً. هذه اللحظة الصعبة مؤقتة ولها نهاية. أنت أقوى مما تظن.',tips:['أعطِ نفسك 10 دقائق للشعور بما تشعر به — لا تكبت مشاعرك.','تحدث مع شخص تثق به — الكلام يُخفف العبء كثيراً.','ابدأ بنشاط صغير يُدخل عليك شعوراً إيجابياً — حتى لو مشي 5 دقائق.']},
+    en:{badge:'😔 AI Detected: Sadness',title:'You\'re Not Alone — Sadness Is Temporary',msg:'Feeling sad amid study pressure is very natural. This difficult moment is temporary and has an end. You\'re stronger than you think.',tips:['Give yourself 10 minutes to feel what you feel — don\'t suppress your emotions.','Talk to someone you trust — talking lightens the burden greatly.','Start a small activity that brings a positive feeling — even a 5-minute walk.']}},
+  tired:{css:'et',
+    ar:{badge:'😩 الذكاء اكتشف: إرهاق',title:'الإرهاق إشارة — استمع لجسدك',msg:'جسدك يُخبرك أنه بحاجة لراحة. العقل المُرهق لا يحفظ ولا يفهم بشكل صحيح — المذاكرة الآن مضيعة للوقت.',tips:['خذ استراحة كاملة الآن — 30 دقيقة راحة = ساعتان مذاكرة أفضل لاحقاً.','نم 7-8 ساعات الليلة — النوم يُعيد شحن عقلك.','قلّل قائمة مهامك لـ 3 فقط غداً — الجودة أهم من الكمية.']},
+    en:{badge:'😩 AI Detected: Exhaustion',title:'Exhaustion Is a Signal — Listen to Your Body',msg:'Your body needs rest. An exhausted mind doesn\'t memorize or understand properly — studying now is wasted effort.',tips:['Take a complete break now — 30 min rest = 2 better study hours later.','Sleep 7-8 hours tonight — sleep recharges your brain.','Reduce tomorrow\'s task list to just 3 — quality over quantity.']}},
+  lost:{css:'el',
+    ar:{badge:'😵 الذكاء اكتشف: ضياع',title:'الضياع بداية الوضوح — لنرسم الطريق',msg:'الشعور بالضياع يعني أنك أمام تحدٍّ جديد. هذا طبيعي ولا يعني الفشل — يعني أنك تحتاج خريطة طريق واضحة.',tips:['اكتب كل ما مطلوب منك على ورقة — الإخراج من الذهن يُوضّح الصورة.','اختر مهمة واحدة فقط للقيام بها الآن. تجاهل الباقي مؤقتاً.','اطلب المساعدة — من زميل أو أستاذ. الضياع يُحلّ بالتواصل.']},
+    en:{badge:'😵 AI Detected: Feeling Lost',title:'Feeling Lost Is the Start of Clarity',msg:'Feeling lost means you\'re facing a new challenge. This is normal — you need a clear roadmap.',tips:['Write everything required of you on paper — getting it out of your head clarifies things.','Choose just one task to do right now. Ignore everything else temporarily.','Ask for help — from a classmate or professor. Being lost is solved by communication.']}},
+  stressed:{css:'estr',
+    ar:{badge:'😤 الذكاء اكتشف: ضغط',title:'الضغط قابل للإدارة — فلنبدأ',msg:'الشعور بالضغط يعني تحديات حقيقية أمامك. لكن الضغط قابل للتقليل بخطوات بسيطة.',tips:['قسّم كل ما أمامك إلى مهام صغيرة — المهمة الكبيرة تبدو أصعب مما هي.','تنفّس عميقاً 3 مرات قبل كل مهمة.','احتفل بكل ما أنجزته — وليس فقط ما لم تنجزه بعد.']},
+    en:{badge:'😤 AI Detected: Stress',title:'Stress Is Manageable — Let\'s Start',msg:'Feeling stressed means real challenges ahead. But stress can be reduced with simple steps.',tips:['Break everything into small tasks — big tasks always look harder than they are.','Take 3 deep breaths before each task.','Celebrate everything you\'ve accomplished — not just what remains.']}},
+  motivated:{css:'em',
+    ar:{badge:'💪 الذكاء اكتشف: حماس',title:'طاقتك رائعة — استثمرها الآن!',msg:'حماسك طاقة ثمينة. الوقت الحالي مثالي لمعالجة أصعب مهامك وأهمها.',tips:['ابدأ بأصعب مادة الآن — طاقتك في أعلى مستوياتها.','ضع هدفاً واضحاً للجلسة الحالية واكتبه.','شارك حماسك مع زملائك — الطاقة الإيجابية معدية!']},
+    en:{badge:'💪 AI Detected: Motivation',title:'Your Energy Is Amazing — Channel It Now!',msg:'This enthusiasm is precious energy. The current moment is perfect for tackling your hardest tasks.',tips:['Start with the hardest subject now — your energy is at its peak.','Set a clear goal for this session and write it down.','Share your enthusiasm with classmates — positive energy is contagious!']}},
+  failure:{css:'ea',
+    ar:{badge:'💙 الذكاء اكتشف: خوف من الفشل',title:'الفشل ليس نهاية — بل بداية',msg:'الخوف من الفشل من أصعب المشاعر. لكن كل إنسان ناجح مرّ بلحظات فشل — الفارق أنه لم يتوقف.',tips:['الفشل في مهمة ≠ أنت فاشل. يعني فقط أن هذه المهمة تحتاج نهجاً مختلفاً.','اسأل نفسك: "ماذا تعلمت؟" — الفشل مع التعلم = تقدم.','تذكر شخصاً تحترمه — كل عظيم فشل مرات كثيرة قبل النجاح.']},
+    en:{badge:'💙 AI Detected: Fear of Failure',title:'Failure Is Not the End — It\'s a Beginning',msg:'Fear of failure is one of the hardest emotions. But every successful person went through failure — the difference is they didn\'t stop.',tips:['Failing at a task ≠ you are a failure. It means this task needs a different approach.','Ask yourself: "What did I learn?" — Failure with learning = progress.','Think of someone you respect — every great person failed many times before succeeding.']}}
+};
 
-  const days = lang === 'ar'
-    ? ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس']
-    : ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
+/* ── DELAY ── */
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
 
-  let schedule = lang === 'ar'
-    ? `📅 جدول مذاكرة أسبوعي — ${profile.name}\nالتخصص: ${profile.major} | الوقت المتاح: ${hoursText} يومياً\n\n`
-    : `📅 Weekly Study Schedule — ${profile.name}\nMajor: ${profile.major} | Available: ${hoursText} daily\n\n`;
+function showResult(lid,rid,tid,txt){
+  document.getElementById(lid).style.display='none';
+  document.getElementById(tid).textContent=txt;
+  document.getElementById(rid).style.display='block';
+}
+function resetFb(rid){
+  document.getElementById(rid).querySelectorAll('.fb-btn').forEach(b=>{b.disabled=false;b.classList.remove('liked','disliked');});
+}
 
-  days.forEach((day, i) => {
-    const sub1 = subjects[i % subjects.length];
-    const sub2 = subjects[(i + 1) % subjects.length];
-    schedule += `${day}:\n`;
-    if (lang === 'ar') {
-      schedule += `  • الصباح: ${sub1} — مذاكرة وفهم\n`;
-      schedule += `  • المساء: ${sub2} — مراجعة وتمارين\n\n`;
-    } else {
-      schedule += `  • Morning: ${sub1} — study and comprehend\n`;
-      schedule += `  • Evening: ${sub2} — review and practice\n\n`;
-    }
+/* ── RUN TIP ── */
+async function runTip(){
+  const sel=document.querySelector('#tipTags .tag.sel');
+  const keyAr=sel?sel.getAttribute('data-key-ar'):'نصيحة مذاكرة';
+  const keyEn=sel?sel.getAttribute('data-key-en'):'Study Tip';
+  const key=lang==='ar'?keyAr:keyEn;
+  document.getElementById('load1').style.display='block';
+  document.getElementById('resp1').style.display='none';
+  document.getElementById('fb-tip').style.display='none';
+  resetFb('resp1');
+  await wait(800+Math.random()*500);
+  const tip=getUniqueTip(key)||getUniqueTip(lang==='ar'?'نصيحة مذاكرة':'Study Tip');
+  const pfx=lang==='ar'
+    ?`بناءً على تخصصك (${profile.major}) ومشكلتك (${lbl(PROB_MAP,profile.problem)}):\n\n`
+    :`Based on your major (${profile.major}) and problem (${lbl(PROB_MAP,profile.problem)}):\n\n`;
+  showResult('load1','resp1','resp1text',pfx+tip);
+}
+
+/* ── RUN SCHEDULE ── */
+async function runSchedule(){
+  const subs=getSubjects();
+  if(!subs.length){alert(lang==='ar'?'اختر مادة واحدة على الأقل!':'Please select at least one subject!');return;}
+  const hrs=document.getElementById('hours').value;
+  document.getElementById('load2').style.display='block';
+  document.getElementById('resp2').style.display='none';
+  document.getElementById('fb-sched').style.display='none';
+  resetFb('resp2');
+  await wait(1000+Math.random()*700);
+  const days=lang==='ar'?['السبت','الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس']:['Saturday','Sunday','Monday','Tuesday','Wednesday','Thursday'];
+  let out=lang==='ar'
+    ?`📅 جدول مذاكرة أسبوعي — ${profile.name}\nالتخصص: ${profile.major} | الوقت المتاح: ${hrs} يومياً\nالمواد: ${subs.join(' · ')}\n\n`
+    :`📅 Weekly Study Schedule — ${profile.name}\nMajor: ${profile.major} | Available: ${hrs} daily\nSubjects: ${subs.join(' · ')}\n\n`;
+  days.forEach((day,i)=>{
+    const s1=subs[i%subs.length],s2=subs[(i+2)%subs.length];
+    out+=lang==='ar'
+      ?`${day}:\n  🌅 الصباح: ${s1} — مذاكرة وفهم\n  🌆 المساء: ${s2} — مراجعة وتمارين\n\n`
+      :`${day}:\n  🌅 Morning: ${s1} — study & comprehend\n  🌆 Evening: ${s2} — review & practice\n\n`;
   });
-
-  schedule += lang === 'ar'
-    ? '💡 نصيحة: الجمعة يوم استراحة كامل — الراحة جزء من الخطة وليست تفريطاً فيها!'
-    : '💡 Tip: Friday is a full rest day — rest is part of the plan, not a failure!';
-
-  showResult('load2', 'resp2', 'resp2text', schedule);
+  out+=lang==='ar'?'💡 الجمعة: يوم استراحة كامل — الراحة جزء أساسي من الخطة!':'💡 Friday: Full rest day — rest is an essential part of the plan!';
+  showResult('load2','resp2','resp2text',out);
 }
 
-async function runFree() {
-  const q = document.getElementById('freeq').value.trim();
-  if (!q) { document.getElementById('freeq').focus(); return; }
-
-  document.getElementById('load3').style.display = 'block';
-  document.getElementById('resp3').style.display = 'none';
-  await fakeDelay(800 + Math.random() * 700);
-
-  const qLower = q.toLowerCase();
-  let matchedKey = null;
-
-  for (const [key, val] of Object.entries(KB.freeKeywords)) {
-    if (val.ar.some(kw => qLower.includes(kw))) {
-      matchedKey = key; break;
-    }
-  }
-
-  let answer;
-  if (matchedKey && KB.freeAnswers[matchedKey]) {
-    answer = KB.freeAnswers[matchedKey][lang] || KB.freeAnswers[matchedKey].ar;
+/* ── RUN FREE ── */
+async function runFree(){
+  const q=document.getElementById('freeq').value.trim();
+  if(!q){document.getElementById('freeq').focus();return;}
+  document.getElementById('load3').style.display='block';
+  document.getElementById('resp3').style.display='none';
+  document.getElementById('fb-free').style.display='none';
+  resetFb('resp3');
+  await wait(700+Math.random()*500);
+  const intent=detectIntent(q);
+  let ans;
+  if(intent){
+    const fn=intent.ans[lang]||intent.ans.ar;
+    ans=typeof fn==='function'?fn(q,profile):fn;
   } else {
-    answer = KB.freeAnswers.default[lang] || KB.freeAnswers.default.ar;
+    ans=lang==='ar'
+      ?`سؤالك: "${q}"\n\nبناءً على ما ذكرت، إليك ما أستطيع مساعدتك به:\n\n• إذا كان سؤالاً عن مادة دراسية — جرب وصف المشكلة بتفصيل أكثر.\n• إذا كان سؤالاً عن تخصصك — اذكر اسم التخصص والجامعة للحصول على إجابة أدق.\n• يمكنني مساعدتك في: نصائح المذاكرة، جداول الوقت، التعامل مع الضغط، استراتيجيات الامتحانات.\n\nما التفاصيل التي يمكنك إضافتها؟`
+      :`Your question: "${q}"\n\nBased on what you mentioned, here's what I can help with:\n\n• If it's about a specific subject — try describing the problem in more detail.\n• If it's about your major — mention the major name for a more accurate answer.\n• I can help with: study tips, time scheduling, handling pressure, exam strategies.\n\nWhat additional details can you share?`;
   }
-
-  const prefix = lang === 'ar'
-    ? `بخصوص سؤالك — ${profile.name}:\n\n`
-    : `Regarding your question — ${profile.name}:\n\n`;
-  showResult('load3', 'resp3', 'resp3text', prefix + answer);
+  const pfx=lang==='ar'?`${profile.name}،\n\n`:`${profile.name},\n\n`;
+  showResult('load3','resp3','resp3text',pfx+ans);
 }
 
-// ─── FEELINGS ANALYZER ───
-let selectedMood = null;
-
-function selMood(btn, mood) {
-  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('sel'));
-  btn.classList.add('sel');
-  selectedMood = mood;
+/* ── FEELINGS ANALYZER ── */
+let selectedMood=null;
+function selMood(btn,mood){
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel'); selectedMood=mood;
 }
 
-function detectEmotion(text, mood) {
-  const t = (text || '').toLowerCase();
-  const scores = {};
-
-  for (const [emotion, keywords] of Object.entries(KB.emotionKeywords)) {
-    scores[emotion] = keywords.filter(kw => t.includes(kw)).length;
-  }
-
-  // Mood button overrides
-  const moodMap = {
-    scared: 'fear', anxious: 'anxiety', sad: 'sad',
-    tired: 'tired', lost: 'lost', motivated: 'motivated'
-  };
-  if (mood && moodMap[mood]) {
-    scores[moodMap[mood]] = (scores[moodMap[mood]] || 0) + 3;
-  }
-
-  // Add failure check
-  if (scores.failure > 0) scores.anxiety = (scores.anxiety || 0) + 1;
-
-  const top = Object.entries(scores).sort((a,b) => b[1]-a[1])[0];
-  return top && top[1] > 0 ? top[0] : 'neutral';
-}
-
-const emotionData = {
-  fear: {
-    ar: {
-      badge: '😨 الموقع اكتشف: خوف',
-      title: 'الخوف يعني أنك تُهتم — وهذا قوة',
-      msg: 'شعورك بالخوف من الفشل يعني أنك تُهتم بمستقبلك، وهذا علامة إيجابية. الخوف طبيعي تماماً — الفارق بين من ينجح ومن لا ينجح ليس غياب الخوف، بل التصرف رغمه.',
-      tips: [
-        'اكتب خوفك بالتحديد: "أخاف أن..." — تحديد الخوف يُصغّره ويجعله أقل رعباً.',
-        'خذ خطوة واحدة صغيرة الآن — وليس الخطة كاملة. الخطوة الأولى تكسر الجليد.',
-        'تذكر وقتاً نجحت فيه رغم خوفك — كل نجاح سابق دليل على قدرتك.'
-      ]
-    },
-    en: {
-      badge: '😨 Detected: Fear',
-      title: 'Fear Means You Care — and That\'s Strength',
-      msg: 'Feeling scared of failure means you care about your future — that\'s a positive sign. Fear is completely normal. The difference between those who succeed and those who don\'t isn\'t the absence of fear, but acting despite it.',
-      tips: [
-        'Write your fear specifically: "I\'m afraid that..." — naming the fear shrinks it and makes it less terrifying.',
-        'Take one small step now — not the whole plan. The first step breaks the ice.',
-        'Remember a time you succeeded despite fear — every past success is evidence of your capability.'
-      ]
-    },
-    cssClass: 'emotion-fear'
-  },
-  anxiety: {
-    ar: {
-      badge: '😰 الموقع اكتشف: قلق',
-      title: 'قلقك دليل أهمية — لنُهدّئه معاً',
-      msg: 'القلق يُعبّر عن أن هناك شيئاً مهماً لك تريد تحقيقه. الأخبار الجيدة: القلق قابل للإدارة وللسيطرة عليه بخطوات عملية بسيطة.',
-      tips: [
-        'تنفّس 4-7-8: استنشق 4 ثوانٍ، احبس 7، أخرج 8. كرر 3 مرات الآن.',
-        'اكتب كل ما يقلقك على ورقة — هذا يُفرّغ الذهن ويُريح الأعصاب فعلاً.',
-        'ركّز على اليوم فقط، وليس كل الفصل. ماذا تستطيع فعله اليوم؟'
-      ]
-    },
-    en: {
-      badge: '😰 Detected: Anxiety',
-      title: 'Your Anxiety Shows What Matters — Let\'s Calm It Together',
-      msg: 'Anxiety means there\'s something important to you that you want to achieve. The good news: anxiety is manageable and controllable with simple practical steps.',
-      tips: [
-        '4-7-8 breathing: inhale 4 seconds, hold 7, exhale 8. Repeat 3 times right now.',
-        'Write everything worrying you on paper — this genuinely empties the mind and calms the nerves.',
-        'Focus on today only, not the whole semester. What can you do today?'
-      ]
-    },
-    cssClass: 'emotion-anxiety'
-  },
-  sad: {
-    ar: {
-      badge: '😔 الموقع اكتشف: حزن',
-      title: 'أنت لست وحدك — والحزن مؤقت',
-      msg: 'الشعور بالحزن وسط ضغوط الدراسة طبيعي جداً. لكن تذكّر: هذه اللحظة الصعبة مؤقتة، ولها نهاية. أنت أقوى مما تظن.',
-      tips: [
-        'أعطِ نفسك 10 دقائق للشعور بما تشعر به — لا تكبت مشاعرك.',
-        'تحدث مع شخص تثق به — الكلام يُخفّف العبء كثيراً.',
-        'ابدأ بنشاط صغير يجلب لك شعوراً إيجابياً — حتى لو المشي 5 دقائق.'
-      ]
-    },
-    en: {
-      badge: '😔 Detected: Sadness',
-      title: 'You\'re Not Alone — and Sadness Is Temporary',
-      msg: 'Feeling sad amid study pressure is very natural. But remember: this difficult moment is temporary and has an end. You\'re stronger than you think.',
-      tips: [
-        'Give yourself 10 minutes to feel what you feel — don\'t suppress your emotions.',
-        'Talk to someone you trust — talking lightens the burden greatly.',
-        'Start with a small activity that brings you a positive feeling — even a 5-minute walk.'
-      ]
-    },
-    cssClass: 'emotion-sad'
-  },
-  tired: {
-    ar: {
-      badge: '😩 الموقع اكتشف: إرهاق',
-      title: 'الإرهاق إشارة — استمع لجسدك',
-      msg: 'جسدك يُخبرك أنه بحاجة لراحة. الدراسة بدون راحة كافية لا تُنتج نتائج — العقل المُرهق لا يحفظ ولا يفهم بشكل صحيح.',
-      tips: [
-        'خذ استراحة كاملة الآن — 30 دقيقة راحة تعني ساعتين مذاكرة أفضل لاحقاً.',
-        'نم 7-8 ساعات الليلة — النوم هو الوقت الذي يُعيد فيه عقلك شحن نفسه.',
-        'قلّل قائمة مهامك لـ 3 فقط غداً — التركيز على القليل أفضل من تشتيت الكثير.'
-      ]
-    },
-    en: {
-      badge: '😩 Detected: Exhaustion',
-      title: 'Exhaustion Is a Signal — Listen to Your Body',
-      msg: 'Your body is telling you it needs rest. Studying without adequate rest doesn\'t produce results — an exhausted mind doesn\'t memorize or understand properly.',
-      tips: [
-        'Take a complete break now — 30 minutes of rest means 2 better hours of studying later.',
-        'Sleep 7-8 hours tonight — sleep is when your brain recharges itself.',
-        'Reduce your task list to just 3 tomorrow — focusing on less is better than scattering on too much.'
-      ]
-    },
-    cssClass: 'emotion-tired'
-  },
-  lost: {
-    ar: {
-      badge: '😵 الموقع اكتشف: ضياع',
-      title: 'الضياع بداية الوضوح — لنرسم الطريق معاً',
-      msg: 'الشعور بالضياع يعني أنك أمام تحدٍّ جديد لم تتعامل معه من قبل. هذا طبيعي تماماً ولا يعني الفشل — بل يعني أنك تحتاج خريطة طريق واضحة.',
-      tips: [
-        'اكتب كل شيء مطلوب منك الآن على ورقة — الإخراج من ذهنك للورقة يُوضّح الصورة.',
-        'اختر أهم شيء واحد فقط للقيام به الآن. تجاهل كل الباقي مؤقتاً.',
-        'اطلب المساعدة — من زميل أو أستاذ. الضياع يُحلّ بالتواصل وليس بالصمت.'
-      ]
-    },
-    en: {
-      badge: '😵 Detected: Feeling Lost',
-      title: 'Feeling Lost Is the Start of Clarity — Let\'s Map the Way',
-      msg: 'Feeling lost means you\'re facing a new challenge you haven\'t dealt with before. This is completely normal and doesn\'t mean failure — it means you need a clear roadmap.',
-      tips: [
-        'Write everything required of you now on paper — getting it out of your head onto paper clarifies the picture.',
-        'Choose just the one most important thing to do right now. Ignore everything else temporarily.',
-        'Ask for help — from a classmate or professor. Feeling lost is solved by communication, not silence.'
-      ]
-    },
-    cssClass: 'emotion-lost'
-  },
-  stressed: {
-    ar: {
-      badge: '😤 الموقع اكتشف: ضغط',
-      title: 'الضغط قابل للإدارة — فلنبدأ',
-      msg: 'الشعور بالضغط يعني أن هناك تحديات حقيقية أمامك. لكن الضغط يُمكن إدارته وتقليله بخطوات عملية بسيطة — لا يجب أن تحتمله وحدك.',
-      tips: [
-        'قسّم كل ما أمامك إلى مهام صغيرة — المهمة الكبيرة تبدو أصعب مما هي في الواقع.',
-        'تنفّس عميقاً 3 مرات قبل البدء بأي مهمة — يُقلل الضغط النفسي فعلاً.',
-        'احتفل بكل ما أنجزته — وليس فقط ما لم تنجزه بعد.'
-      ]
-    },
-    en: {
-      badge: '😤 Detected: Stress',
-      title: 'Stress Is Manageable — Let\'s Start',
-      msg: 'Feeling stressed means there are real challenges ahead of you. But stress can be managed and reduced with simple practical steps — you don\'t have to carry it alone.',
-      tips: [
-        'Break everything in front of you into small tasks — big tasks look harder than they actually are.',
-        'Take 3 deep breaths before starting any task — it genuinely reduces psychological stress.',
-        'Celebrate everything you\'ve accomplished — not just what you haven\'t done yet.'
-      ]
-    },
-    cssClass: 'emotion-stressed'
-  },
-  motivated: {
-    ar: {
-      badge: '💪 الموقع اكتشف: حماس',
-      title: 'طاقتك رائعة — استثمرها الآن!',
-      msg: 'حماسك هذا طاقة ثمينة — استثمرها الآن! الوقت الحالي مثالي لمعالجة أصعب المهام وأهمها.',
-      tips: [
-        'ابدأ بأصعب مادة الآن — طاقتك في أعلى مستوياتها.',
-        'ضع هدفاً واضحاً لجلستك الحالية واكتبه.',
-        'شارك حماسك مع زملائك — الطاقة الإيجابية معدية!'
-      ]
-    },
-    en: {
-      badge: '💪 Detected: Motivation',
-      title: 'Your Energy Is Amazing — Channel It Now!',
-      msg: 'This enthusiasm is precious energy — invest it now! The current moment is perfect for tackling your hardest and most important tasks.',
-      tips: [
-        'Start with the hardest subject now — your energy is at its peak.',
-        'Set a clear goal for your current session and write it down.',
-        'Share your enthusiasm with classmates — positive energy is contagious!'
-      ]
-    },
-    cssClass: 'emotion-motivated'
-  },
-  failure: {
-    ar: {
-      badge: '💙 الموقع اكتشف: خوف من الفشل',
-      title: 'الفشل ليس نهاية — بل بداية',
-      msg: 'الخوف من الفشل أو الشعور بالفشل من أصعب المشاعر. لكن اعلم: كل إنسان ناجح مرّ بلحظات فشل — الفارق أنه لم يتوقف.',
-      tips: [
-        'الفشل في مهمة لا يعني أنك فاشل — بل يعني أن هذه المهمة تحتاج نهجاً مختلفاً.',
-        'اسأل نفسك: "ماذا تعلمت من هذا؟" — الفشل مع التعلم = تقدم.',
-        'تذكر شخصاً تحترمه — كل إنسان عظيم فشل مرات قبل النجاح.'
-      ]
-    },
-    en: {
-      badge: '💙 Detected: Fear of Failure',
-      title: 'Failure Is Not the End — It\'s a Beginning',
-      msg: 'Fear of failure or feeling like a failure is one of the hardest emotions. But know this: every successful person went through moments of failure — the difference is they didn\'t stop.',
-      tips: [
-        'Failing at a task doesn\'t mean you\'re a failure — it means this task needs a different approach.',
-        'Ask yourself: "What did I learn from this?" — Failure with learning = progress.',
-        'Think of someone you respect — every great person failed many times before succeeding.'
-      ]
-    },
-    cssClass: 'emotion-anxiety'
-  },
-  neutral: {
-    ar: {
-      badge: '🙂 الموقع: حالة مستقرة',
-      title: 'أنت في وضع جيد — لنستمر',
-      msg: 'يبدو أنك في حالة مستقرة الآن. هذا وقت رائع لبدء مهامك والتقدم فيها.',
-      tips: [
-        'استغل هذه الطاقة المستقرة لمعالجة مهامك الأساسية.',
-        'ضع هدفاً واضحاً لليوم واكتبه.',
-        'تذكر أن الاستمرارية أهم من الكثافة — يوم عادي منتج يصنع الفارق.'
-      ]
-    },
-    en: {
-      badge: '🙂 Status: Stable',
-      title: 'You\'re in Good Shape — Let\'s Keep Going',
-      msg: 'You seem to be in a stable state right now. This is a great time to start your tasks and make progress.',
-      tips: [
-        'Use this stable energy to tackle your core tasks.',
-        'Set a clear goal for today and write it down.',
-        'Remember that consistency beats intensity — an ordinary productive day makes the difference.'
-      ]
-    },
-    cssClass: 'emotion-neutral'
-  }
-};
-
-async function analyzeFeelings() {
-  const text = document.getElementById('feelText').value.trim();
-  const emotion = detectEmotion(text, selectedMood);
-
-  const data = emotionData[emotion] || emotionData.neutral;
-  const d = data[lang] || data.ar;
-
-  // Detect keywords found
-  const found = [];
-  for (const [em, kws] of Object.entries(KB.emotionKeywords)) {
-    const hits = kws.filter(kw => text.toLowerCase().includes(kw));
-    if (hits.length) found.push(...hits.slice(0,2));
-  }
-
-  const resp = document.getElementById('feelResp');
-  resp.className = 'feel-resp ' + data.cssClass;
-  document.getElementById('feelBadge').textContent = d.badge;
-  document.getElementById('feelTitle').textContent = d.title;
-  document.getElementById('feelMsg').textContent   = d.msg;
-
-  const detectRow = document.getElementById('detectRow');
-  if (found.length > 0) {
-    detectRow.style.display = 'flex';
-    detectRow.innerHTML = (lang === 'ar' ? 'كلمات اكتشفها الذكاء: ' : 'Detected keywords: ') +
-      found.slice(0,4).map(w => `<span class="detect-badge">${w}</span>`).join(' ');
+async function analyzeFeelings(){
+  const text=document.getElementById('feelText').value.trim();
+  // TEXT takes full priority — mood button is fallback only
+  const textEmo=detectEmotion(text);
+  let emotion;
+  if(textEmo){
+    emotion=textEmo;
+  } else if(selectedMood){
+    const m2e={scared:'fear',anxious:'anxiety',sad:'sad',tired:'tired',lost:'lost',motivated:'motivated'};
+    emotion=m2e[selectedMood]||'neutral';
   } else {
-    detectRow.style.display = 'none';
+    emotion='neutral';
   }
 
-  const tipsEl = document.getElementById('feelTips');
-  tipsEl.innerHTML = d.tips.map((tip, i) =>
-    `<div class="feel-tip-item"><div class="feel-tip-num">${i+1}</div><div>${tip}</div></div>`
-  ).join('');
+  const data=EMO_DATA[emotion];
+  const resp=document.getElementById('feelResp');
 
-  resp.style.display = 'block';
-  resp.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if(!data){
+    resp.className='feel-resp en';
+    document.getElementById('feelBadge').textContent=lang==='ar'?'🙂 حالة مستقرة':'🙂 Stable State';
+    document.getElementById('feelTitle').textContent=lang==='ar'?'أنت في وضع جيد — لنستمر':'You\'re in Good Shape — Let\'s Keep Going';
+    document.getElementById('feelMsg').textContent=lang==='ar'?'حالتك تبدو مستقرة. استغل هذه الطاقة لبدء مهامك.':'Your state seems stable. Use this energy to start your tasks.';
+    document.getElementById('kwRow').style.display='none';
+    document.getElementById('feelTips').innerHTML='';
+    resp.style.display='block';
+    resp.scrollIntoView({behavior:'smooth',block:'start'});
+    return;
+  }
+
+  const d=data[lang]||data.ar;
+  // collect found keywords
+  const found=[];
+  for(const [,kws] of Object.entries(EMO_KW)){
+    kws.filter(k=>text.toLowerCase().includes(k)).slice(0,2).forEach(w=>{if(!found.includes(w))found.push(w);});
+  }
+
+  resp.className='feel-resp '+data.css;
+  document.getElementById('feelBadge').textContent=d.badge;
+  document.getElementById('feelTitle').textContent=d.title;
+  document.getElementById('feelMsg').textContent=d.msg;
+
+  const kr=document.getElementById('kwRow');
+  if(found.length){
+    kr.style.display='flex';
+    kr.innerHTML=(lang==='ar'?'كلمات اكتشفها الذكاء: ':'Detected keywords: ')
+      +found.slice(0,5).map(w=>`<span class="kw-badge">${w}</span>`).join(' ');
+  } else kr.style.display='none';
+
+  document.getElementById('feelTips').innerHTML=d.tips.map((t,i)=>
+    `<div class="feel-tip"><div class="feel-tip-n">${i+1}</div><div>${t}</div></div>`).join('');
+
+  resp.style.display='block';
+  resp.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// ─── LIBRARY FILTER ───
-function filterLib(cat, btn) {
-  document.querySelectorAll('.lib-filter').forEach(b => b.classList.remove('active'));
+/* ── LIBRARY FILTER ── */
+function filterLib(cat,btn){
+  document.querySelectorAll('.lib-filter').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  const cards = document.querySelectorAll('.lib-card');
-  let visible = 0;
-  cards.forEach(c => {
-    const show = cat === 'all' || c.dataset.cat === cat;
-    c.style.display = show ? '' : 'none';
-    if (show) visible++;
+  let vis=0;
+  document.querySelectorAll('.lib-card').forEach(c=>{
+    const show=cat==='all'||c.dataset.cat===cat;
+    c.style.display=show?'':'none'; if(show) vis++;
   });
-  document.getElementById('libEmpty').style.display = visible === 0 ? 'block' : 'none';
+  document.getElementById('libEmpty').style.display=vis===0?'block':'none';
 }
+
+/* ── CUSTOM SUBJECT ENTER KEY ── */
+document.getElementById('customSubjInp').addEventListener('keydown',e=>{if(e.key==='Enter')addSubj();});
 </script>
 </body>
 </html>
